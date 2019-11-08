@@ -10,17 +10,15 @@ services:
       - dev
 
 ## only used for initial seeding
-## use mongorestore from mongodump afterwards
-
-#  mongo_seed:
-#    container_name: mongo_seed
-#    build:
-#      dockerfile: Dockerfile
-#      context: ./mongo_seed
-#    networks:
-#      - dev
-#    depends_on:
-#      - mongo
+  mongo_seed:
+    container_name: mongo_seed
+    build:
+      dockerfile: Dockerfile
+      context: ./mongo_seed
+    networks:
+      - dev
+    depends_on:
+      - mongo
 
   mongo_restore:
     container_name: mongo_restore
@@ -32,8 +30,25 @@ services:
     depends_on:
       - mongo  
 
-
-
+  api:
+    container_name: go-api
+    environment:
+      DB_HOST: mongo_dev
+      DB_PORT: 27017
+#     DB_USER: docker
+#     DB_PW: docker
+#     DB_NAME: docker
+      PORT: 8080
+    ports:
+      - "8080:8080"
+    networks:
+      - dev
+    depends_on:
+      - mongo_restore
+      - mongo
+    build:
+      dockerfile: Dockerfile
+      context: ./api
 
 networks:
   dev:
