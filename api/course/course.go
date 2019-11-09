@@ -12,36 +12,36 @@ import (
 
 // Course ...
 type Course struct {
-	ID               string
-	Categories       []string
-	Description      string
-	Details          CourseDetails
-	Interested_Count string
-	Link             string
-	Name             string
-	Overview         string
-	Provider         string
-	Rating           int32
-	Review_Count     string
-	Schools          []string
-	Subject          string
-	Syllabus         string
-	Teachers         []string
+	ID              string   `bson:"_id"`
+	Categories      []string `bson:"categories"`
+	Description     string   `bson:"descriptiony"`
+	Details         Details  `bson:"details"`
+	InterestedCount string   `bson:"interested_count"`
+	Link            string   `bson:"link"`
+	Name            string   `bson:"name"`
+	Overview        string   `bson:"overview"`
+	Provider        string   `bson:"provider"`
+	Rating          int32    `bson:"rating"`
+	ReviewCount     string   `bson:"review_count"`
+	Schools         []string `bson:"schools"`
+	Subject         string   `bson:"subject"`
+	Syllabus        string   `bson:"syllabus"`
+	Teachers        []string `bson:"teachers"`
 }
 
-// CourseDetails ...
-type CourseDetails struct {
-	Certificate        string
-	Cost               int32
-	Currency           string
-	Duration           int32
-	Duration_Time_Unit string
-	Effort             int32
-	Effort_Time_Unit   string
-	Language           string
-	Provider           string
-	Session            string
-	StartDate          []string
+// Details ...
+type Details struct {
+	Certificate      string   `bson:"certificate"`
+	Cost             int32    `bson:"cost"`
+	Currency         string   `bson:"currency"`
+	Duration         int32    `bson:"duration"`
+	DurationTimeUnit string   `bson:"duration_time_unit"`
+	Effort           int32    `bson:"effort"`
+	EffortTimeUnit   string   `bson:"effort_time_unit"`
+	Language         string   `bson:"language"`
+	Provider         string   `bson:"provider"`
+	Session          string   `bson:"session"`
+	StartDate        []string `bson:"start date"`
 }
 
 // RandomCourse ...
