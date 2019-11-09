@@ -9,21 +9,21 @@ ENV GO111MODULE=on \
     # DB_NAME=docker \
     CGO_ENABLED=0 
 
-RUN mkdir -p /go/src/go-docker-api/api
+RUN mkdir -p /go/src/github.com/ZaxCZ/docker-mongo/api
 
-WORKDIR /go/src/go-docker-api/api
+WORKDIR /go/src/github.com/ZaxCZ/docker-mongo/api
 
 COPY ./go.mod . 
 COPY ./go.sum .
 RUN apk add --no-cache git  \
     && go mod download \
-    && apk del git 
+    && apk del git
 
 COPY . .
 
-RUN go build -a -installsuffix cgo -o /go/src/go-docker-api/api/main
+RUN go build -o main
 
 # FROM scratch 
-# COPY --from=build-env /go/src/go-docker-api/api/main /go/src/go-docker-api/api/src/main
+# COPY --from=build-env /go/src/github.com/ZaxCZ/docker-mongo/api/main /go/src/github.com/ZaxCZ/docker-mongo/api/src/main
 
-ENTRYPOINT ["/go/src/go-docker-api/api/main"]
+ENTRYPOINT ["/go/src/github.com/ZaxCZ/docker-mongo/api/main"]

@@ -7,8 +7,8 @@ import (
 
 	"log"
 
-	"go-docker-api/api/course"
-	"go-docker-api/api/db"
+	"github.com/ZaxCZ/docker-mongo/api/course"
+	"github.com/ZaxCZ/docker-mongo/api/db"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/mongo/readpref"

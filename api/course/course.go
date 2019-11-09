@@ -2,9 +2,10 @@ package course
 
 import (
 	"context"
-	"go-docker-api/api/db"
 	"log"
 	"net/http"
+
+	"github.com/ZaxCZ/docker-mongo/api/db"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
