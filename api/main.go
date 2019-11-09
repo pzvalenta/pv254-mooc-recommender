@@ -7,6 +7,7 @@ import (
 
 	"log"
 
+	"go-docker-api/api/course"
 	"go-docker-api/api/db"
 
 	"github.com/gin-gonic/gin"
@@ -20,8 +21,14 @@ func main() {
 		public.GET("/", func(c *gin.Context) {
 			c.String(http.StatusOK, "Welcome to sample dockerized golang api")
 		})
+
+		v2 := public.Group("/random")
+		{
+			v2.GET("/", course.RandomCourse)
+		}
 	}
-	time.Sleep(20 * time.Second) //sleep until db image is running
+
+	time.Sleep(3 * time.Second) //sleep until db image is running
 
 	c := db.GetClient()
 	err := c.Ping(context.Background(), readpref.Primary())
