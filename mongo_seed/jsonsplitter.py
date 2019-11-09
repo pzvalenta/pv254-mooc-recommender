@@ -8,13 +8,13 @@ for inputfile in inputfiles:
        
         data = data["courses"]
 
-        for key in data.keys():           
-            category = data[key]
+        for category in data.keys():                     
+            courses = data[category]
             
-            for key in category.keys():
-                newjson = category[key]
+            for courseID in courses.keys():
+                newjson = courses[courseID]
                 newjson['_id'] = newjson['id']
                 del newjson['id']
 
-                with open('courses/data/output/'+str(key)+'.json', 'w') as out_file:          
+                with open('courses/data/output/'+str(courseID)+'.json', 'w') as out_file:          
                     json.dump(newjson,out_file, indent = 4)
