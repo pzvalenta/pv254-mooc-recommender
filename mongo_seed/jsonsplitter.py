@@ -1,5 +1,30 @@
 import json
 
+# takes a string in format 123 or 123.4k and converts it to int
+def myStringToInt(string):
+    fres = 0.0
+    numericpart = ""
+    unit = ""
+    for c in string:
+        if c.isdigit() or c == ".":          
+            numericpart += c
+        else:
+            unit += c
+    
+    if ( len(numericpart) + len(unit) ) != len(string):
+        raise SyntaxError
+    
+    fres = float(numericpart)
+
+    if unit == "":
+        pass
+    elif unit == "k":
+        fres *= 1000
+    else:
+        raise SyntaxError
+    
+    return int(fres) 
+
 inputfiles = ['courses.json']
 
 for inputfile in inputfiles:
@@ -8,13 +33,15 @@ for inputfile in inputfiles:
        
         data = data["courses"]
 
-        for key in data.keys():           
-            category = data[key]
+        for category in data.keys():                     
+            courses = data[category]
             
-            for key in category.keys():
-                newjson = category[key]
+            for courseID in courses.keys():
+                newjson = courses[courseID]
                 newjson['_id'] = newjson['id']
+                newjson['interested_count'] = myStringToInt(newjson['interested_count'])
+                newjson['review_count'] = myStringToInt(newjson['review_count'])
                 del newjson['id']
 
-                with open('courses/data/output/'+str(key)+'.json', 'w') as out_file:          
+                with open('courses/data/output/'+str(courseID)+'.json', 'w') as out_file:          
                     json.dump(newjson,out_file, indent = 4)

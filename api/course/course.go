@@ -12,36 +12,36 @@ import (
 
 // Course ...
 type Course struct {
-	ID               string
-	Categories       []string
-	Description      string
-	Details          CourseDetails
-	Interested_Count string
-	Link             string
-	Name             string
-	Overview         string
-	Provider         string
-	Rating           int32
-	Review_Count     string
-	Schools          []string
-	Subject          string
-	Syllabus         string
-	Teachers         []string
+	ID              string   `json:"id" bson:"_id"`
+	Categories      []string `json:"categories" bson:"categories"`
+	Description     string   `json:"description" bson:"description"`
+	Details         Details  `json:"details" bson:"details"`
+	InterestedCount int32    `json:"interested_count" bson:"interested_count"`
+	Link            string   `json:"link" bson:"link"`
+	Name            string   `json:"name" bson:"name"`
+	Overview        string   `json:"overview" bson:"overview"`
+	Provider        string   `json:"provider" bson:"provider"`
+	Rating          *float64 `json:"rating" bson:"rating"`
+	ReviewCount     int32    `json:"review_count" bson:"review_count"`
+	Schools         []string `json:"schools" bson:"schools"`
+	Subject         string   `json:"subject" bson:"subject"`
+	Syllabus        string   `json:"syllabus" bson:"syllabus"`
+	Teachers        []string `json:"teachers" bson:"teachers"`
 }
 
-// CourseDetails ...
-type CourseDetails struct {
-	Certificate        string
-	Cost               int32
-	Currency           string
-	Duration           int32
-	Duration_Time_Unit string
-	Effort             int32
-	Effort_Time_Unit   string
-	Language           string
-	Provider           string
-	Session            string
-	StartDate          []string
+// Details ...
+type Details struct {
+	Certificate      string   `json:"certificate" bson:"certificate"`
+	Cost             int32    `json:"cost" bson:"cost"`
+	Currency         string   `json:"currency" bson:"currency"`
+	Duration         *float64 `json:"duration" bson:"duration"`
+	DurationTimeUnit string   `json:"duration_time_unit" bson:"duration_time_unit"`
+	Effort           *float64 `json:"effort" bson:"effort"`
+	EffortTimeUnit   string   `json:"effort_time_unit" bson:"effort_time_unit"`
+	Language         string   `json:"language" bson:"language"`
+	Provider         string   `json:"provider" bson:"provider"`
+	Session          string   `json:"session" bson:"session"`
+	StartDate        []string `json:"start date" bson:"start date"`
 }
 
 // RandomCourse ...
