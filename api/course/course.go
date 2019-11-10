@@ -16,13 +16,13 @@ type Course struct {
 	Categories      []string `json:"categories" bson:"categories"`
 	Description     string   `json:"description" bson:"description"`
 	Details         Details  `json:"details" bson:"details"`
-	InterestedCount string   `json:"interested_count" bson:"interested_count"`
+	InterestedCount int32    `json:"interested_count" bson:"interested_count"`
 	Link            string   `json:"link" bson:"link"`
 	Name            string   `json:"name" bson:"name"`
 	Overview        string   `json:"overview" bson:"overview"`
 	Provider        string   `json:"provider" bson:"provider"`
 	Rating          *float64 `json:"rating" bson:"rating"`
-	ReviewCount     string   `json:"review_count" bson:"review_count"`
+	ReviewCount     int32    `json:"review_count" bson:"review_count"`
 	Schools         []string `json:"schools" bson:"schools"`
 	Subject         string   `json:"subject" bson:"subject"`
 	Syllabus        string   `json:"syllabus" bson:"syllabus"`
