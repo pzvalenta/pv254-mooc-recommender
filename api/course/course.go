@@ -14,7 +14,7 @@ import (
 type Course struct {
 	ID              string   `bson:"_id"`
 	Categories      []string `bson:"categories"`
-	Description     string   `bson:"descriptiony"`
+	Description     string   `bson:"description"`
 	Details         Details  `bson:"details"`
 	InterestedCount string   `bson:"interested_count"`
 	Link            string   `bson:"link"`
