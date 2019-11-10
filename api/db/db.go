@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"log"
+	"os"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -13,7 +14,12 @@ var DB *mongo.Database
 
 // GetClient ...
 func GetClient() *mongo.Client {
-	clientOptions := options.Client().ApplyURI("mongodb://mongo_dev:27017")
+	host := "localhost" // default host, used oudside of container
+	if envHost, ok := os.LookupEnv("DB_HOST"); ok {
+		host = envHost
+	}
+
+	clientOptions := options.Client().ApplyURI("mongodb://" + host + ":27017")
 	client, err := mongo.NewClient(clientOptions)
 	if err != nil {
 		log.Fatal(err)
