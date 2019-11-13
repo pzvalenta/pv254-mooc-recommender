@@ -1,20 +1,22 @@
 package main
 
 import (
-	"context"
+	"fmt"
 	"net/http"
-	"time"
+	"os"
 
-	"log"
-
-	"github.com/ZaxCZ/docker-mongo/api/course"
-	"github.com/ZaxCZ/docker-mongo/api/db"
+	"github.com/ZaxCZ/docker-mongo/api/internal"
 
 	"github.com/gin-gonic/gin"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
 func main() {
+	state, err := internal.NewState("5dc5715c70a18970fe47de7c")
+	if err != nil {
+		fmt.Printf("error creating app state: %v", err)
+		os.Exit(1)
+	}
+
 	router := gin.Default()
 	public := router.Group("/api")
 	{
@@ -22,21 +24,13 @@ func main() {
 			c.String(http.StatusOK, "Welcome to sample dockerized golang api")
 		})
 
-		v2 := public.Group("/random")
-		{
-			v2.GET("/", course.RandomCourse)
-		}
+		public.GET("/random", state.RandomCourse)
+		public.GET("/taxonomy", state.TaxonomyCourses)
 	}
 
-	time.Sleep(3 * time.Second) //sleep until db image is running
-
-	c := db.GetClient()
-	err := c.Ping(context.Background(), readpref.Primary())
+	err = router.Run()
 	if err != nil {
-		log.Fatal("Couldn't connect to the database", err)
-	} else {
-		log.Println("Connected!")
+		fmt.Printf("router stopped: %v", err)
+		os.Exit(1)
 	}
-
-	router.Run()
 }
