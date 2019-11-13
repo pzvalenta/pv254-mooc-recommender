@@ -31,7 +31,7 @@ services:
       - mongo  
 
   api:
-    container_name: go-api
+    container_name: go_api
     environment:
       DB_HOST: mongo_dev
       DB_PORT: 27017

@@ -18,7 +18,7 @@ try localhost:8080/api/random/ ( sadly not random right now )
 
 ```
 docker stop mongo_dev
-docker stop go-api
+docker stop go_api
 ```
 
 
