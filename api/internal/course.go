@@ -3,6 +3,8 @@ package internal
 import (
 	"strings"
 
+	"go.mongodb.org/mongo-driver/bson/primitive"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -38,6 +40,12 @@ type Details struct {
 	Provider         string   `json:"provider" bson:"provider"`
 	Session          string   `json:"session" bson:"session"`
 	//StartDate        []string `json:"start date" bson:"start date"`
+}
+
+type User struct {
+	ID         *primitive.ObjectID `bson:"_id"`
+	EnrolledIn []string            `bson:"enrolledIn"`
+	Name       string              `bson:"name"`
 }
 
 func ExtractSubjects(c *gin.Context, courses []Course) []string {

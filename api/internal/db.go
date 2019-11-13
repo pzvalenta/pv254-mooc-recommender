@@ -84,17 +84,10 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 	c.JSON(http.StatusOK, similar)
 }
 
-type T struct {
-	ID         *primitive.ObjectID `bson:"_id"`
-	EnrolledIn []string            `bson:"enrolledIn"`
-	Name       string              `bson:"name"`
-}
-
 func (s *State) getMyCoursesIds(c *gin.Context) ([]string, error) {
 	users := s.DB.Collection("users")
 
-	var myCourseIDs []string
-	id, err := primitive.ObjectIDFromHex("5dc5715c70a18970fe47de7c")
+	id, err := primitive.ObjectIDFromHex(s.customerID)
 	if err != nil {
 		return nil, fmt.Errorf("error creating id from hex: %v", err)
 	}
@@ -105,16 +98,15 @@ func (s *State) getMyCoursesIds(c *gin.Context) ([]string, error) {
 		return nil, fmt.Errorf("unable to find user's course IDs: %v", err)
 	}
 
+	l := User{}
 	if data.Next(c) {
-		l := T{}
 		err = data.Decode(&l)
 		if err != nil {
 			return nil, fmt.Errorf("unable to decode user's enrolledIn: %v", err)
 		}
-		myCourseIDs = l.EnrolledIn
 	}
 
-	return myCourseIDs, nil
+	return l.EnrolledIn, nil
 }
 
 func (s *State) getMyCourses(c *gin.Context) ([]Course, error) {
