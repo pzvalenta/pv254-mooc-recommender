@@ -72,28 +72,91 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 			{Key: "subject", Value: myCourses[i].Subject},
 			{Key: "categories", Value: bson.D{{Key: "$nin", Value: courseCategories}}},
 		}
-		data, err := coursesCollection.Find(c, filter, nil)
+
+		coursesFromOtherSubtree, err := s.FindCoursesAccordingFilter(c, filter, coursesCollection)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, "no content")
 			return
 		}
 
-		var coursesFromOtherSubtree []Course
-		for data.Next(c) {
-			l := Course{}
-			err = data.Decode(&l)
-			if err != nil {
-				c.JSON(http.StatusInternalServerError, "no content")
-				return
-			}
-			coursesFromOtherSubtree = append(coursesFromOtherSubtree, l)
-		}
 		similar := myCourses[i].FindSimilar(coursesFromOtherSubtree)
 		sort.Sort(BySimilarity{courses: similar, course: &myCourses[i]})
 		recommended[myCourses[i].ID] = similar[:10]
 	}
 
-	c.JSON(http.StatusOK, recommended)
+	c.JSON(http.StatusOK, convertResult(recommended))
+}
+
+func (s *State) OverfittingCourses(c *gin.Context) {
+	myCourseIds, err := s.getMyCoursesIds(c)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	myCourses, err := s.getMyCourses(c)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	recommended := make(map[string][]Course)
+	coursesCollection := s.DB.Collection("courses")
+	for i := range myCourses {
+		filter := bson.D{
+			{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
+			{Key: "categories", Value: bson.D{{Key: "$nin", Value: myCourses[i].Categories}}},
+		}
+		coursesWithoutMine, err := s.FindCoursesAccordingFilter(c, filter, coursesCollection)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, "no content")
+			return
+		}
+
+		sort.Sort(BySimilarity{course: &myCourses[i], courses: coursesWithoutMine})
+		recommended[myCourses[i].ID] = coursesWithoutMine[:10]
+	}
+
+	c.JSON(http.StatusOK, convertResult(recommended))
+}
+
+type Recommended struct {
+	Course             Course
+	RecommendedBecause []string
+}
+
+func convertResult(courses map[string][]Course) map[string]Recommended {
+	result := make(map[string]Recommended)
+	for id, recommendedCourses := range courses {
+		for i := range recommendedCourses {
+			if _, ok := result[recommendedCourses[i].ID]; ok {
+				recbec := result[recommendedCourses[i].ID].RecommendedBecause
+				res := Recommended{Course: recommendedCourses[i], RecommendedBecause: recbec}
+				result[recommendedCourses[i].ID] = res
+			} else {
+				result[recommendedCourses[i].ID] = Recommended{Course: recommendedCourses[i], RecommendedBecause: []string{id}}
+			}
+		}
+	}
+	return result
+}
+
+func (s *State) FindCoursesAccordingFilter(c *gin.Context, filter interface{}, coursesCollection *mongo.Collection) ([]Course, error) {
+	data, err := coursesCollection.Find(c, filter, nil)
+	if err != nil {
+		return nil, fmt.Errorf("unable to find: %v", err)
+	}
+
+	var result []Course
+	for data.Next(c) {
+		l := Course{}
+		err = data.Decode(&l)
+		if err != nil {
+			return nil, fmt.Errorf("unable to decode: %v", err)
+		}
+		result = append(result, l)
+	}
+	return result, nil
 }
 
 func (s *State) getMyCoursesIds(c *gin.Context) ([]string, error) {

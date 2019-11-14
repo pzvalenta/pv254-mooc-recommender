@@ -90,12 +90,12 @@ func (c *Course) isSimilar(c1 *Course) float64 {
 		result += 1.0
 	}
 
-	result += float64(((len(c.Categories) / 100) * len(intersection(c.Categories, c1.Categories))) / numberOfAttributes)
-	result += float64(((len(c.Schools) / 100) * len(intersection(c.Schools, c1.Schools))) / 5)
-	result += float64(((len(strings.Split(c.Name, " ")) / 100) * len(intersection(strings.Split(c.Name, " "), strings.Split(c1.Name, " ")))) / numberOfAttributes)
-	result += float64(((len(strings.Split(c.Description, " ")) / 100) * len(intersection(strings.Split(c.Description, " "), strings.Split(c1.Description, " ")))) / numberOfAttributes)
+	result += float64(((len(c.Categories)/100)*len(intersection(c.Categories, c1.Categories)))/numberOfAttributes) * 1.2
+	result += float64(((len(c.Schools)/100)*len(intersection(c.Schools, c1.Schools)))/5) * 1.1
+	result += float64(((len(strings.Split(c.Name, " "))/100)*len(intersection(strings.Split(c.Name, " "), strings.Split(c1.Name, " "))))/numberOfAttributes) * 1.2
+	result += float64(((len(strings.Split(c.Description, " "))/100)*len(intersection(strings.Split(c.Description, " "), strings.Split(c1.Description, " "))))/numberOfAttributes) * 1.2
 	if c.Syllabus != nil && c1.Syllabus != nil {
-		result += float64(((len(strings.Split(*c.Syllabus, " ")) / 100) * len(intersection(strings.Split(*c.Syllabus, " "), strings.Split(*c1.Syllabus, " ")))) / numberOfAttributes)
+		result += float64(((len(strings.Split(*c.Syllabus, " "))/100)*len(intersection(strings.Split(*c.Syllabus, " "), strings.Split(*c1.Syllabus, " "))))/numberOfAttributes) * 1.2
 	}
 
 	return result
