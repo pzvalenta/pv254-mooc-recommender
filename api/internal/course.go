@@ -40,6 +40,17 @@ type Details struct {
 	//StartDate        []string `json:"start date" bson:"start date"`
 }
 
+type BySimilarity struct {
+	courses []Course
+	course  *Course
+}
+
+func (s BySimilarity) Len() int      { return len(s.courses) }
+func (s BySimilarity) Swap(i, j int) { s.courses[i], s.courses[j] = s.courses[j], s.courses[i] }
+func (s BySimilarity) Less(i, j int) bool {
+	return s.course.isSimilar(&s.courses[i]) < s.course.isSimilar(&s.courses[j])
+}
+
 func ExtractSubjects(c *gin.Context, courses []Course) []string {
 	subjects := make(map[string]interface{})
 	for i := range courses {
@@ -69,16 +80,23 @@ func (c *Course) isSimilar(c1 *Course) float64 {
 		return 1.0
 	}
 
-	var result float64
+	numberOfAttributes := 6
+	if c.Syllabus == nil || c1.Syllabus == nil {
+		numberOfAttributes--
+	}
 
+	var result float64
 	if c.Subject == c1.Subject {
 		result += 1.0
 	}
 
-	result += float64(((len(c.Categories) / 100) * len(intersection(c.Categories, c1.Categories))) / 5)
+	result += float64(((len(c.Categories) / 100) * len(intersection(c.Categories, c1.Categories))) / numberOfAttributes)
 	result += float64(((len(c.Schools) / 100) * len(intersection(c.Schools, c1.Schools))) / 5)
-	result += float64(((len(strings.Split(c.Name, " ")) / 100) * len(intersection(strings.Split(c.Name, " "), strings.Split(c1.Name, " ")))) / 5)
-	result += float64(((len(strings.Split(c.Description, " ")) / 100) * len(intersection(strings.Split(c.Description, " "), strings.Split(c1.Description, " ")))) / 5)
+	result += float64(((len(strings.Split(c.Name, " ")) / 100) * len(intersection(strings.Split(c.Name, " "), strings.Split(c1.Name, " ")))) / numberOfAttributes)
+	result += float64(((len(strings.Split(c.Description, " ")) / 100) * len(intersection(strings.Split(c.Description, " "), strings.Split(c1.Description, " ")))) / numberOfAttributes)
+	if c.Syllabus != nil && c1.Syllabus != nil {
+		result += float64(((len(strings.Split(*c.Syllabus, " ")) / 100) * len(intersection(strings.Split(*c.Syllabus, " "), strings.Split(*c1.Syllabus, " ")))) / numberOfAttributes)
+	}
 
 	return result
 }

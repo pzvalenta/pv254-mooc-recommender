@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"sort"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -87,7 +88,9 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 			}
 			coursesFromOtherSubtree = append(coursesFromOtherSubtree, l)
 		}
-		recommended[myCourses[i].ID] = myCourses[i].FindSimilar(coursesFromOtherSubtree)[:10]
+		similar := myCourses[i].FindSimilar(coursesFromOtherSubtree)
+		sort.Sort(BySimilarity{courses: similar, course: &myCourses[i]})
+		recommended[myCourses[i].ID] = similar[:10]
 	}
 
 	c.JSON(http.StatusOK, recommended)
