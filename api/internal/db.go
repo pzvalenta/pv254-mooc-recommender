@@ -35,13 +35,45 @@ func NewDatabase(host, port string) (*mongo.Database, error) {
 }
 
 func (s *State) RandomCourse(c *gin.Context) {
-	coursesCollection := s.DB.Collection("courses")
-	var result Course
+	/*
+		myCourseIds, err := s.getMyCoursesIds(c)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, "no content")
+			return
+		}
+	*/
 
-	filter := bson.D{{}} // empty filter
-	err := coursesCollection.FindOne(c, filter).Decode(&result)
+	query := []bson.M{
+		bson.M{"$sample": bson.M{
+			"size": 1,
+		},
+		},
+	}
+
+	coll := s.DB.Collection("courses")
+
+	data, err := coll.Aggregate(
+		context.Background(),
+		query,
+	)
+
 	if err != nil {
 		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	//defer cur.Close(ctx)
+
+	var result []Course
+	for data.Next(c) {
+		l := Course{}
+		err = data.Decode(&l)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, "no content")
+			return
+		}
+		result = append(result, l)
 	}
 
 	c.JSON(http.StatusOK, result)
