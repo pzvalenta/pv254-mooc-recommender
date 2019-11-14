@@ -3,8 +3,6 @@ package internal
 import (
 	"strings"
 
-	"go.mongodb.org/mongo-driver/bson/primitive"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,7 +21,7 @@ type Course struct {
 	ReviewCount     int32    `json:"review_count" bson:"review_count"`
 	Schools         []string `json:"schools" bson:"schools"`
 	Subject         string   `json:"subject" bson:"subject"`
-	Syllabus        string   `json:"syllabus" bson:"syllabus"`
+	Syllabus        *string  `json:"syllabus" bson:"syllabus"`
 	Teachers        []string `json:"teachers" bson:"teachers"`
 }
 
@@ -42,10 +40,15 @@ type Details struct {
 	StartDate        []string `json:"start_date" bson:"start_date"`
 }
 
-type User struct {
-	ID         *primitive.ObjectID `bson:"_id"`
-	EnrolledIn []string            `bson:"enrolledIn"`
-	Name       string              `bson:"name"`
+type BySimilarity struct {
+	courses []Course
+	course  *Course
+}
+
+func (s BySimilarity) Len() int      { return len(s.courses) }
+func (s BySimilarity) Swap(i, j int) { s.courses[i], s.courses[j] = s.courses[j], s.courses[i] }
+func (s BySimilarity) Less(i, j int) bool {
+	return s.course.isSimilar(&s.courses[i]) < s.course.isSimilar(&s.courses[j])
 }
 
 func ExtractSubjects(c *gin.Context, courses []Course) []string {
@@ -62,13 +65,11 @@ func ExtractSubjects(c *gin.Context, courses []Course) []string {
 	return res
 }
 
-func FindSimilar(c *gin.Context, courses, otherCourses []Course) []Course {
+func (c *Course) FindSimilar(courses []Course) []Course {
 	var result []Course
 	for i := range courses {
-		for j := range otherCourses {
-			if courses[i].isSimilar(&otherCourses[j]) > 0.7 {
-				result = append(result, otherCourses[j])
-			}
+		if c.isSimilar(&courses[i]) > 0.7 {
+			result = append(result, courses[i])
 		}
 	}
 	return result
@@ -79,16 +80,23 @@ func (c *Course) isSimilar(c1 *Course) float64 {
 		return 1.0
 	}
 
-	var result float64
+	numberOfAttributes := 6
+	if c.Syllabus == nil || c1.Syllabus == nil {
+		numberOfAttributes--
+	}
 
+	var result float64
 	if c.Subject == c1.Subject {
 		result += 1.0
 	}
 
-	result += float64(((len(c.Categories) / 100) * len(intersection(c.Categories, c1.Categories))) / 5)
+	result += float64(((len(c.Categories) / 100) * len(intersection(c.Categories, c1.Categories))) / numberOfAttributes)
 	result += float64(((len(c.Schools) / 100) * len(intersection(c.Schools, c1.Schools))) / 5)
-	result += float64(((len(strings.Split(c.Name, " ")) / 100) * len(intersection(strings.Split(c.Name, " "), strings.Split(c1.Name, " ")))) / 5)
-	result += float64(((len(strings.Split(c.Description, " ")) / 100) * len(intersection(strings.Split(c.Description, " "), strings.Split(c1.Description, " ")))) / 5)
+	result += float64(((len(strings.Split(c.Name, " ")) / 100) * len(intersection(strings.Split(c.Name, " "), strings.Split(c1.Name, " ")))) / numberOfAttributes)
+	result += float64(((len(strings.Split(c.Description, " ")) / 100) * len(intersection(strings.Split(c.Description, " "), strings.Split(c1.Description, " ")))) / numberOfAttributes)
+	if c.Syllabus != nil && c1.Syllabus != nil {
+		result += float64(((len(strings.Split(*c.Syllabus, " ")) / 100) * len(intersection(strings.Split(*c.Syllabus, " "), strings.Split(*c1.Syllabus, " ")))) / numberOfAttributes)
+	}
 
 	return result
 }
