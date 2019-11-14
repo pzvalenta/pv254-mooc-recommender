@@ -39,9 +39,16 @@ for inputfile in inputfiles:
             for courseID in courses.keys():
                 newjson = courses[courseID]
                 newjson['_id'] = newjson['id']
+                del newjson['id']
                 newjson['interested_count'] = myStringToInt(newjson['interested_count'])
                 newjson['review_count'] = myStringToInt(newjson['review_count'])
-                del newjson['id']
-
+                
+                # convert any string into array containing that string
+                if type(newjson['details']['start date']) is str:
+                    newjson['details']['start_date'] = [newjson['details']['start date']]
+                else:
+                    newjson['details']['start_date'] = newjson['details']['start date']
+                del newjson['details']['start date']
+                
                 with open('courses/data/output/'+str(courseID)+'.json', 'w') as out_file:          
                     json.dump(newjson,out_file, indent = 4)

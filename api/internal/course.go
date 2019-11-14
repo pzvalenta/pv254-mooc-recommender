@@ -39,7 +39,7 @@ type Details struct {
 	Language         string   `json:"language" bson:"language"`
 	Provider         string   `json:"provider" bson:"provider"`
 	Session          string   `json:"session" bson:"session"`
-	//StartDate        []string `json:"start date" bson:"start date"`
+	StartDate        []string `json:"start_date" bson:"start_date"`
 }
 
 type User struct {
