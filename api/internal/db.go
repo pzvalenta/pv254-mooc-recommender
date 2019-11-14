@@ -49,39 +49,48 @@ func (s *State) RandomCourse(c *gin.Context) {
 func (s *State) TaxonomyCourses(c *gin.Context) {
 	myCourseIds, err := s.getMyCoursesIds(c)
 	if err != nil {
-		c.Status(http.StatusInternalServerError)
+		c.JSON(http.StatusInternalServerError, "no content")
 		return
 	}
 
 	myCourses, err := s.getMyCourses(c)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, nil)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
 	}
 
-	myCoursesSubjects := ExtractSubjects(c, myCourses)
+	recommended := make(map[string][]Course)
 	coursesCollection := s.DB.Collection("courses")
-	filter := bson.D{
-		{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
-		{Key: "subject", Value: bson.D{{Key: "$in", Value: myCoursesSubjects}}},
-		//{"categories", bson.D{{"$nin", bson.A{myCourseCategories}}}}
-	}
-	data, err := coursesCollection.Find(c, filter, nil)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, nil)
-	}
-
-	var coursesFromOtherSubtree []Course
-	for data.Next(c) {
-		l := Course{}
-		err = data.Decode(&l)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, nil)
+	for i := range myCourses {
+		var courseCategories bson.A
+		for _, cat := range myCourses[i].Categories {
+			courseCategories = append(courseCategories, cat)
 		}
-		coursesFromOtherSubtree = append(coursesFromOtherSubtree, l)
+		filter := bson.D{
+			{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
+			{Key: "subject", Value: myCourses[i].Subject},
+			{Key: "categories", Value: bson.D{{Key: "$nin", Value: courseCategories}}},
+		}
+		data, err := coursesCollection.Find(c, filter, nil)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, "no content")
+			return
+		}
+
+		var coursesFromOtherSubtree []Course
+		for data.Next(c) {
+			l := Course{}
+			err = data.Decode(&l)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, "no content")
+				return
+			}
+			coursesFromOtherSubtree = append(coursesFromOtherSubtree, l)
+		}
+		recommended[myCourses[i].ID] = myCourses[i].FindSimilar(coursesFromOtherSubtree)[:10]
 	}
 
-	similar := FindSimilar(c, myCourses, coursesFromOtherSubtree)[:10]
-	c.JSON(http.StatusOK, similar)
+	c.JSON(http.StatusOK, recommended)
 }
 
 func (s *State) getMyCoursesIds(c *gin.Context) ([]string, error) {

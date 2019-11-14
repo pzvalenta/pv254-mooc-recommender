@@ -3,8 +3,6 @@ package internal
 import (
 	"strings"
 
-	"go.mongodb.org/mongo-driver/bson/primitive"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,7 +21,7 @@ type Course struct {
 	ReviewCount     int32    `json:"review_count" bson:"review_count"`
 	Schools         []string `json:"schools" bson:"schools"`
 	Subject         string   `json:"subject" bson:"subject"`
-	Syllabus        string   `json:"syllabus" bson:"syllabus"`
+	Syllabus        *string  `json:"syllabus" bson:"syllabus"`
 	Teachers        []string `json:"teachers" bson:"teachers"`
 }
 
@@ -42,12 +40,6 @@ type Details struct {
 	//StartDate        []string `json:"start date" bson:"start date"`
 }
 
-type User struct {
-	ID         *primitive.ObjectID `bson:"_id"`
-	EnrolledIn []string            `bson:"enrolledIn"`
-	Name       string              `bson:"name"`
-}
-
 func ExtractSubjects(c *gin.Context, courses []Course) []string {
 	subjects := make(map[string]interface{})
 	for i := range courses {
@@ -62,13 +54,11 @@ func ExtractSubjects(c *gin.Context, courses []Course) []string {
 	return res
 }
 
-func FindSimilar(c *gin.Context, courses, otherCourses []Course) []Course {
+func (c *Course) FindSimilar(courses []Course) []Course {
 	var result []Course
 	for i := range courses {
-		for j := range otherCourses {
-			if courses[i].isSimilar(&otherCourses[j]) > 0.7 {
-				result = append(result, otherCourses[j])
-			}
+		if c.isSimilar(&courses[i]) > 0.7 {
+			result = append(result, courses[i])
 		}
 	}
 	return result
