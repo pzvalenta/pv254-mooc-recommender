@@ -11,8 +11,7 @@ import (
 )
 
 func main() {
-	//edx-going-out-on-a-limb-anatomy-of-the-upper-limb-4520
-	state, err := internal.NewState("5dce92430a3c7f13ca4bcdd4")
+	state, err := internal.NewState("5dceb44288861f034fc60b16")
 	if err != nil {
 		fmt.Printf("error creating app state: %v", err)
 		os.Exit(1)

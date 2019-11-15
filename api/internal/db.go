@@ -67,7 +67,7 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 			{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
 			{Key: "subject", Value: myCourses[i].Subject},
 			{Key: "categories", Value: bson.D{{Key: "$nin", Value: myCourses[i].Categories}}},
-		} //todo vysledok jedneho kurzu mi moze dat vysledok z kategorie, z ktorej uz som mala kurz
+		}
 
 		coursesFromOtherSubtree, err := s.findCoursesAccordingFilter(c, filter, coursesCollection)
 		if err != nil {
@@ -75,21 +75,14 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 			return
 		}
 
-		fmt.Println("am here")
-
-		for j := range coursesFromOtherSubtree {
-			if len(intersection(coursesFromOtherSubtree[j].Categories, myCourses[i].Categories)) > 1 {
-				fmt.Println("categories wrong")
-				fmt.Printf("expected not: %v, found: %v\n", coursesFromOtherSubtree[j].Categories, myCourses[i].Categories)
-			}
-		}
-
 		similar := myCourses[i].FindSimilar(coursesFromOtherSubtree, 0.08)
-		sort.Sort(BySimilarity{coursesWithSimilarity: similar, course: &myCourses[i]})
+		sort.Sort(SortedBySimilarity{coursesWithSimilarity: similar, course: &myCourses[i]})
 		recommended[myCourses[i].ID] = similar
 	}
 
-	c.JSON(http.StatusOK, fromMapWithSimilar(recommended))
+	sorted := FromRecommenedToSortedRecommended(fromMapWithSimilar(recommended))
+	sort.Sort(SortedByOverallSimilarity{sr: sorted})
+	c.JSON(http.StatusOK, sorted)
 }
 
 func (s *State) OverfittingCourses(c *gin.Context) {
@@ -117,12 +110,14 @@ func (s *State) OverfittingCourses(c *gin.Context) {
 			return
 		}
 
-		similar := myCourses[i].FindSimilar(coursesWithoutMine, 0.08)
-		sort.Sort(BySimilarity{course: &myCourses[i], coursesWithSimilarity: similar})
+		similar := myCourses[i].FindSimilar(coursesWithoutMine, 0.1)
+		sort.Sort(SortedBySimilarity{course: &myCourses[i], coursesWithSimilarity: similar})
 		recommended[myCourses[i].ID] = similar
 	}
 
-	c.JSON(http.StatusOK, fromMapWithSimilar(recommended))
+	sorted := FromRecommenedToSortedRecommended(fromMapWithSimilar(recommended))
+	sort.Sort(SortedByOverallSimilarity{sr: sorted})
+	c.JSON(http.StatusOK, sorted[:Min(10, len(sorted))])
 }
 
 func (s *State) findCoursesAccordingFilter(c *gin.Context, filter interface{}, coursesCollection *mongo.Collection) ([]Course, error) {

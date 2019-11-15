@@ -38,22 +38,22 @@ type Details struct {
 	StartDate        []string `json:"start_date" bson:"start_date"`
 }
 
-type BySimilarity struct {
+type SortedBySimilarity struct {
 	coursesWithSimilarity []SimilarCourse
 	course                *Course
-}
-
-func (s BySimilarity) Len() int { return len(s.coursesWithSimilarity) }
-func (s BySimilarity) Swap(i, j int) {
-	s.coursesWithSimilarity[i], s.coursesWithSimilarity[j] = s.coursesWithSimilarity[j], s.coursesWithSimilarity[i]
-}
-func (s BySimilarity) Less(i, j int) bool {
-	return s.coursesWithSimilarity[i].Similarity < s.coursesWithSimilarity[j].Similarity
 }
 
 type SimilarCourse struct {
 	Course     Course
 	Similarity float64
+}
+
+func (s SortedBySimilarity) Len() int { return len(s.coursesWithSimilarity) }
+func (s SortedBySimilarity) Swap(i, j int) {
+	s.coursesWithSimilarity[i], s.coursesWithSimilarity[j] = s.coursesWithSimilarity[j], s.coursesWithSimilarity[i]
+}
+func (s SortedBySimilarity) Less(i, j int) bool {
+	return s.coursesWithSimilarity[i].Similarity < s.coursesWithSimilarity[j].Similarity
 }
 
 func (c *Course) FindSimilar(courses []Course, similarityThresold float64) []SimilarCourse {
