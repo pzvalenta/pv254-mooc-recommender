@@ -2,8 +2,6 @@ package internal
 
 import (
 	"strings"
-
-	"github.com/gin-gonic/gin"
 )
 
 // Course ...
@@ -41,38 +39,36 @@ type Details struct {
 }
 
 type BySimilarity struct {
-	courses []Course
-	course  *Course
+	coursesWithSimilarity []SimilarCourse
+	course                *Course
 }
 
-func (s BySimilarity) Len() int      { return len(s.courses) }
-func (s BySimilarity) Swap(i, j int) { s.courses[i], s.courses[j] = s.courses[j], s.courses[i] }
+func (s BySimilarity) Len() int { return len(s.coursesWithSimilarity) }
+func (s BySimilarity) Swap(i, j int) {
+	s.coursesWithSimilarity[i], s.coursesWithSimilarity[j] = s.coursesWithSimilarity[j], s.coursesWithSimilarity[i]
+}
 func (s BySimilarity) Less(i, j int) bool {
-	return s.course.isSimilar(&s.courses[i]) < s.course.isSimilar(&s.courses[j])
+	return s.coursesWithSimilarity[i].Similarity < s.coursesWithSimilarity[j].Similarity
 }
 
-func ExtractSubjects(c *gin.Context, courses []Course) []string {
-	subjects := make(map[string]interface{})
-	for i := range courses {
-		subjects[courses[i].Subject] = nil
-	}
-
-	var res []string
-	for k := range subjects {
-		res = append(res, k)
-	}
-
-	return res
+type SimilarCourse struct {
+	Course     Course
+	Similarity float64
 }
 
-func (c *Course) FindSimilar(courses []Course) []Course {
-	var result []Course
+func (c *Course) FindSimilar(courses []Course, similarityThresold float64) []SimilarCourse {
+	var result []SimilarCourse
 	for i := range courses {
-		if c.isSimilar(&courses[i]) > 0.7 {
-			result = append(result, courses[i])
+		if c.isSimilar(&courses[i]) > similarityThresold {
+			result = append(result, SimilarCourse{Course: courses[i], Similarity: c.isSimilar(&courses[i])})
 		}
 	}
 	return result
+}
+
+func getStopWords() map[string]string {
+	return map[string]string{" a ": " ", " and ": " ", " the ": " ", " of ": " ", " is ": " ", " are ": " ",
+		" in ": " ", " to ": " ", " from ": " ", " on ": " ", ".": "", ":": ""}
 }
 
 func (c *Course) isSimilar(c1 *Course) float64 {
@@ -80,59 +76,15 @@ func (c *Course) isSimilar(c1 *Course) float64 {
 		return 1.0
 	}
 
-	numberOfAttributes := 6
-	if c.Syllabus == nil || c1.Syllabus == nil {
-		numberOfAttributes--
+	numberOfAttributes := 1.0
+
+	name1 := c.Name
+	name2 := c1.Name
+	for word, newWord := range getStopWords() {
+		name1 = strings.Replace(name1, word, newWord, -1)
+		name2 = strings.Replace(name2, word, newWord, -1)
 	}
 
-	var result float64
-	if c.Subject == c1.Subject {
-		result += 1.0
-	}
-
-	result += float64(((len(c.Categories)/100)*len(intersection(c.Categories, c1.Categories)))/numberOfAttributes) * 1.2
-	result += float64(((len(c.Schools)/100)*len(intersection(c.Schools, c1.Schools)))/5) * 1.1
-	result += float64(((len(strings.Split(c.Name, " "))/100)*len(intersection(strings.Split(c.Name, " "), strings.Split(c1.Name, " "))))/numberOfAttributes) * 1.2
-	result += float64(((len(strings.Split(c.Description, " "))/100)*len(intersection(strings.Split(c.Description, " "), strings.Split(c1.Description, " "))))/numberOfAttributes) * 1.2
-	if c.Syllabus != nil && c1.Syllabus != nil {
-		result += float64(((len(strings.Split(*c.Syllabus, " "))/100)*len(intersection(strings.Split(*c.Syllabus, " "), strings.Split(*c1.Syllabus, " "))))/numberOfAttributes) * 1.2
-	}
-
+	result := float64(len(intersection(strings.Split(name1, " "), strings.Split(name2, " ")))) / float64(len(strings.Split(name1, " "))) / numberOfAttributes
 	return result
-}
-
-func intersection(a, b []string) []string {
-	// interacting on the smallest list first can potentially be faster...but not by much, worse case is the same
-	low, high := a, b
-	if len(a) > len(b) {
-		low = b
-		high = a
-	}
-
-	var inter []string
-	done := false
-	for i, l := range low {
-		for j, h := range high {
-			// get future index values
-			f1 := i + 1
-			f2 := j + 1
-			if l == h {
-				inter = append(inter, h)
-				if f1 < len(low) && f2 < len(high) {
-					// if the future values aren't the same then that's the end of the intersection
-					if low[f1] != high[f2] {
-						done = true
-					}
-				}
-				// we don't want to interate on the entire list everytime, so remove the parts we already looped on will make it faster each pass
-				high = high[:j+copy(high[j:], high[j+1:])]
-				break
-			}
-		}
-		// nothing in the future so we are done
-		if done {
-			break
-		}
-	}
-	return inter
 }

@@ -60,31 +60,36 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 		return
 	}
 
-	recommended := make(map[string][]Course)
+	recommended := make(map[string][]SimilarCourse)
 	coursesCollection := s.DB.Collection("courses")
 	for i := range myCourses {
-		var courseCategories bson.A
-		for _, cat := range myCourses[i].Categories {
-			courseCategories = append(courseCategories, cat)
-		}
 		filter := bson.D{
 			{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
 			{Key: "subject", Value: myCourses[i].Subject},
-			{Key: "categories", Value: bson.D{{Key: "$nin", Value: courseCategories}}},
-		}
+			{Key: "categories", Value: bson.D{{Key: "$nin", Value: myCourses[i].Categories}}},
+		} //todo vysledok jedneho kurzu mi moze dat vysledok z kategorie, z ktorej uz som mala kurz
 
-		coursesFromOtherSubtree, err := s.FindCoursesAccordingFilter(c, filter, coursesCollection)
+		coursesFromOtherSubtree, err := s.findCoursesAccordingFilter(c, filter, coursesCollection)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, "no content")
 			return
 		}
 
-		similar := myCourses[i].FindSimilar(coursesFromOtherSubtree)
-		sort.Sort(BySimilarity{courses: similar, course: &myCourses[i]})
-		recommended[myCourses[i].ID] = similar[:10]
+		fmt.Println("am here")
+
+		for j := range coursesFromOtherSubtree {
+			if len(intersection(coursesFromOtherSubtree[j].Categories, myCourses[i].Categories)) > 1 {
+				fmt.Println("categories wrong")
+				fmt.Printf("expected not: %v, found: %v\n", coursesFromOtherSubtree[j].Categories, myCourses[i].Categories)
+			}
+		}
+
+		similar := myCourses[i].FindSimilar(coursesFromOtherSubtree, 0.08)
+		sort.Sort(BySimilarity{coursesWithSimilarity: similar, course: &myCourses[i]})
+		recommended[myCourses[i].ID] = similar
 	}
 
-	c.JSON(http.StatusOK, convertResult(recommended))
+	c.JSON(http.StatusOK, fromMapWithSimilar(recommended))
 }
 
 func (s *State) OverfittingCourses(c *gin.Context) {
@@ -100,48 +105,27 @@ func (s *State) OverfittingCourses(c *gin.Context) {
 		return
 	}
 
-	recommended := make(map[string][]Course)
+	recommended := make(map[string][]SimilarCourse)
 	coursesCollection := s.DB.Collection("courses")
 	for i := range myCourses {
 		filter := bson.D{
 			{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
-			{Key: "categories", Value: bson.D{{Key: "$nin", Value: myCourses[i].Categories}}},
 		}
-		coursesWithoutMine, err := s.FindCoursesAccordingFilter(c, filter, coursesCollection)
+		coursesWithoutMine, err := s.findCoursesAccordingFilter(c, filter, coursesCollection)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, "no content")
 			return
 		}
 
-		sort.Sort(BySimilarity{course: &myCourses[i], courses: coursesWithoutMine})
-		recommended[myCourses[i].ID] = coursesWithoutMine[:10]
+		similar := myCourses[i].FindSimilar(coursesWithoutMine, 0.08)
+		sort.Sort(BySimilarity{course: &myCourses[i], coursesWithSimilarity: similar})
+		recommended[myCourses[i].ID] = similar
 	}
 
-	c.JSON(http.StatusOK, convertResult(recommended))
+	c.JSON(http.StatusOK, fromMapWithSimilar(recommended))
 }
 
-type Recommended struct {
-	Course             Course
-	RecommendedBecause []string
-}
-
-func convertResult(courses map[string][]Course) map[string]Recommended {
-	result := make(map[string]Recommended)
-	for id, recommendedCourses := range courses {
-		for i := range recommendedCourses {
-			if _, ok := result[recommendedCourses[i].ID]; ok {
-				recbec := result[recommendedCourses[i].ID].RecommendedBecause
-				res := Recommended{Course: recommendedCourses[i], RecommendedBecause: recbec}
-				result[recommendedCourses[i].ID] = res
-			} else {
-				result[recommendedCourses[i].ID] = Recommended{Course: recommendedCourses[i], RecommendedBecause: []string{id}}
-			}
-		}
-	}
-	return result
-}
-
-func (s *State) FindCoursesAccordingFilter(c *gin.Context, filter interface{}, coursesCollection *mongo.Collection) ([]Course, error) {
+func (s *State) findCoursesAccordingFilter(c *gin.Context, filter interface{}, coursesCollection *mongo.Collection) ([]Course, error) {
 	data, err := coursesCollection.Find(c, filter, nil)
 	if err != nil {
 		return nil, fmt.Errorf("unable to find: %v", err)
