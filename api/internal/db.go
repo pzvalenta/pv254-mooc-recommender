@@ -92,40 +92,82 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 		return
 	}
 
-	recommended := make(map[string][]Course)
+	recommended := make(map[string][]SimilarCourse)
 	coursesCollection := s.DB.Collection("courses")
 	for i := range myCourses {
-		var courseCategories bson.A
-		for _, cat := range myCourses[i].Categories {
-			courseCategories = append(courseCategories, cat)
-		}
 		filter := bson.D{
 			{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
 			{Key: "subject", Value: myCourses[i].Subject},
-			{Key: "categories", Value: bson.D{{Key: "$nin", Value: courseCategories}}},
+			{Key: "categories", Value: bson.D{{Key: "$nin", Value: myCourses[i].Categories}}},
 		}
-		data, err := coursesCollection.Find(c, filter, nil)
+
+		coursesFromOtherSubtree, err := s.findCoursesAccordingFilter(c, filter, coursesCollection)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, "no content")
 			return
 		}
 
-		var coursesFromOtherSubtree []Course
-		for data.Next(c) {
-			l := Course{}
-			err = data.Decode(&l)
-			if err != nil {
-				c.JSON(http.StatusInternalServerError, "no content")
-				return
-			}
-			coursesFromOtherSubtree = append(coursesFromOtherSubtree, l)
-		}
-		similar := myCourses[i].FindSimilar(coursesFromOtherSubtree)
-		sort.Sort(BySimilarity{courses: similar, course: &myCourses[i]})
-		recommended[myCourses[i].ID] = similar[:10]
+		similar := myCourses[i].FindSimilar(coursesFromOtherSubtree, 0.08)
+		sort.Sort(SortedBySimilarity{coursesWithSimilarity: similar, course: &myCourses[i]})
+		recommended[myCourses[i].ID] = similar
 	}
 
-	c.JSON(http.StatusOK, recommended)
+	sorted := FromRecommenedToSortedRecommended(fromMapWithSimilar(recommended))
+	sort.Sort(SortedByOverallSimilarity{sr: sorted})
+	c.JSON(http.StatusOK, sorted)
+}
+
+func (s *State) OverfittingCourses(c *gin.Context) {
+	myCourseIds, err := s.getMyCoursesIds(c)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	myCourses, err := s.getMyCourses(c)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	recommended := make(map[string][]SimilarCourse)
+	coursesCollection := s.DB.Collection("courses")
+	for i := range myCourses {
+		filter := bson.D{
+			{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
+		}
+		coursesWithoutMine, err := s.findCoursesAccordingFilter(c, filter, coursesCollection)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, "no content")
+			return
+		}
+
+		similar := myCourses[i].FindSimilar(coursesWithoutMine, 0.1)
+		sort.Sort(SortedBySimilarity{course: &myCourses[i], coursesWithSimilarity: similar})
+		recommended[myCourses[i].ID] = similar
+	}
+
+	sorted := FromRecommenedToSortedRecommended(fromMapWithSimilar(recommended))
+	sort.Sort(SortedByOverallSimilarity{sr: sorted})
+	c.JSON(http.StatusOK, sorted[:Min(10, len(sorted))])
+}
+
+func (s *State) findCoursesAccordingFilter(c *gin.Context, filter interface{}, coursesCollection *mongo.Collection) ([]Course, error) {
+	data, err := coursesCollection.Find(c, filter, nil)
+	if err != nil {
+		return nil, fmt.Errorf("unable to find: %v", err)
+	}
+
+	var result []Course
+	for data.Next(c) {
+		l := Course{}
+		err = data.Decode(&l)
+		if err != nil {
+			return nil, fmt.Errorf("unable to decode: %v", err)
+		}
+		result = append(result, l)
+	}
+	return result, nil
 }
 
 func (s *State) getMyCoursesIds(c *gin.Context) ([]string, error) {
