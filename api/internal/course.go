@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"log"
 	"strings"
 )
 
@@ -37,11 +38,13 @@ type Details struct {
 	Session          string   `json:"session" bson:"session"`
 	StartDate        []string `json:"start_date" bson:"start_date"`
 }
+
 //SortedBySimilarity ...
 type SortedBySimilarity struct {
 	coursesWithSimilarity []SimilarCourse
 	course                *Course
 }
+
 //SimilarCourse ...
 type SimilarCourse struct {
 	Course     Course
@@ -55,6 +58,7 @@ func (s SortedBySimilarity) Swap(i, j int) {
 func (s SortedBySimilarity) Less(i, j int) bool {
 	return s.coursesWithSimilarity[i].Similarity < s.coursesWithSimilarity[j].Similarity
 }
+
 //FindSimilar ...
 func (c *Course) FindSimilar(courses []Course, similarityThresold float64) []SimilarCourse {
 	var result []SimilarCourse
@@ -68,7 +72,46 @@ func (c *Course) FindSimilar(courses []Course, similarityThresold float64) []Sim
 
 func getStopWords() map[string]string {
 	return map[string]string{" a ": " ", " and ": " ", " the ": " ", " of ": " ", " is ": " ", " are ": " ",
-		" in ": " ", " to ": " ", " from ": " ", " on ": " ", ".": "", ":": ""}
+		" in ": " ", " to ": " ", " from ": " ", " on ": " ", ".": "", ":": "", "(": " ",
+		")": " ", "\n": " ", ",": " ", "  ": " "}
+}
+
+func (c *Course) tfidf(c1 Course) float64 {
+	o1 := strings.ToLower(c.Overview)
+	o2 := strings.ToLower(c1.Overview)
+	for word, newWord := range getStopWords() {
+		o1 = strings.Replace(o1, word, newWord, -1)
+		o2 = strings.Replace(o2, word, newWord, -1)
+	}
+	s1 := strings.Split(o1, " ")
+	var strs1 []string
+	for _, val := range s1 {
+		if val != "" {
+			strs1 = append(strs1, val)
+		}
+	}
+
+	var strs2 []string
+	s2 := strings.Split(o2, " ")
+	for _, val := range s2 {
+		if val != "" {
+			strs2 = append(strs2, val)
+		}
+	}
+
+	m1 := *wordCount(strs1)
+	for k, v := range m1 {
+		m1[k] = v / float64(len(strs1))
+	}
+	m2 := wordCount(strs2)
+	log.Println(m1)
+	log.Println(m2)
+
+	return 1.0
+}
+
+func remove(slice []string, i int) []string {
+	return append(slice[:i], slice[i+1:]...)
 }
 
 func (c *Course) isSimilar(c1 *Course) float64 {
@@ -84,7 +127,8 @@ func (c *Course) isSimilar(c1 *Course) float64 {
 		name1 = strings.Replace(name1, word, newWord, -1)
 		name2 = strings.Replace(name2, word, newWord, -1)
 	}
+	intr := len(intersection(strings.Split(name1, " "), strings.Split(name2, " ")))
 
-	result := float64(len(intersection(strings.Split(name1, " "), strings.Split(name2, " ")))) / float64(len(strings.Split(name1, " "))) / numberOfAttributes
+	result := float64(intr) / float64(len(strings.Split(name1, " "))) / numberOfAttributes
 	return result
 }

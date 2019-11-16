@@ -1,4 +1,5 @@
 package internal
+
 //Min ...
 func Min(x, y int) int {
 	if x > y {
@@ -41,4 +42,18 @@ func intersection(a, b []string) []string {
 		}
 	}
 	return inter
+}
+
+func wordCount(a []string) *map[string]float64 {
+	m1 := make(map[string]float64)
+	for _, word := range a {
+		if val, ok := m1[word]; ok {
+			m1[word] = val + 1
+		} else {
+			m1[word] = 1
+		}
+
+	}
+
+	return &m1
 }

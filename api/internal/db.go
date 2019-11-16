@@ -34,6 +34,7 @@ func NewDatabase(host, port string) (*mongo.Database, error) {
 
 	return client.Database("mydb"), nil
 }
+
 //RandomCourse ...
 func (s *State) RandomCourse(c *gin.Context) {
 	coursesCollection := s.DB.Collection("courses")
@@ -47,6 +48,7 @@ func (s *State) RandomCourse(c *gin.Context) {
 
 	c.JSON(http.StatusOK, result)
 }
+
 //TaxonomyCourses ...
 func (s *State) TaxonomyCourses(c *gin.Context) {
 	myCourseIds, err := s.getMyCoursesIds(c)
@@ -85,6 +87,7 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 	sort.Sort(SortedByOverallSimilarity{sr: sorted})
 	c.JSON(http.StatusOK, sorted)
 }
+
 //OverfittingCourses ...
 func (s *State) OverfittingCourses(c *gin.Context) {
 	myCourseIds, err := s.getMyCoursesIds(c)
@@ -162,6 +165,16 @@ func (s *State) getMyCoursesIds(c *gin.Context) ([]string, error) {
 	}
 
 	return l.EnrolledIn, nil
+}
+
+//GetCourseByID ...
+func (s *State) GetCourseByID(id string) (Course, error) {
+	coursesCollection := s.DB.Collection("courses")
+	var result Course
+
+	filter := bson.M{"_id": id}
+	err := coursesCollection.FindOne(context.Background(), filter).Decode(&result)
+	return result, err
 }
 
 func (s *State) getMyCourses(c *gin.Context) ([]Course, error) {
