@@ -37,12 +37,12 @@ type Details struct {
 	Session          string   `json:"session" bson:"session"`
 	StartDate        []string `json:"start_date" bson:"start_date"`
 }
-
+//SortedBySimilarity ...
 type SortedBySimilarity struct {
 	coursesWithSimilarity []SimilarCourse
 	course                *Course
 }
-
+//SimilarCourse ...
 type SimilarCourse struct {
 	Course     Course
 	Similarity float64
@@ -55,7 +55,7 @@ func (s SortedBySimilarity) Swap(i, j int) {
 func (s SortedBySimilarity) Less(i, j int) bool {
 	return s.coursesWithSimilarity[i].Similarity < s.coursesWithSimilarity[j].Similarity
 }
-
+//FindSimilar ...
 func (c *Course) FindSimilar(courses []Course, similarityThresold float64) []SimilarCourse {
 	var result []SimilarCourse
 	for i := range courses {

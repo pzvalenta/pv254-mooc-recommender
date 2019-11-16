@@ -1,15 +1,15 @@
 package internal
-
+//Recommended ...
 type Recommended struct {
 	Course             Course       `json:"course"`
 	RecommendedBecause []Similarity `json:"recommendedBecause"`
 }
-
+//Similarity ...
 type Similarity struct {
 	CourseID   string
 	Similarity float64
 }
-
+//OveralSimilarity ...
 func (r *Recommended) OveralSimilarity() float64 {
 	var overalSimilarity float64
 	for _, similarity := range r.RecommendedBecause {
@@ -17,7 +17,7 @@ func (r *Recommended) OveralSimilarity() float64 {
 	}
 	return overalSimilarity
 }
-
+//RecommendedAsArrayItem ...
 type RecommendedAsArrayItem struct {
 	CourseID          string      `json:"courseID"`
 	Recommended       Recommended `json:"recommended"`
@@ -44,7 +44,7 @@ func fromMapWithSimilar(courses map[string][]SimilarCourse) map[string]*Recommen
 	}
 	return result
 }
-
+//FromRecommenedToSortedRecommended ...
 func FromRecommenedToSortedRecommended(result map[string]*Recommended) []RecommendedAsArrayItem {
 	var tmp []RecommendedAsArrayItem
 	for recommendID, absolved := range result {
@@ -57,7 +57,7 @@ func FromRecommenedToSortedRecommended(result map[string]*Recommended) []Recomme
 	}
 	return tmp
 }
-
+//SortedByOverallSimilarity ...
 type SortedByOverallSimilarity struct {
 	sr []RecommendedAsArrayItem
 }

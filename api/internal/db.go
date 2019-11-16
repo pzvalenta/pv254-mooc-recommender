@@ -16,6 +16,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+//NewDatabase ...
 func NewDatabase(host, port string) (*mongo.Database, error) {
 	if envHost, ok := os.LookupEnv("DB_HOST"); ok {
 		host = envHost
@@ -33,7 +34,7 @@ func NewDatabase(host, port string) (*mongo.Database, error) {
 
 	return client.Database("mydb"), nil
 }
-
+//RandomCourse ...
 func (s *State) RandomCourse(c *gin.Context) {
 	coursesCollection := s.DB.Collection("courses")
 	var result Course
@@ -46,7 +47,7 @@ func (s *State) RandomCourse(c *gin.Context) {
 
 	c.JSON(http.StatusOK, result)
 }
-
+//TaxonomyCourses ...
 func (s *State) TaxonomyCourses(c *gin.Context) {
 	myCourseIds, err := s.getMyCoursesIds(c)
 	if err != nil {
@@ -84,7 +85,7 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 	sort.Sort(SortedByOverallSimilarity{sr: sorted})
 	c.JSON(http.StatusOK, sorted)
 }
-
+//OverfittingCourses ...
 func (s *State) OverfittingCourses(c *gin.Context) {
 	myCourseIds, err := s.getMyCoursesIds(c)
 	if err != nil {
