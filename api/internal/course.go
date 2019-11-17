@@ -1,9 +1,6 @@
 package internal
 
 import (
-	// "context"
-	// "math"
-	"log"
 	"strings"
 )
 
@@ -78,48 +75,18 @@ func getStopWords() map[string]string {
 		")": " ", "\n": " ", ",": " ", "  ": " "}
 }
 
-func (c *Course) tfidf(c1 Course) float64 {
-	o1 := strings.ToLower(c.Overview)
-	o2 := strings.ToLower(c1.Overview)
-	for word, newWord := range getStopWords() {
-		o1 = strings.Replace(o1, word, newWord, -1)
-		o2 = strings.Replace(o2, word, newWord, -1)
+func (c *Course) tfidf(courses []Course) map[string]float64 {
+	var tfidf map[string]float64
+	tf := tf(c.Overview)
+	var courseOverviews []string
+	for i := range courses {
+		courseOverviews = append(courseOverviews, courses[i].Overview)
 	}
-	s1 := strings.Split(o1, " ")
-	var strs1 []string
-	for _, val := range s1 {
-		if val != "" {
-			strs1 = append(strs1, val)
-		}
+	idf := idf(courseOverviews)
+	for word, val := range tf {
+		tfidf[word] = val * idf[word]
 	}
-
-	var strs2 []string
-	s2 := strings.Split(o2, " ")
-	for _, val := range s2 {
-		if val != "" {
-			strs2 = append(strs2, val)
-		}
-	}
-	// findCoursesAccordingFilter(context.Background,nil)
-
-	m1 := *wordCount(strs1)
-	for k, v := range m1 {
-		m1[k] = v / float64(len(strs1))
-	}
-	m2 := *wordCount(strs2)
-	for k, v := range m2 {
-		m2[k] = v / float64(len(strs2))
-	}
-	// math.Log()
-
-	log.Println(m1)
-	log.Println(m2)
-
-	return 1.0
-}
-
-func remove(slice []string, i int) []string {
-	return append(slice[:i], slice[i+1:]...)
+	return tfidf
 }
 
 func (c *Course) isSimilar(c1 *Course) float64 {

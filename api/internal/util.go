@@ -1,5 +1,10 @@
 package internal
 
+import (
+	"math"
+	"strings"
+)
+
 //Min ...
 func Min(x, y int) int {
 	if x > y {
@@ -44,16 +49,73 @@ func intersection(a, b []string) []string {
 	return inter
 }
 
-func wordCount(a []string) *map[string]float64 {
-	m1 := make(map[string]float64)
+func wordCount(a []string) *map[string]int {
+	m1 := make(map[string]int)
 	for _, word := range a {
 		if val, ok := m1[word]; ok {
 			m1[word] = val + 1
 		} else {
 			m1[word] = 1
 		}
+	}
+	return &m1
+}
 
+func tokenize(text string) []string {
+	text = normalize(text)
+	tks := strings.Split(text, " ")
+	var cleanToks []string
+	for _, val := range tks {
+		if val != "" {
+			cleanToks = append(cleanToks, val)
+		}
+	}
+	return cleanToks
+}
+
+func normalize(text string) string {
+	text = strings.ToLower(text)
+	for word, newWord := range getStopWords() {
+		text = strings.Replace(text, word, newWord, -1)
+	}
+	return text
+}
+
+func idf(texts []string) map[string]float64 {
+	var wordIdf map[string]float64
+
+	N := float64(len(texts))
+	for _, text := range texts {
+		toks := tokenize(text)
+		var words map[string]bool
+		for _, word := range toks {
+			if _, ok := words[word]; !ok {
+				words[word] = true
+			}
+		}
+		for word := range words {
+			if _, ok := words[word]; ok {
+				wordIdf[word] = wordIdf[word] + 1
+			} else {
+				wordIdf[word] = 1
+			}
+		}
+	}
+	for word, count := range wordIdf {
+		wordIdf[word] = math.Log(count / N)
+	}
+	return wordIdf
+
+}
+
+func tf(text string) map[string]float64 {
+	var tf map[string]float64
+	tokens := tokenize(text)
+	N := float64(len(tokens))
+	wordCounts := *wordCount(tokens)
+	for word, count := range wordCounts {
+		tf[word] = float64(count) / N
 	}
 
-	return &m1
+	return tf
 }
