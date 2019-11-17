@@ -1,6 +1,8 @@
 package internal
 
 import (
+	// "context"
+	// "math"
 	"log"
 	"strings"
 )
@@ -98,12 +100,18 @@ func (c *Course) tfidf(c1 Course) float64 {
 			strs2 = append(strs2, val)
 		}
 	}
+	// findCoursesAccordingFilter(context.Background,nil)
 
 	m1 := *wordCount(strs1)
 	for k, v := range m1 {
 		m1[k] = v / float64(len(strs1))
 	}
-	m2 := wordCount(strs2)
+	m2 := *wordCount(strs2)
+	for k, v := range m2 {
+		m2[k] = v / float64(len(strs2))
+	}
+	// math.Log()
+
 	log.Println(m1)
 	log.Println(m2)
 
