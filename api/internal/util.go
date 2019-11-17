@@ -61,6 +61,12 @@ func wordCount(a []string) *map[string]int {
 	return &m1
 }
 
+func getStopWords() map[string]string {
+	return map[string]string{" a ": " ", " and ": " ", " the ": " ", " of ": " ", " is ": " ", " are ": " ",
+		" in ": " ", " to ": " ", " from ": " ", " on ": " ", ".": "", ":": "", "(": " ",
+		")": " ", "\n": " ", ",": " ", "  ": " "}
+}
+
 func tokenize(text string) []string {
 	text = normalize(text)
 	tks := strings.Split(text, " ")
@@ -81,7 +87,7 @@ func normalize(text string) string {
 	return text
 }
 
-func idf(texts []string) map[string]float64 {
+func computeIdf(texts []string) map[string]float64 {
 	var wordIdf map[string]float64
 
 	N := float64(len(texts))
@@ -108,7 +114,7 @@ func idf(texts []string) map[string]float64 {
 
 }
 
-func tf(text string) map[string]float64 {
+func computeTf(text string) map[string]float64 {
 	var tf map[string]float64
 	tokens := tokenize(text)
 	N := float64(len(tokens))

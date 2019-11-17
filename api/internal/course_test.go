@@ -8,18 +8,18 @@ import (
 
 func TestSomething(t *testing.T) {
 
-	s, err := NewState("5dceb44288861f034fc60b16")
+	// s, err := NewState("5dceb44288861f034fc60b16")
 
-	course1, _ := s.GetCourseByID("machine-learning-835")
+	// course1, _ := s.GetCourseByID("machine-learning-835")
 
-	course2, _ := s.GetCourseByID("udacity-intro-to-machine-learning-2996")
+	// course2, _ := s.GetCourseByID("udacity-intro-to-machine-learning-2996")
 
-	res := course1.tfidf([]Course{course2})
-	log.Println(res)
+	// res := course1.tfidf([]Course{course2})
+	// log.Println(res)
 
-	if err != nil {
-		panic(err)
-	}
+	// if err != nil {
+	// 	panic(err)
+	// }
 }
 func TestTfidf(t *testing.T) {
 	s, err := NewState("5dceb44288861f034fc60b16")

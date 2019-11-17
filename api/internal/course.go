@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"math"
 	"strings"
 )
 
@@ -61,47 +62,63 @@ func (s SortedBySimilarity) Less(i, j int) bool {
 //FindSimilar ...
 func (c *Course) FindSimilar(courses []Course, similarityThresold float64) []SimilarCourse {
 	var result []SimilarCourse
+
+	var courseOverviews []string
 	for i := range courses {
-		if c.isSimilar(&courses[i]) > similarityThresold {
-			result = append(result, SimilarCourse{Course: courses[i], Similarity: c.isSimilar(&courses[i])})
+		courseOverviews = append(courseOverviews, courses[i].Overview)
+	}
+	idf := computeIdf(courseOverviews)
+
+	for i := range courses {
+		simVal := c.isSimilar(&courses[i], idf)
+		if simVal > similarityThresold {
+			result = append(result, SimilarCourse{Course: courses[i], Similarity: simVal})
 		}
 	}
 	return result
 }
 
-func getStopWords() map[string]string {
-	return map[string]string{" a ": " ", " and ": " ", " the ": " ", " of ": " ", " is ": " ", " are ": " ",
-		" in ": " ", " to ": " ", " from ": " ", " on ": " ", ".": "", ":": "", "(": " ",
-		")": " ", "\n": " ", ",": " ", "  ": " "}
-}
-
-func (c *Course) tfidf(courses []Course) map[string]float64 {
+func (c *Course) tfidf(idf map[string]float64) map[string]float64 {
 	var tfidf map[string]float64
-	tf := tf(c.Overview)
-	var courseOverviews []string
-	for i := range courses {
-		courseOverviews = append(courseOverviews, courses[i].Overview)
-	}
-	idf := idf(courseOverviews)
+	tf := computeTf(c.Overview)
 	for word, val := range tf {
 		tfidf[word] = val * idf[word]
 	}
 	return tfidf
 }
 
-func (c *Course) isSimilar(c1 *Course) float64 {
+func (c *Course) isSimilar(c1 *Course, idf map[string]float64) float64 {
 	if c.ID == c1.ID {
 		return 1.0
 	}
+	tfidf1 := c.tfidf(idf)
+	tfidf2 := c1.tfidf(idf)
+
+	res := 0.0
+	var wordList map[string]bool
+
+	for word := range tfidf1 {
+		wordList[word] = true
+	}
+	for word := range tfidf2 {
+		wordList[word] = true
+	}
+	for word := range wordList {
+		val1, val2 := 0.0, 0.0
+		if num, ok := tfidf1[word]; ok {
+			val1 = num
+		}
+		if num, ok := tfidf2[word]; ok {
+			val2 = num
+		}
+		res += math.Pow(val1-val2, 2)
+	}
+	res = math.Sqrt(res)//TODO somehow use this number
 
 	numberOfAttributes := 1.0
 
-	name1 := c.Name
-	name2 := c1.Name
-	for word, newWord := range getStopWords() {
-		name1 = strings.Replace(name1, word, newWord, -1)
-		name2 = strings.Replace(name2, word, newWord, -1)
-	}
+	name1 := normalize(c.Name)
+	name2 := normalize(c1.Name)
 	intr := len(intersection(strings.Split(name1, " "), strings.Split(name2, " ")))
 
 	result := float64(intr) / float64(len(strings.Split(name1, " "))) / numberOfAttributes
