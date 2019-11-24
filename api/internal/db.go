@@ -35,19 +35,15 @@ func NewDatabase(host, port string) (*mongo.Database, error) {
 }
 
 func (s *State) RandomCourse(c *gin.Context) {
-	/*
-		myCourseIds, err := s.getMyCoursesIds(c)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, "no content")
-			return
-		}
-	*/
+	myCourseIds, err := s.getMyCoursesIds(c)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
 
 	query := []bson.M{
-		bson.M{"$sample": bson.M{
-			"size": 1,
-		},
-		},
+		bson.M{"$sample": bson.M{"size": 1}},
+		bson.M{"$match": bson.M{"_id": bson.M{"$nin": myCourseIds}}}, //_id :{ $nin : [...] }
 	}
 
 	coll := s.DB.Collection("courses")
@@ -62,8 +58,6 @@ func (s *State) RandomCourse(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, "no content")
 		return
 	}
-
-	//defer cur.Close(ctx)
 
 	var result []Course
 	for data.Next(c) {
