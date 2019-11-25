@@ -88,12 +88,12 @@ func normalize(text string) string {
 }
 
 func computeIdf(texts []string) map[string]float64 {
-	var wordIdf map[string]float64
+	wordIdf:= make(map[string]float64)
 
 	N := float64(len(texts))
 	for _, text := range texts {
 		toks := tokenize(text)
-		var words map[string]bool
+		 words:= make(map[string]bool)
 		for _, word := range toks {
 			if _, ok := words[word]; !ok {
 				words[word] = true
@@ -115,7 +115,7 @@ func computeIdf(texts []string) map[string]float64 {
 }
 
 func computeTf(text string) map[string]float64 {
-	var tf map[string]float64
+	 tf:= make(map[string]float64)
 	tokens := tokenize(text)
 	N := float64(len(tokens))
 	wordCounts := *wordCount(tokens)

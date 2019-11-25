@@ -88,7 +88,7 @@ func (c *Course) FindSimilar(courses []Course, similarityThresold float64) []Sim
 }
 
 func (c *Course) tfidf(idf map[string]float64) map[string]float64 {
-	var tfidf map[string]float64
+	tfidf := make(map[string]float64)
 	tf := computeTf(c.Overview)
 	for word, val := range tf {
 		tfidf[word] = val * idf[word]
@@ -104,7 +104,7 @@ func (c *Course) isSimilar(c1 *Course, idf map[string]float64) float64 {
 	tfidf2 := c1.tfidf(idf)
 
 	res := 0.0
-	var wordList map[string]bool
+	wordList := make(map[string]bool)
 
 	for word := range tfidf1 {
 		wordList[word] = true
