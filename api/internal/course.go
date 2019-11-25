@@ -2,7 +2,6 @@ package internal
 
 import (
 	"math"
-	"strings"
 )
 
 // Course ...
@@ -68,9 +67,19 @@ func (c *Course) FindSimilar(courses []Course, similarityThresold float64) []Sim
 		courseOverviews = append(courseOverviews, courses[i].Overview)
 	}
 	idf := computeIdf(courseOverviews)
+	var simVals []float64
 
+	maxVal := 0.0
 	for i := range courses {
 		simVal := c.isSimilar(&courses[i], idf)
+		maxVal = math.Max(simVal, maxVal)
+		simVals = append(simVals, simVal)
+	}
+	for i := range simVals {
+		simVals[i] = math.Abs((simVals[i] / maxVal) - 1)
+	}
+	for i := range simVals {
+		simVal := simVals[i]
 		if simVal > similarityThresold {
 			result = append(result, SimilarCourse{Course: courses[i], Similarity: simVal})
 		}
@@ -113,14 +122,5 @@ func (c *Course) isSimilar(c1 *Course, idf map[string]float64) float64 {
 		}
 		res += math.Pow(val1-val2, 2)
 	}
-	res = math.Sqrt(res)//TODO somehow use this number
-
-	numberOfAttributes := 1.0
-
-	name1 := normalize(c.Name)
-	name2 := normalize(c1.Name)
-	intr := len(intersection(strings.Split(name1, " "), strings.Split(name2, " ")))
-
-	result := float64(intr) / float64(len(strings.Split(name1, " "))) / numberOfAttributes
-	return result
+	return math.Sqrt(res)
 }
