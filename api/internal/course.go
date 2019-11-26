@@ -2,6 +2,7 @@ package internal
 
 import (
 	"math"
+	"sort"
 )
 
 // Course ...
@@ -58,47 +59,62 @@ func (s SortedBySimilarity) Less(i, j int) bool {
 	return s.coursesWithSimilarity[i].Similarity < s.coursesWithSimilarity[j].Similarity
 }
 
+//CourseSimVal ...
+type CourseSimVal struct {
+	ID     string
+	SimVal float64
+}
+
 //FindSimilar ...
-func (c *Course) FindSimilar(courses []Course, similarityThresold float64) []SimilarCourse {
+func (c *Course) FindSimilar(courses []Course, count int) []SimilarCourse {
 	var result []SimilarCourse
 
+	// similarityThreshold = math.Abs(similarityThreshold - 1) // vzdialenosti su od 0 po nekonecno
 	var courseOverviews []string
 	for i := range courses {
 		courseOverviews = append(courseOverviews, courses[i].Overview)
 	}
 	idf := computeIdf(courseOverviews)
-	var simVals []float64
 
-	maxVal := 0.0
+	var vectDists []CourseSimVal
 	for i := range courses {
 		simVal := c.isSimilar(&courses[i], idf)
-		maxVal = math.Max(simVal, maxVal)
-		simVals = append(simVals, simVal)
+		vectDists = append(vectDists, CourseSimVal{courses[i].ID, simVal})
 	}
-	for i := range simVals {
-		simVals[i] = math.Abs((simVals[i] / maxVal) - 1)
-	}
-	for i := range simVals {
-		simVal := simVals[i]
-		if simVal > similarityThresold {
-			result = append(result, SimilarCourse{Course: courses[i], Similarity: simVal})
+	sort.Slice(vectDists, func(i, j int) bool {
+		return vectDists[i].SimVal < vectDists[j].SimVal
+	})
+
+	for i := range vectDists {
+		simVal := vectDists[i].SimVal
+		var course Course
+		for j:= range courses{
+			if courses[j].ID==vectDists[i].ID{
+				course = courses[j]
+				break
+			}
+		}
+		if len(result) < count {
+			result = append(result, SimilarCourse{Course: course, Similarity: simVal})
+		} else {
+			break
 		}
 	}
 	return result
 }
 
-func (c *Course) tfidf(idf map[string]float64) map[string]float64 {
+func (c *Course) tfidf(idf map[string]float64) *map[string]float64 {
 	tfidf := make(map[string]float64)
 	tf := computeTf(c.Overview)
-	for word, val := range tf {
+	for word, val := range *tf {
 		tfidf[word] = val * idf[word]
 	}
-	return tfidf
+	return &tfidf
 }
 
 func (c *Course) isSimilar(c1 *Course, idf map[string]float64) float64 {
 	if c.ID == c1.ID {
-		return 1.0
+		return 0.0
 	}
 	tfidf1 := c.tfidf(idf)
 	tfidf2 := c1.tfidf(idf)
@@ -106,18 +122,18 @@ func (c *Course) isSimilar(c1 *Course, idf map[string]float64) float64 {
 	res := 0.0
 	wordList := make(map[string]bool)
 
-	for word := range tfidf1 {
+	for word := range *tfidf1 {
 		wordList[word] = true
 	}
-	for word := range tfidf2 {
+	for word := range *tfidf2 {
 		wordList[word] = true
 	}
 	for word := range wordList {
 		val1, val2 := 0.0, 0.0
-		if num, ok := tfidf1[word]; ok {
+		if num, ok := (*tfidf1)[word]; ok {
 			val1 = num
 		}
-		if num, ok := tfidf2[word]; ok {
+		if num, ok := (*tfidf2)[word]; ok {
 			val2 = num
 		}
 		res += math.Pow(val1-val2, 2)

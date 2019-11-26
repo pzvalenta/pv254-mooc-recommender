@@ -2,6 +2,7 @@ package internal
 
 import (
 	"math"
+	"regexp"
 	"strings"
 )
 
@@ -69,11 +70,13 @@ func getStopWords() map[string]string {
 
 func tokenize(text string) []string {
 	text = normalize(text)
+	reg, _ := regexp.Compile("[^a-zA-Z0-9]+")
 	tks := strings.Split(text, " ")
 	var cleanToks []string
 	for _, val := range tks {
 		if val != "" {
-			cleanToks = append(cleanToks, val)
+			cleanVal := reg.ReplaceAllString(val, "")
+			cleanToks = append(cleanToks, cleanVal)
 		}
 	}
 	return cleanToks
@@ -88,40 +91,42 @@ func normalize(text string) string {
 }
 
 func computeIdf(texts []string) map[string]float64 {
-	wordIdf:= make(map[string]float64)
+	wordCounts := make(map[string]float64)
 
 	N := float64(len(texts))
 	for _, text := range texts {
 		toks := tokenize(text)
-		 words:= make(map[string]bool)
+		words := make(map[string]bool)
 		for _, word := range toks {
 			if _, ok := words[word]; !ok {
 				words[word] = true
 			}
 		}
 		for word := range words {
-			if _, ok := words[word]; ok {
-				wordIdf[word] = wordIdf[word] + 1
+			if _, ok := wordCounts[word]; ok {
+				wordCounts[word] = wordCounts[word] + 1
 			} else {
-				wordIdf[word] = 1
+				wordCounts[word] = 1
 			}
 		}
 	}
-	for word, count := range wordIdf {
-		wordIdf[word] = math.Log(count / N)
+	wordIdf := make(map[string]float64)
+
+	for word, count := range wordCounts {
+		wordIdf[word] = math.Log(N/ count)
 	}
 	return wordIdf
 
 }
 
-func computeTf(text string) map[string]float64 {
-	 tf:= make(map[string]float64)
+func computeTf(text string) *map[string]float64 {
+	tf := make(map[string]float64)
 	tokens := tokenize(text)
 	N := float64(len(tokens))
-	wordCounts := *wordCount(tokens)
-	for word, count := range wordCounts {
+	wordCounts := wordCount(tokens)
+	for word, count := range *wordCounts {
 		tf[word] = float64(count) / N
 	}
 
-	return tf
+	return &tf
 }

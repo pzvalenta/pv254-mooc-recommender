@@ -78,7 +78,7 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 			return
 		}
 
-		similar := myCourses[i].FindSimilar(coursesFromOtherSubtree, 0.08)
+		similar := myCourses[i].FindSimilar(coursesFromOtherSubtree, 10)
 		sort.Sort(SortedBySimilarity{coursesWithSimilarity: similar, course: &myCourses[i]})
 		recommended[myCourses[i].ID] = similar
 	}
@@ -114,7 +114,7 @@ func (s *State) OverfittingCourses(c *gin.Context) {
 			return
 		}
 
-		similar := myCourses[i].FindSimilar(coursesWithoutMine, 0.1)
+		similar := myCourses[i].FindSimilar(coursesWithoutMine, 10)
 		sort.Sort(SortedBySimilarity{course: &myCourses[i], coursesWithSimilarity: similar})
 		recommended[myCourses[i].ID] = similar
 	}
