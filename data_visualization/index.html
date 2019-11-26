@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>FoamTree Quick Start</title>
+		<meta charset="utf-8" />
+	</head>
+
+	<body>
+		<div id="visualization" style="width: 800px; height: 600px"></div>
+
+		<script src="./carrotsearch.foamtree.js"></script>
+		<script>
+			window.addEventListener('load', function() {
+				var foamtree = new CarrotSearchFoamTree({
+					id: 'visualization',
+					dataObject: {
+						groups: [
+							{ label: 'Your', weight: 1.0 },
+							{ label: 'First', weight: 3.0 },
+							{ label: 'FoamTree', weight: 2.0 },
+							{ label: 'Visualization', weight: 4.0 },
+						],
+					},
+				});
+			});
+		</script>
+	</body>
+</html>
