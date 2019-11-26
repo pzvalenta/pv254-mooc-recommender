@@ -10,7 +10,18 @@
 
 		<script src="./carrotsearch.foamtree.js"></script>
 		<script>
+			const myHeaders = new Headers({
+				'Content-Type': 'application/json',
+				charset: 'utf-8',
+				'Access-Control-Allow-Origin': '*',
+			});
 			window.addEventListener('load', function() {
+				fetch('data_fixed.json', {
+					mode: 'cors',
+					headers: myHeaders,
+				})
+					.then(response => response.json())
+					.then(json => console.log(json));
 				var foamtree = new CarrotSearchFoamTree({
 					id: 'visualization',
 					dataObject: {
