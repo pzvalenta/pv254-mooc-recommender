@@ -2,7 +2,7 @@ import json
 import sys
 
 data_location = 'data_visualization/assets/data/data.json'
-output_location = 'data_visualization/assets/data/data_subject_cat_groups.js'
+output_location = 'data_visualization/assets/data/'
 
 
 def parseArgv():
@@ -16,7 +16,7 @@ def parseArgv():
                 data_location = sys.argv[i+1]
             if s == '-o' and i+1 < ln_arg and not str.startswith(sys.argv[i+1], '-'):
                 output_location = sys.argv[i+1]
-    print(f'input: {data_location}; output: {output_location}')
+    print(f'input: {data_location}; output-path: {output_location}')
 
 
 def getData():
@@ -50,12 +50,13 @@ def getData():
     return result
 
 
-def saveJsFile(data):
+def saveJsFile(data, name):
+    print(f'saving {name} to {output_location+name}.js')
     json_str = json.dumps(data, indent=2)
     json_str = 'modelDataAvailable('+json_str+"""
-    ,{label: 'our data',file:'prepareddata_subject_cat_group_data2.jsonp'})
+    ,{label: 'our data',file:'"""+name+""".js}.jsonp'})
     """
-    with open(output_location, 'w', encoding='utf8') as f:
+    with open(output_location+name+'.js', 'w', encoding='utf8') as f:
         f.write(json_str)
 
 
@@ -91,13 +92,55 @@ def subject_cat_data(data):
     return json_res
 
 
+def subject_provider_data(data):
+    json_res = {"groups": []}
+    subjects = {}
+    subjects_course_count = {}
+    subjects_providers_count = {}
+
+    for x in data:
+        subject = x['subject']
+        provider = x['provider']
+
+        if subject not in subjects:
+            subjects[subject] = set()
+            subjects_course_count[subject] = 0
+        subjects_course_count[subject] += 1
+
+        if subject not in subjects_providers_count:
+            subjects_providers_count[subject] = {}
+
+        if provider not in subjects_providers_count[subject]:
+            subjects_providers_count[subject][provider] = 0
+
+        subjects_providers_count[subject][provider] += 1
+
+        subjects[subject].add(provider)
+    id = 0
+
+    for key in subjects:
+        provs = subjects[key]
+        group = {'label': key,
+                 'weight': subjects_course_count[key], 'groups': [], 'id': id}
+        id += 1
+        for prov in provs:
+            c = {'label': prov, 'id': id,
+                 'weight': subjects_providers_count[key][prov]}
+            group['groups'].append(c)
+            id += 1
+        json_res['groups'].append(group)
+
+    return json_res
+
+
 def main():
     parseArgv()
 
-    res = getData()
-    res = subject_cat_data(res)
-    saveJsFile(res)
-
+    data = getData()
+    res = subject_cat_data(data)
+    saveJsFile(res, "data_subject_cat_groups")
+    res2 = subject_provider_data(data)
+    saveJsFile(res2, "data_subject_provider_groups")
     print('done')
 
 

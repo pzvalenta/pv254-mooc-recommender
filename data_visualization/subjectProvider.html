@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Subject Category visualization</title>
+		<title>Subject Provider visualization</title>
 		<meta charset="utf-8" />
 
 		<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -18,10 +18,9 @@
 		<div id="container">
 			<div id="visualization"></div>
 		</div>
-
 		<div id="side">
 			<h2>Visualizations</h2>
-			<a href="subjectProvider.html"> Subject provider visualization</a>
+			<a href="index.html"> Subject category visualization</a>
 		</div>
 
 		<script src="assets/js/carrotsearch.foamtree.js"></script>
@@ -35,7 +34,7 @@
 				});
 				CarrotSearchFoamTree.hints(foamtree);
 				JSONP.load(
-					'assets/data/data_subject_cat_groups.js',
+					'assets/data/data_subject_provider_groups.js',
 					'modelDataAvailable',
 					dataObject => {
 						foamtree.set('dataObject', dataObject);
