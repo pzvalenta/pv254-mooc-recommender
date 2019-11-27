@@ -3,28 +3,41 @@
 	<head>
 		<title>FoamTree Quick Start</title>
 		<meta charset="utf-8" />
+
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="assets/css/common.css" rel="stylesheet" />
+
+		<!-- Include the default style for the interaction hints and guide -->
+		<link
+			href="assets/css/carrotsearch.foamtree.util.hints.css"
+			rel="stylesheet"
+		/>
 	</head>
 
 	<body>
-		<div id="visualization" style="width: 800px; height: 600px"></div>
+		<div id="container">
+			<div id="visualization"></div>
+		</div>
 
-		<script src="./carrotsearch.foamtree.js"></script>
+		<script src="assets/js/carrotsearch.foamtree.js"></script>
+		<script src="assets/js/carrotsearch.foamtree.util.hints.js"></script>
+		<script src="assets/js/carrotsearch.jsonp.js"></script>
 		<script>
-			window.addEventListener('load', function() {
-					var foamtree = new CarrotSearchFoamTree({
-						id: 'visualization',
-						dataObject: {
-							groups: [
-								{ label: 'Your', weight: 1.0 },
-								{ label: 'First', weight: 3.0 },
-								{ label: 'FoamTree', weight: 2.0 },
-								{ label: 'Visualization', weight: 4.0 },
-							],
-						},
-					});
+			window.addEventListener('load', () => {
+				const foamtree = new CarrotSearchFoamTree({
+					id: 'visualization',
+					pixelRatio: window.devicePixelRatio || 1,
 				});
+				CarrotSearchFoamTree.hints(foamtree);
+				JSONP.load(
+					'assets/data/data_subject_cat_groups.js',
+					'modelDataAvailable',
+					dataObject => {
+						foamtree.set('dataObject', dataObject);
+					},
+				);
+			});
 		</script>
-	<script src="./prepared_data.json"></script>
+		<!-- <script src="./prepared_data.json"></script> -->
 	</body>
-	</html>
-	
+</html>
