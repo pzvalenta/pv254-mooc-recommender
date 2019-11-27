@@ -92,6 +92,25 @@ def subject_cat_data(data):
     return json_res
 
 
+def languages_data(data):
+    languages = {}
+    for x in data:
+        lan = x['language']
+        if lan not in languages:
+            languages[lan] = 0
+        languages[lan] += 1
+    json_res = {"groups": []}
+    id = 0
+    for lan in languages:
+        lan_c = languages[lan]
+        group = {'label': f'{lan}: {lan_c}',
+                 'weight': lan_c, 'id': id}
+        id += 1
+        json_res['groups'].append(group)
+
+    return json_res
+
+
 def subject_provider_data(data):
     json_res = {"groups": []}
     subjects = {}
@@ -137,10 +156,12 @@ def main():
     parseArgv()
 
     data = getData()
-    res = subject_cat_data(data)
-    saveJsFile(res, "data_subject_cat_groups")
-    res2 = subject_provider_data(data)
-    saveJsFile(res2, "data_subject_provider_groups")
+    # res = subject_cat_data(data)
+    # saveJsFile(res, "subject_cat_groups_data")
+    # res2 = subject_provider_data(data)
+    # saveJsFile(res2, "subject_provider_groups_data")
+    res3 = languages_data(data)
+    saveJsFile(res3, "languages_data")
     print('done')
 
 

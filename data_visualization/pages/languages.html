@@ -4,12 +4,12 @@
 		<title>Subject Provider visualization</title>
 		<meta charset="utf-8" />
 
-		<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
-		<link href="assets/css/common.css" rel="stylesheet" />
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="../assets/css/common.css" rel="stylesheet" />
 
 		<!-- Include the default style for the interaction hints and guide -->
 		<link
-			href="assets/css/carrotsearch.foamtree.util.hints.css"
+			href="../assets/css/carrotsearch.foamtree.util.hints.css"
 			rel="stylesheet"
 		/>
 	</head>
@@ -20,12 +20,15 @@
 		</div>
 		<div id="side">
 			<h2>Visualizations</h2>
-			<a href="index.html"> Subject category visualization</a>
+			<div style="display:flex; flex-direction: column;">
+				<a href="../index.html"> Subject category visualization</a>
+				<a href="./subjectProvider.html"> Subject provider visualization</a>
+			</div>
 		</div>
 
-		<script src="assets/js/carrotsearch.foamtree.js"></script>
-		<script src="assets/js/carrotsearch.foamtree.util.hints.js"></script>
-		<script src="assets/js/carrotsearch.jsonp.js"></script>
+		<script src="../assets/js/carrotsearch.foamtree.js"></script>
+		<script src="../assets/js/carrotsearch.foamtree.util.hints.js"></script>
+		<script src="../assets/js/carrotsearch.jsonp.js"></script>
 		<script>
 			window.addEventListener('load', () => {
 				const foamtree = new CarrotSearchFoamTree({
@@ -34,7 +37,7 @@
 				});
 				CarrotSearchFoamTree.hints(foamtree);
 				JSONP.load(
-					'assets/data/data_subject_provider_groups.js',
+					'../assets/data/languages_data.js',
 					'modelDataAvailable',
 					dataObject => {
 						foamtree.set('dataObject', dataObject);
