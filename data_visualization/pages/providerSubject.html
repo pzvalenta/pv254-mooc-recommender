@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Subject Provider visualization</title>
+		<title>Provider Subject visualization</title>
 		<meta charset="utf-8" />
 
 		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -22,8 +22,8 @@
 			<h2>Visualizations</h2>
 			<div style="display:flex; flex-direction: column;">
 				<a href="../index.html"> Subject category visualization</a>
-				<a href="./subjectProvider.html"> Subject provider visualization</a>
-				<a href="providerSubject.html">Provider subject visualization</a>
+				<a href="languages.html"> Languages visualization</a>
+				<a href="subjectProvider.html"> Subject provider visualization</a>
 			</div>
 		</div>
 
@@ -38,7 +38,7 @@
 				});
 				CarrotSearchFoamTree.hints(foamtree);
 				JSONP.load(
-					'../assets/data/languages_data.js',
+					'../assets/data/provider_subject_groups_data.js',
 					'modelDataAvailable',
 					dataObject => {
 						foamtree.set('dataObject', dataObject);

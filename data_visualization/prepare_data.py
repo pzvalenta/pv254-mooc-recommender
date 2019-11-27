@@ -111,6 +111,46 @@ def languages_data(data):
     return json_res
 
 
+def provider_subject_data(data):
+    json_res = {"groups": []}
+    providers = {}
+    provider_course_count = {}
+    provider_subjects_count = {}
+
+    for x in data:
+        subject = x['subject']
+        provider = x['provider']
+        if provider not in providers:
+            providers[provider] = set()
+            provider_course_count[provider] = 0
+
+        provider_course_count[provider] += 1
+        if provider not in provider_subjects_count:
+            provider_subjects_count[provider] = {}
+
+        if subject not in provider_subjects_count[provider]:
+            provider_subjects_count[provider][subject] = 0
+
+        provider_subjects_count[provider][subject] += 1
+
+        providers[provider].add(subject)
+
+    id = 0
+
+    for key in providers:
+        subs = providers[key]
+        group = {'label': key,
+                 'weight': provider_course_count[key], 'groups': [], 'id': id}
+        id += 1
+        for sub in subs:
+            c = {'label': sub, 'id': id,
+                 'weight': provider_subjects_count[key][sub]}
+            group['groups'].append(c)
+            id += 1
+        json_res['groups'].append(group)
+    return json_res
+
+
 def subject_provider_data(data):
     json_res = {"groups": []}
     subjects = {}
@@ -156,12 +196,14 @@ def main():
     parseArgv()
 
     data = getData()
-    # res = subject_cat_data(data)
-    # saveJsFile(res, "subject_cat_groups_data")
-    # res2 = subject_provider_data(data)
-    # saveJsFile(res2, "subject_provider_groups_data")
+    res = subject_cat_data(data)
+    saveJsFile(res, "subject_cat_groups_data")
+    res2 = subject_provider_data(data)
+    saveJsFile(res2, "subject_provider_groups_data")
     res3 = languages_data(data)
     saveJsFile(res3, "languages_data")
+    res3 = provider_subject_data(data)
+    saveJsFile(res3, "provider_subject_groups_data")
     print('done')
 
 
