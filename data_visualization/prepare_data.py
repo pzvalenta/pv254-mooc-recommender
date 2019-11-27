@@ -2,7 +2,7 @@ import json
 import sys
 
 data_location = 'data_visualization/assets/data/data.json'
-output_location = 'data_visualization/assets/data/data_subject_cat_group2.js'
+output_location = 'data_visualization/assets/data/data_subject_cat_groups.js'
 
 
 def parseArgv():
@@ -52,32 +52,39 @@ def getData():
 
 def saveJsFile(data):
     json_str = json.dumps(data, indent=2)
-    json_str = 'modelDataAvailable(JSON.parse(`'+json_str+"""`
-    ),{label: 'our data',file:'prepareddata_subject_cat_group_data2.jsonp'})
+    json_str = 'modelDataAvailable('+json_str+"""
+    ,{label: 'our data',file:'prepareddata_subject_cat_group_data2.jsonp'})
     """
     with open(output_location, 'w', encoding='utf8') as f:
         f.write(json_str)
 
 
-def transformData(data):
+def subject_cat_data(data):
     json_res = {"groups": []}
     subjects = {}
+    subjects_course_count = {}
+    cat_course_count = {}
 
     for x in data:
         subject = x['subject']
         if subject not in subjects:
             subjects[subject] = set()
-
+            subjects_course_count[subject] = 0
+        subjects_course_count[subject] += 1
         for cat in x['categories']:
+            if cat not in cat_course_count:
+                cat_course_count[cat] = 0
+            cat_course_count[cat] += 1
             subjects[subject].add(cat)
     id = 0
     for key in subjects:
         cats = subjects[key]
-        group = {'label': key, 'weight': len(cats)*2, 'group': [], 'id': id}
+        group = {'label': key,
+                 'weight': subjects_course_count[key], 'groups': [], 'id': id}
         id += 1
         for cat in cats:
-            c = {'label': cat, 'id': id, 'weight': 2}
-            group['group'].append(c)
+            c = {'label': cat, 'id': id, 'weight': cat_course_count[cat]}
+            group['groups'].append(c)
             id += 1
         json_res['groups'].append(group)
 
@@ -88,7 +95,7 @@ def main():
     parseArgv()
 
     res = getData()
-    res = transformData(res)
+    res = subject_cat_data(res)
     saveJsFile(res)
 
     print('done')
