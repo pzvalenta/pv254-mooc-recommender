@@ -34,6 +34,7 @@ func NewDatabase(host, port string) (*mongo.Database, error) {
 
 	return client.Database("mydb"), nil
 }
+
 //RandomCourse ...
 func (s *State) RandomCourse(c *gin.Context) {
 	coursesCollection := s.DB.Collection("courses")
@@ -47,6 +48,7 @@ func (s *State) RandomCourse(c *gin.Context) {
 
 	c.JSON(http.StatusOK, result)
 }
+
 //TaxonomyCourses ...
 func (s *State) TaxonomyCourses(c *gin.Context) {
 	myCourseIds, err := s.getMyCoursesIds(c)
@@ -85,6 +87,7 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 	sort.Sort(SortedByOverallSimilarity{sr: sorted})
 	c.JSON(http.StatusOK, sorted)
 }
+
 //OverfittingCourses ...
 func (s *State) OverfittingCourses(c *gin.Context) {
 	myCourseIds, err := s.getMyCoursesIds(c)
@@ -193,4 +196,23 @@ func (s *State) getMyCourses(c *gin.Context) ([]Course, error) {
 	}
 
 	return res, nil
+}
+
+// GetCoursebByID ...
+func (s *State) GetCoursebByID(c *gin.Context) {
+	id := c.Param("id")
+	coursesCollection := s.DB.Collection("courses")
+	var result Course
+
+	filter := bson.D{
+		{Key: "_id", Value: bson.D{{Key: "$eq", Value: id}}},
+	}
+
+	err := coursesCollection.FindOne(c, filter).Decode(&result)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	c.JSON(http.StatusOK, result)
 }
