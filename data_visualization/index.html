@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Subject Category visualization</title>
+		<meta charset="utf-8" />
+
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="assets/css/common.css" rel="stylesheet" />
+
+		<!-- Include the default style for the interaction hints and guide -->
+		<link
+			href="assets/css/carrotsearch.foamtree.util.hints.css"
+			rel="stylesheet"
+		/>
+	</head>
+
+	<body>
+		<div id="container">
+			<div id="visualization"></div>
+		</div>
+
+		<div id="side">
+			<h2>Visualizations</h2>
+			<div style="display:flex; flex-direction: column;">
+				<a href="pages/subjectProvider.html"> Subject provider visualization</a>
+				<a href="pages/languages.html"> Languages visualization</a>
+				<a href="pages/providerSubject.html">Provider subject visualization</a>
+			</div>
+		</div>
+
+		<script src="assets/js/carrotsearch.foamtree.js"></script>
+		<script src="assets/js/carrotsearch.foamtree.util.hints.js"></script>
+		<script src="assets/js/carrotsearch.jsonp.js"></script>
+		<script>
+			window.addEventListener('load', () => {
+				const foamtree = new CarrotSearchFoamTree({
+					id: 'visualization',
+					pixelRatio: window.devicePixelRatio || 1,
+				});
+				CarrotSearchFoamTree.hints(foamtree);
+				JSONP.load(
+					'assets/data/subject_cat_groups_data.js',
+					'modelDataAvailable',
+					dataObject => {
+						foamtree.set('dataObject', dataObject);
+					},
+				);
+			});
+		</script>
+	</body>
+</html>
