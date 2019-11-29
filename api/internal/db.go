@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"sort"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -215,4 +216,50 @@ func (s *State) GetCoursebByID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, result)
+}
+
+// GetCoursesBySubjectPaged ...
+func (s *State) GetCoursesBySubjectPaged(c *gin.Context) {
+	subject := c.Param("subject")
+	pageString := c.Param("page")
+	pageCount := 20
+	var page uint64 = 0
+	var err error
+	if pageString != "" && pageString != "/" {
+		pageString = pageString[1:]
+		page, err = strconv.ParseUint(pageString, 10, 64)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, err)
+
+		}
+	}
+	coursesCollection := s.DB.Collection("courses")
+	var result []Course
+	filter := []bson.M{
+		bson.M{"$match": bson.M{
+			"details.language": "English",
+			"subject":          subject,
+		}},
+		bson.M{
+			"$sort": bson.M{
+				"interested_count": -1,
+				"review_count":     -1,
+			},
+		},
+		bson.M{
+			"$skip": int(page) * pageCount,
+		},
+		bson.M{
+			"$limit": pageCount,
+		},
+	}
+
+	dbCourses, err := coursesCollection.Aggregate(c, filter)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "error")
+		return
+	}
+	dbCourses.All(c, &result)
+	c.JSON(http.StatusOK, result)
+
 }
