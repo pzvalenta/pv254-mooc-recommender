@@ -230,7 +230,7 @@ func (s *State) GetCoursesBySubjectPaged(c *gin.Context) {
 		page, err = strconv.ParseUint(pageString, 10, 64)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, err)
-
+			return 
 		}
 	}
 	coursesCollection := s.DB.Collection("courses")
