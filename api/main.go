@@ -28,6 +28,7 @@ func main() {
 		public.GET("/taxonomy", state.TaxonomyCourses)
 		public.GET("/overfitting", state.OverfittingCourses)
 		public.GET("/getbyid/:id", state.GetCoursebByID)
+		public.GET("/courses", state.GetCoursesByQuery)
 	}
 
 	err = router.Run()
