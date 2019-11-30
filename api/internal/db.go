@@ -51,10 +51,7 @@ func (s *State) RandomCourse(c *gin.Context) {
 
 	coll := s.DB.Collection("courses")
 
-	data, err := coll.Aggregate(
-		context.Background(),
-		query,
-	)
+	data, err := coll.Aggregate(c, query)
 
 	if err != nil {
 		log.Print(err)
@@ -312,10 +309,7 @@ func (s *State) GetAllSubjects(c *gin.Context) {
 
 	coll := s.DB.Collection("courses")
 
-	data, err := coll.Aggregate(
-		context.Background(),
-		query,
-	)
+	data, err := coll.Aggregate(c, query)
 
 	if err != nil {
 		log.Print(err)
