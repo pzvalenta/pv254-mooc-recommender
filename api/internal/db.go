@@ -220,15 +220,15 @@ func (s *State) GetCoursebByID(c *gin.Context) {
 
 // GetCoursesByQuery ...
 func (s *State) GetCoursesByQuery(c *gin.Context) {
-	subjectString := c.DefaultQuery("subject", "cs")
 	language := c.DefaultQuery("language", "English")
 	pageString := c.DefaultQuery("page", "0")
-	categoryString := c.DefaultQuery("category", "")
-	var err error
-	pageCount := 20
+	subject := c.DefaultQuery("subject", "")
+	provider := c.DefaultQuery("provider", "")
+	category := c.DefaultQuery("category", "")
+	school := c.DefaultQuery("school", "")
+	pageSize := 20
 
-	var page uint64 = 0
-	page, err = strconv.ParseUint(pageString, 10, 64)
+	page, err := strconv.ParseUint(pageString, 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err)
 		return
@@ -236,11 +236,17 @@ func (s *State) GetCoursesByQuery(c *gin.Context) {
 	query := bson.M{
 		"details.language": language,
 	}
-	if subjectString != "" {
-		query["subject"] = subjectString
+	if subject != "" {
+		query["subject"] = subject
 	}
-	if categoryString != "" {
-		query["categories"] = categoryString
+	if category != "" {
+		query["categories"] = category
+	}
+	if provider != "" {
+		query["provider"] = provider
+	}
+	if school != "" {
+		query["schools"] = school
 	}
 
 	coursesCollection := s.DB.Collection("courses")
@@ -254,10 +260,10 @@ func (s *State) GetCoursesByQuery(c *gin.Context) {
 			},
 		},
 		bson.M{
-			"$skip": int(page) * pageCount,
+			"$skip": int(page) * pageSize,
 		},
 		bson.M{
-			"$limit": pageCount,
+			"$limit": pageSize,
 		},
 	}
 	dbCourses, err := coursesCollection.Aggregate(c, filter)
