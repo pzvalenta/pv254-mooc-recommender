@@ -30,7 +30,7 @@ func main() {
 		public.GET("/getbyid/:id", state.GetCoursebByID)
 		public.GET("/courses", state.GetCoursesByQuery)
 		public.GET("/subjects", state.GetAllSubjects)
-
+		public.GET("/categories", state.GetAllCategories)
 	}
 
 	err = router.Run()

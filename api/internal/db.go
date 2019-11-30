@@ -330,3 +330,35 @@ func (s *State) GetAllSubjects(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, result[0])
 }
+
+//GetAllCategories ...
+func (s *State) GetAllCategories(c *gin.Context) {
+	query := []bson.M{
+		bson.M{"$project": bson.M{"categoriess": "$categories"}},
+		bson.M{"$unwind": bson.M{"path": "$categoriess", "includeArrayIndex": "string", "preserveNullAndEmptyArrays": true}},
+		bson.M{"$group": bson.M{"_id": nil, "unique_categories": bson.M{"$addToSet": "$categoriess"}}},
+	}
+
+	coll := s.DB.Collection("courses")
+
+	data, err := coll.Aggregate(c, query)
+
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	type categories struct {
+		UniqueCategories []string `json:"unique_categories" bson:"unique_categories"`
+	}
+	var result []categories
+
+	err = data.All(c, &result)
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+	c.JSON(http.StatusOK, result[0])
+}
