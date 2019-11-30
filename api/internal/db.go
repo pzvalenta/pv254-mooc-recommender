@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"sort"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -215,4 +216,62 @@ func (s *State) GetCoursebByID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, result)
+}
+
+// GetCoursesByQuery ...
+func (s *State) GetCoursesByQuery(c *gin.Context) {
+	language := c.DefaultQuery("language", "English")
+	pageString := c.DefaultQuery("page", "0")
+	subject := c.DefaultQuery("subject", "")
+	provider := c.DefaultQuery("provider", "")
+	category := c.DefaultQuery("category", "")
+	school := c.DefaultQuery("school", "")
+	pageSize := 20
+
+	page, err := strconv.ParseUint(pageString, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err)
+		return
+	}
+	query := bson.M{
+		"details.language": language,
+	}
+	if subject != "" {
+		query["subject"] = subject
+	}
+	if category != "" {
+		query["categories"] = category
+	}
+	if provider != "" {
+		query["provider"] = provider
+	}
+	if school != "" {
+		query["schools"] = school
+	}
+
+	coursesCollection := s.DB.Collection("courses")
+	var result []Course
+	filter := []bson.M{
+		bson.M{"$match": query},
+		bson.M{
+			"$sort": bson.M{
+				"interested_count": -1,
+				"review_count":     -1,
+			},
+		},
+		bson.M{
+			"$skip": int(page) * pageSize,
+		},
+		bson.M{
+			"$limit": pageSize,
+		},
+	}
+	dbCourses, err := coursesCollection.Aggregate(c, filter)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "error")
+		return
+	}
+	dbCourses.All(c, &result)
+	c.JSON(http.StatusOK, result)
+
 }
