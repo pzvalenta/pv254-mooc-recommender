@@ -57,7 +57,7 @@ func (s *State) RandomCourse(c *gin.Context) {
 	)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 		c.JSON(http.StatusInternalServerError, "no content")
 		return
 	}
@@ -300,4 +300,39 @@ func (s *State) GetCoursesByQuery(c *gin.Context) {
 	dbCourses.All(c, &result)
 	c.JSON(http.StatusOK, result)
 
+}
+
+//GetAllSubjects ...
+func (s *State) GetAllSubjects(c *gin.Context) {
+	query := []bson.M{
+		bson.M{"$project": bson.M{"subjects": bson.M{"$split": []interface{}{"$subject", ", "}}}},
+		bson.M{"$unwind": bson.M{"path": "$subjects", "includeArrayIndex": "string", "preserveNullAndEmptyArrays": true}},
+		bson.M{"$group": bson.M{"_id": nil, "unique_subjects": bson.M{"$addToSet": "$subjects"}}},
+	}
+
+	coll := s.DB.Collection("courses")
+
+	data, err := coll.Aggregate(
+		context.Background(),
+		query,
+	)
+
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	type subjects struct {
+		UniqueSubjects []string `json:"unique_subjects" bson:"unique_subjects"`
+	}
+	var result []subjects
+
+	err = data.All(c, &result)
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+	c.JSON(http.StatusOK, result[0])
 }

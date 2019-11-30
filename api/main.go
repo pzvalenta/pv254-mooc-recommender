@@ -29,6 +29,8 @@ func main() {
 		public.GET("/overfitting", state.OverfittingCourses)
 		public.GET("/getbyid/:id", state.GetCoursebByID)
 		public.GET("/courses", state.GetCoursesByQuery)
+		public.GET("/subjects", state.GetAllSubjects)
+
 	}
 
 	err = router.Run()
