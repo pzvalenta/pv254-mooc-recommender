@@ -334,9 +334,9 @@ func (s *State) GetAllSubjects(c *gin.Context) {
 //GetAllCategories ...
 func (s *State) GetAllCategories(c *gin.Context) {
 	query := []bson.M{
-		bson.M{"$project": bson.M{"categoriess": "$categories"}},
+		bson.M{"$project": bson.M{"categoriess": "$categories", "subject": "$subject"}},
 		bson.M{"$unwind": bson.M{"path": "$categoriess", "includeArrayIndex": "string", "preserveNullAndEmptyArrays": true}},
-		bson.M{"$group": bson.M{"_id": nil, "unique_categories": bson.M{"$addToSet": "$categoriess"}}},
+		bson.M{"$group": bson.M{"_id": "$subject", "unique_categories": bson.M{"$addToSet": "$categoriess"}}},
 	}
 
 	coll := s.DB.Collection("courses")
@@ -350,6 +350,7 @@ func (s *State) GetAllCategories(c *gin.Context) {
 	}
 
 	type categories struct {
+		ID               string   `json:"_id" bson:"_id"`
 		UniqueCategories []string `json:"unique_categories" bson:"unique_categories"`
 	}
 	var result []categories
@@ -360,5 +361,5 @@ func (s *State) GetAllCategories(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, "no content")
 		return
 	}
-	c.JSON(http.StatusOK, result[0])
+	c.JSON(http.StatusOK, result)
 }
