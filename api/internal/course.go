@@ -75,7 +75,7 @@ func (c *Course) FindSimilar(courses []Course, similarityThreshold float64) []Si
 
 	var vectDists []CourseSimVal
 	for i := range courses {
-		simVal := c.isSimilar(&courses[i], idf)
+		simVal := c.isSimilar(&courses[i], &idf)
 		vectDists = append(vectDists, CourseSimVal{&courses[i], simVal})
 	}
 
@@ -113,12 +113,12 @@ func (c *Course) tfidf(idf map[string]float64) *map[string]float64 {
 	return &tfidf
 }
 
-func (c *Course) isSimilar(c1 *Course, idf map[string]float64) float64 {
+func (c *Course) isSimilar(c1 *Course, idf *map[string]float64) float64 {
 	if c.ID == c1.ID {
-		return 0.0
+		return 1.0
 	}
-	tfidf1 := c.tfidf(idf)
-	tfidf2 := c1.tfidf(idf)
+	tfidf1 := c.tfidf(*idf)
+	tfidf2 := c1.tfidf(*idf)
 
 	res := 0.0
 	wordList := make(map[string]bool)
