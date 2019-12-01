@@ -207,3 +207,25 @@ func (s *State) getMyCourses(c *gin.Context) ([]Course, error) {
 
 	return res, nil
 }
+
+
+func (s *State) getIdf() (*map[string]float64, error) {
+	idfCol := s.DB.Collection("idf")
+	c := context.Background()
+	data, err := idfCol.Find(c, bson.M{})
+	res := make(map[string]float64)
+	if err != nil {
+		return nil, fmt.Errorf("unable to find/decode idfs %v", err)
+	}
+
+	for data.Next(c) {
+		l := WordIdf{}
+		err = data.Decode(&l)
+		if err != nil {
+			return nil, fmt.Errorf("unable to decode idf: %v", err)
+		}
+		res[l.Word] = l.Value
+	}
+
+	return &res, nil
+}

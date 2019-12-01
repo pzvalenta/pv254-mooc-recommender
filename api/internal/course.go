@@ -50,6 +50,12 @@ type SimilarCourse struct {
 	Similarity float64
 }
 
+//WordIdf ... idf value of word in Overviews from all courses
+type WordIdf struct {
+	Word  string
+	Value float64
+}
+
 func (s SortedBySimilarity) Len() int { return len(s.coursesWithSimilarity) }
 func (s SortedBySimilarity) Swap(i, j int) {
 	s.coursesWithSimilarity[i], s.coursesWithSimilarity[j] = s.coursesWithSimilarity[j], s.coursesWithSimilarity[i]
@@ -67,15 +73,16 @@ type CourseSimVal struct {
 //FindSimilar ...
 func (c *Course) FindSimilar(courses []Course, similarityThreshold float64) []SimilarCourse {
 	var result []SimilarCourse
-	var courseOverviews []string
-	for i := range courses {
-		courseOverviews = append(courseOverviews, courses[i].Overview)
+
+	s, _ := NewState("5dceb44288861f034fc60b16")
+	idf, err := s.getIdf()
+	if err != nil {
+		panic(err)
 	}
-	idf := computeIdf(courseOverviews)
 
 	var vectDists []CourseSimVal
 	for i := range courses {
-		simVal := c.isSimilar(&courses[i], &idf)
+		simVal := c.isSimilar(&courses[i], idf)
 		vectDists = append(vectDists, CourseSimVal{&courses[i], simVal})
 	}
 

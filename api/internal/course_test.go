@@ -22,19 +22,69 @@ func TestSomething(t *testing.T) {
 			"$match": bson.M{
 				"details.language": "English",
 				"overview":         bson.M{"$nin": []interface{}{nil, "", " ", "."}},
+				"subject":          "cs",
 			},
 		},
-		// bson.M{"$sample": bson.M{"size": 10}},
 	}
 
-	dbCourses, err := coursesCollection.Aggregate(c, query)
-	if err != nil {
-		log.Println(err)
-		panic(err)
-	}
+	dbCourses, _ := coursesCollection.Aggregate(c, query)
+
 	dbCourses.All(c, &courses)
 
-	res := course1.FindSimilar(courses, 0.82)
+	res := course1.FindSimilar(courses, 0.75)
+
+	log.Println(res)
+
+}
+func TestMathCourse(t *testing.T) {
+
+	s, _ := NewState("5dceb44288861f034fc60b16")
+	coursesCollection := s.DB.Collection("courses")
+	c := context.Background()
+	course1, _ := s.GetCourseByID("complexity-explorer-introduction-to-dynamical-systems-and-chaos-1182")
+
+	var courses []Course
+
+	query := []bson.M{
+		bson.M{
+			"$match": bson.M{
+				"details.language": "English",
+				"overview":         bson.M{"$nin": []interface{}{nil, "", " ", "."}},
+			},
+		},
+	}
+
+	dbCourses, _ := coursesCollection.Aggregate(c, query)
+
+	dbCourses.All(c, &courses)
+
+	res := course1.FindSimilar(courses, 0.775)
+
+	log.Println(res)
+
+}
+func TestAnatomy(t *testing.T) {
+
+	s, _ := NewState("5dceb44288861f034fc60b16")
+	coursesCollection := s.DB.Collection("courses")
+	c := context.Background()
+	course1, _ := s.GetCourseByID("edx-human-anatomy-3648")
+
+	var courses []Course
+	query := []bson.M{
+		bson.M{
+			"$match": bson.M{
+				"details.language": "English",
+				"overview":         bson.M{"$nin": []interface{}{nil, "", " ", "."}},
+				"subject":          "health",
+			},
+		},
+	}
+
+	dbCourses, _ := coursesCollection.Aggregate(c, query)
+	dbCourses.All(c, &courses)
+
+	res := course1.FindSimilar(courses, 0.78)
 
 	log.Println(res)
 
@@ -87,9 +137,4 @@ func TestCreateIdfList(t *testing.T) {
 	idfCollection.InsertMany(c, resStructs)
 
 	log.Println("end")
-}
-
-type WordIdf struct {
-	Word  string
-	Value float64
 }
