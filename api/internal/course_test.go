@@ -34,7 +34,7 @@ func TestSomething(t *testing.T) {
 	}
 	dbCourses.All(c, &courses)
 
-	res := course1.FindSimilar(courses, 20)
+	res := course1.FindSimilar(courses, 0.82)
 
 	log.Println(res)
 
