@@ -63,31 +63,83 @@ func wordCount(a []string) *map[string]int {
 }
 
 func getStopWords() map[string]string {
-	return map[string]string{" a ": " ", " and ": " ", " the ": " ", " of ": " ", " is ": " ", " are ": " ",
-		" in ": " ", " to ": " ", " from ": " ", " on ": " ", ".": "", ":": "", "(": " ",
-		")": " ", "\n": " ", ",": " ", "  ": " "}
+	return map[string]string{"&": " ", "  ": " ", "-": " ", ".": " ", ":": " ", "(": " ",
+		")": " ", "\n": " ", ",": " ", " a ": " ", " about ": " ", " above ": " ",
+		" across ": " ", " after ": " ", " afterwards ": " ", " again ": " ", " against ": " ",
+		" all ": " ", " almost ": " ", " alone ": " ", " along ": " ", " already ": " ",
+		" also ": " ", " although ": " ", " always ": " ", " am ": " ", " among ": " ",
+		" amongst ": " ", " amoungst ": " ", " amount ": " ", " an ": " ", " and ": " ",
+		" another ": " ", " any ": " ", " anyhow ": " ", " anyone ": " ", " anything ": " ",
+		" anyway ": " ", " anywhere ": " ", " are ": " "," they're": " ", " they’re": " ", " around ": " ", " as ": " ", " at ": " ",
+		" back ": " ", " be ": " ", " became ": " ", " because ": " ", " become ": " ", " becomes ": " ",
+		" becoming ": " ", " been ": " ", " before ": " ", " beforehand ": " ", " behind ": " ", " being ": " ",
+		" below ": " ", " beside ": " ", " besides ": " ", " between ": " ", " beyond ": " ", " bill ": " ",
+		" both ": " ", " bottom ": " ", " but ": " ", " by ": " ", " call ": " ", " can ": " ", " cannot ": " ",
+		" cant ": " ", " co ": " ", " computer ": " ", " con ": " ", " could ": " ", " couldnt ": " ", " cry ": " ",
+		" de ": " ", " describe ": " ", " detail ": " ", " do ": " ", " done ": " ", " down ": " ", " due ": " ",
+		" during ": " ", " each ": " ", " eg ": " ", " eight ": " ", " either ": " ", " eleven ": " ", " else ": " ",
+		" elsewhere ": " ", " empty ": " ", " enough ": " ", " etc ": " ", " even ": " ", " ever ": " ", " every ": " ",
+		" everyone ": " ", " everything ": " ", " everywhere ": " ", " except ": " ", " few ": " ", " fifteen ": " ",
+		" fify ": " ", " fill ": " ", " find ": " ", " fire ": " ", " first ": " ", " five ": " ", " for ": " ", " former ": " ",
+		" formerly ": " ", " forty ": " ", " found ": " ", " four ": " ", " from ": " ", " front ": " ", " full ": " ", " further ": " ",
+		" get ": " ", " give ": " ", " go ": " ", " had ": " ", " has ": " ", " hasnt ": " ", " have ": " ", " he ": " ", " hence ": " ",
+		" her ": " ", " here ": " ", " hereafter ": " ", " hereby ": " ", " herein ": " ", " hereupon ": " ", " hers ": " ",
+		" herse\" ": " ", " him ": " ", " himse\" ": " ", " his ": " ", " how ": " ", " however ": " ", " hundred ": " ",
+		" i ": " ", " ie ": " ", " if ": " ", " in ": " ", " inc ": " ", " indeed ": " ", " interest ": " ", " into ": " ",
+		" is ": " ", " it ": " ", " its ": " ", " itse\" ": " ", " keep ": " ", " last ": " ", " latter ": " ", " latterly ": " ",
+		" least ": " ", " less ": " ", " ltd ": " ", " made ": " ", " many ": " ", " may ": " ", " me ": " ",
+		" meanwhile ": " ", " might ": " ", " mill ": " ", " mine ": " ", " more ": " ", " moreover ": " ", " most ": " ",
+		" mostly ": " ", " move ": " ", " much ": " ", " must ": " ", " my ": " ", " myse\" ": " ", " name ": " ",
+		" namely ": " ", " neither ": " ", " never ": " ", " nevertheless ": " ", " next ": " ", " nine ": " ",
+		" no ": " ", " nobody ": " ", " none ": " ", " noone ": " ", " nor ": " ", " not ": " ", " nothing ": " ",
+		" now ": " ", " nowhere ": " ", " of ": " ", " off ": " ", " often ": " ", " on ": " ", " once ": " ",
+		" one ": " ", " only ": " ", " onto ": " ", " or ": " ", " other ": " ", " others ": " ", " otherwise ": " ",
+		" our ": " ", " ours ": " ", " ourselves ": " ", " out ": " ", " over ": " ", " own ": " ",
+		" part ": " ", " per ": " ", " perhaps ": " ", " please ": " ", " put ": " ", " rather ": " ",
+		" re ": " ", " same ": " ", " see ": " ", " seem ": " ", " seemed ": " ", " seeming ": " ", " seems ": " ",
+		" serious ": " ", " several ": " ", " she ": " ", " should ": " ", " show ": " ", " side ": " ", " since ": " ",
+		" sincere ": " ", " six ": " ", " sixty ": " ", " so ": " ", " some ": " ", " somehow ": " ", " someone ": " ",
+		" something ": " ", " sometime ": " ", " sometimes ": " ", " somewhere ": " ", " still ": " ", " such ": " ",
+		" system ": " ", " take ": " ", " ten ": " ", " than ": " ", " that ": " ", " the ": " ", " their ": " ",
+		" them ": " ", " themselves ": " ", " then ": " ", " thence ": " ", " there ": " ", " thereafter ": " ",
+		" thereby ": " ", " therefore ": " ", " therein ": " ", " thereupon ": " ", " these ": " ", " they ": " ",
+		" thick ": " ", " thin ": " ", " third ": " ", " this ": " ", " those ": " ", " though ": " ", " three ": " ",
+		" through ": " ", " throughout ": " ", " thru ": " ", " thus ": " ", " to ": " ", " together ": " ", " too ": " ",
+		" top ": " ", " toward ": " ", " towards ": " ", " twelve ": " ", " twenty ": " ", " two ": " ", " un ": " ", " under ": " ",
+		" until ": " ", " up ": " ", " upon ": " ", " us ": " ", " very ": " ", " via ": " ", " was ": " ", " we ": " ", " well ": " ",
+		" were ": " ", " what ": " ", " whatever ": " ", " when ": " ", " whence ": " ", " whenever ": " ", " where ": " ", " whereafter ": " ",
+		" whereas ": " ", " whereby ": " ", " wherein ": " ", " whereupon ": " ", " wherever ": " ", " whether ": " ", " which ": " ", " while ": " ",
+		" whither ": " ", " who ": " ", " whoever ": " ", " whole ": " ", " whom ": " ", " whose ": " ", " why ": " ", " will ": " ", " with ": " ",
+		" within ": " ", " without ": " ", " would ": " ", " yet ": " ", " you ": " ", " your ": " ", " yours ": " ", " yourself ": " ", " yourselves ": " "}
 }
 
 func tokenize(text string) []string {
-	text = normalize(text)
-	reg, _ := regexp.Compile("[^a-zA-Z0-9]+")
-	tks := strings.Split(text, " ")
-	var cleanToks []string
-	for _, val := range tks {
-		if val != "" {
-			cleanVal := reg.ReplaceAllString(val, "")
-			cleanToks = append(cleanToks, cleanVal)
-		}
-	}
-	return cleanToks
-}
-
-func normalize(text string) string {
 	text = strings.ToLower(text)
 	for word, newWord := range getStopWords() {
 		text = strings.Replace(text, word, newWord, -1)
 	}
-	return text
+	text = strings.Replace(text, "  ", " ", -1)
+	tks := strings.Split(text, " ")
+	reg, _ := regexp.Compile("[^a-zA-Z0-9'’]+")
+	var cleanToks []string
+	for _, val := range tks {
+		val = strings.Replace(val, " ", "", -1)
+		if val != "" {
+			cleanVal := reg.ReplaceAllString(val, " ")
+			tks2 := strings.Split(cleanVal, " ")
+
+			if len(tks2) > 1 {
+				for tk := range tks2 {
+					if tks2[tk] != "" {
+						cleanToks = append(cleanToks, tks2[tk])
+					}
+				}
+			} else {
+				cleanToks = append(cleanToks, cleanVal)
+			}
+		}
+	}
+	return cleanToks
 }
 
 func computeIdf(texts []string) map[string]float64 {
@@ -113,7 +165,7 @@ func computeIdf(texts []string) map[string]float64 {
 	wordIdf := make(map[string]float64)
 
 	for word, count := range wordCounts {
-		wordIdf[word] = math.Log(N/ count)
+		wordIdf[word] = math.Log(N / count)
 	}
 	return wordIdf
 

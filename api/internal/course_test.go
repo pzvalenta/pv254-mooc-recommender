@@ -78,11 +78,13 @@ func TestCreateIdfList(t *testing.T) {
 	}
 
 	idfCollection := s.DB.Collection("idf")
-	res := computeIdf(overviews)
-
-	for word, idf := range res {
-		idfCollection.InsertOne(c, WordIdf{word, idf})
+	idfCollection.Drop(c)
+	resMap := computeIdf(overviews)
+	var resStructs []interface{}
+	for x, val := range resMap {
+		resStructs = append(resStructs, WordIdf{x, val})
 	}
+	idfCollection.InsertMany(c, resStructs)
 
 	log.Println("end")
 }
