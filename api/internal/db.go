@@ -444,7 +444,7 @@ func predictCourseUser(IDFvectors map[string]map[string]float64, profile userPro
 
 	var ret float64
 	ret += IDFvectors["subject"][course.Subject] * profile.Subject[course.Subject]
-	ret += IDFvectors["subject"][course.Provider] * profile.Subject[course.Subject]
+	ret += IDFvectors["provider"][course.Provider] * profile.Provider[course.Provider]
 	/*for i := range course.Categories {
 		ret += IDFvectors["categories"][course.Categories[i]] * profile.Categories[course.Subject]
 	}*/
@@ -521,9 +521,9 @@ func (s *State) GeneralModelCourses(c *gin.Context) {
 
 	for i := range allCourses {
 		predictionValue := predictCourseUser(IDFvectors, profile, allCourses[i])
-		if predictionValue > 0 {
-			fmt.Println(predictionValue, ":", allCourses[i].ID)
-		}
+		//if predictionValue > 0 {
+		fmt.Println(predictionValue, ":", allCourses[i].ID)
+		//}
 	}
 
 	c.JSON(http.StatusOK, "general model recommendation")
