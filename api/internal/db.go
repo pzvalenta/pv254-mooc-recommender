@@ -392,7 +392,9 @@ type attribute struct {
 	IDF   float64
 }
 
-func (s *State) getUniqueAttributes(c *gin.Context, name string) ([]attribute, error) {
+// TODO refactor into two functions, one universal which returns array of attribute and second one which returns IDF
+// return map    [courseAttributeValue] = IDF of said value
+func (s *State) getUniqueAttributes(c *gin.Context, name string) (map[string]float64, error) {
 	names := name + "s"
 
 	query := []bson.M{
@@ -418,11 +420,35 @@ func (s *State) getUniqueAttributes(c *gin.Context, name string) ([]attribute, e
 		total += result[i].Count
 	}
 
+	ret := make(map[string]float64, total)
+
 	for i := range result {
-		result[i].IDF = 1 / math.Sqrt(float64(result[i].Count))
+		ret[result[i].ID] = 1 / math.Log(float64(total)/float64(result[i].Count))
 	}
 
-	return result, nil
+	return ret, nil
+}
+
+// returns  userProfileVector dot product ( IDFvector dot product courseVector )
+//                             [attributeName][attrValue]=IDFvalue
+func predictCourseUser(IDFvectors map[string]map[string]float64, profile userProfile, course Course) float64 {
+	//weighted course vector = IDFvector dot product courseVector
+	/*
+		weightedCourseVector := make(map[string]float64)
+		weightedCourseVector[course.Subject] = IDFvectors["subject"][course.Subject]
+		weightedCourseVector[course.Provider] = IDFvectors["provider"][course.Provider]
+		for i := range course.Categories {
+			weightedCourseVector[course.Categories[i]] = IDFvectors["categories"][course.Categories[i]]
+		}
+	*/
+
+	var ret float64
+	ret += IDFvectors["subject"][course.Subject] * profile.Subject[course.Subject]
+	ret += IDFvectors["subject"][course.Provider] * profile.Subject[course.Subject]
+	/*for i := range course.Categories {
+		ret += IDFvectors["categories"][course.Categories[i]] * profile.Categories[course.Subject]
+	}*/
+	return ret
 }
 
 type userProfile struct {
@@ -468,15 +494,37 @@ func (s *State) GeneralModelCourses(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, "no content")
 		return
 	}
-	fmt.Print(profile)
+	//fmt.Println(profile)
 
-	att, err := s.getUniqueAttributes(c, "subject")
+	IDFvectors := make(map[string]map[string]float64)
+
+	IDFvectors["subject"], err = s.getUniqueAttributes(c, "subject")
 	if err != nil {
 		log.Print(err)
 		c.JSON(http.StatusInternalServerError, "no content")
 		return
 	}
-	fmt.Print(att)
+
+	IDFvectors["provider"], err = s.getUniqueAttributes(c, "provider")
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	allCourses, err := s.getAllCourses(c)
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	for i := range allCourses {
+		predictionValue := predictCourseUser(IDFvectors, profile, allCourses[i])
+		if predictionValue > 0 {
+			fmt.Println(predictionValue, ":", allCourses[i].ID)
+		}
+	}
 
 	c.JSON(http.StatusOK, "general model recommendation")
 }
