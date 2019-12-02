@@ -223,6 +223,27 @@ func (s *State) getMyCourses(c *gin.Context) ([]Course, error) {
 	return res, nil
 }
 
+func (s *State) getAllCourses(c *gin.Context) ([]Course, error) {
+	var res []Course
+	filter := bson.D{}
+	courseCollection := s.DB.Collection("courses")
+	data, err := courseCollection.Find(c, filter, nil)
+	if err != nil {
+		return nil, fmt.Errorf("unable to find/decode courses %v", err)
+	}
+
+	for data.Next(c) {
+		l := Course{}
+		err = data.Decode(&l)
+		if err != nil {
+			return nil, fmt.Errorf("unable to decode user's enrolledIn: %v", err)
+		}
+		res = append(res, l)
+	}
+
+	return res, nil
+}
+
 // GetCoursebByID ...
 func (s *State) GetCoursebByID(c *gin.Context) {
 	id := c.Param("id")
