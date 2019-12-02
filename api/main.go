@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/ZaxCZ/docker-mongo/api/internal"
+	cors "github.com/rs/cors/wrapper/gin"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,6 +19,7 @@ func main() {
 	}
 
 	router := gin.Default()
+	router.Use(cors.AllowAll())
 	public := router.Group("/api")
 	{
 		public.GET("/", func(c *gin.Context) {
