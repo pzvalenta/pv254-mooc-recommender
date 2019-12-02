@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math"
 	"net/http"
 	"os"
 	"sort"
@@ -362,4 +363,99 @@ func (s *State) GetAllCategories(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, result)
+}
+
+type attribute struct {
+	ID    string `json:"_id" bson:"_id"`
+	Count int    `json:"count" bson:"count"`
+	IDF   float64
+}
+
+func (s *State) getUniqueAttributes(c *gin.Context, name string) ([]attribute, error) {
+	names := name + "s"
+
+	query := []bson.M{
+		bson.M{"$project": bson.M{names: bson.M{"$split": []interface{}{"$" + name, ", "}}}},
+		bson.M{"$unwind": bson.M{"path": "$" + names, "includeArrayIndex": "string", "preserveNullAndEmptyArrays": true}},
+		bson.M{"$group": bson.M{"_id": "$" + names, "count": bson.M{"$sum": 1}}},
+	}
+
+	coll := s.DB.Collection("courses")
+	data, err := coll.Aggregate(c, query)
+	if err != nil {
+		return nil, err
+	}
+
+	var result []attribute
+	err = data.All(c, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	total := 0
+	for i := range result {
+		total += result[i].Count
+	}
+
+	for i := range result {
+		result[i].IDF = 1 / math.Sqrt(float64(result[i].Count))
+	}
+
+	return result, nil
+}
+
+type userProfile struct {
+	Categories map[string]float64
+	Provider   map[string]float64
+	Subject    map[string]float64
+}
+
+func (s *State) getUserProfile(c *gin.Context) (userProfile, error) {
+	var profile userProfile
+	profile.Categories = make(map[string]float64)
+	profile.Provider = make(map[string]float64)
+	profile.Subject = make(map[string]float64)
+
+	myCourses, err := s.getMyCourses(c)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "no content")
+		return profile, fmt.Errorf("%v", err)
+	}
+
+	for i := range myCourses {
+		numberOfAttributes := 1 + 1 + len(myCourses[i].Categories) // 1 subject, 1 provider, x categories
+		normalizedOccurence := 1 / math.Sqrt(float64(numberOfAttributes))
+
+		// TODO add user rating of taken courses, multiply by rating, negative or positive
+		profile.Subject[myCourses[i].Subject] += normalizedOccurence
+		profile.Provider[myCourses[i].Provider] += normalizedOccurence
+		for j := range myCourses[i].Categories {
+			profile.Categories[myCourses[i].Categories[j]] += normalizedOccurence
+		}
+
+	}
+
+	return profile, nil
+}
+
+// GeneralModelCourses ...
+// https://www.analyticsvidhya.com/blog/2015/08/beginners-guide-learn-content-based-recommender-systems/
+func (s *State) GeneralModelCourses(c *gin.Context) {
+	profile, err := s.getUserProfile(c)
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+	fmt.Print(profile)
+
+	att, err := s.getUniqueAttributes(c, "subject")
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+	fmt.Print(att)
+
+	c.JSON(http.StatusOK, "general model recommendation")
 }

@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	state, err := internal.NewState("5dceb44288861f034fc60b16")
+	state, err := internal.NewState("5dc5715c70a18970fe47de7c")
 	if err != nil {
 		fmt.Printf("error creating app state: %v", err)
 		os.Exit(1)
@@ -31,6 +31,7 @@ func main() {
 		public.GET("/courses", state.GetCoursesByQuery)
 		public.GET("/subjects", state.GetAllSubjects)
 		public.GET("/categories", state.GetAllCategories)
+		public.GET("/general", state.GeneralModelCourses)
 	}
 
 	err = router.Run()
