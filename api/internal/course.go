@@ -89,7 +89,7 @@ func (c *Course) FindSimilar(courses []Course, similarityThreshold float64) []Si
 	maxVal := 0.0
 	var normalizedDists []CourseSimVal
 	for i := range vectDists {
-		if vectDists[i].SimVal > 3 {
+		if vectDists[i].SimVal >= 3 {
 			continue
 		}
 		if maxVal < vectDists[i].SimVal {

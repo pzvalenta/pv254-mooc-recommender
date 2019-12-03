@@ -70,7 +70,7 @@ func getStopWords() map[string]string {
 		" also ": " ", " although ": " ", " always ": " ", " am ": " ", " among ": " ",
 		" amongst ": " ", " amoungst ": " ", " amount ": " ", " an ": " ", " and ": " ",
 		" another ": " ", " any ": " ", " anyhow ": " ", " anyone ": " ", " anything ": " ",
-		" anyway ": " ", " anywhere ": " ", " are ": " "," they're": " ", " they’re": " ", " around ": " ", " as ": " ", " at ": " ",
+		" anyway ": " ", " anywhere ": " ", " are ": " ", " they're": " ", " they’re": " ", " around ": " ", " as ": " ", " at ": " ",
 		" back ": " ", " be ": " ", " became ": " ", " because ": " ", " become ": " ", " becomes ": " ",
 		" becoming ": " ", " been ": " ", " before ": " ", " beforehand ": " ", " behind ": " ", " being ": " ",
 		" below ": " ", " beside ": " ", " besides ": " ", " between ": " ", " beyond ": " ", " bill ": " ",
@@ -114,20 +114,31 @@ func getStopWords() map[string]string {
 }
 
 func tokenize(text string) []string {
+	var cleanToks []string
 	text = strings.ToLower(text)
+	regHTML := regexp.MustCompile("(&gt;|&lt;)")
+	regAp := regexp.MustCompile("&#039;")
+	text = regAp.ReplaceAllString(text, "")
+	text = regHTML.ReplaceAllString(text, " ")
+	regURL := regexp.MustCompile(`(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?`)
+	matches := regURL.FindAllStringSubmatch(text, -1)
+	for _, url := range matches {
+		cleanToks = append(cleanToks, url[0])
+	}
+	text = regURL.ReplaceAllString(text, "")
+
 	for word, newWord := range getStopWords() {
 		text = strings.Replace(text, word, newWord, -1)
 	}
 	text = strings.Replace(text, "  ", " ", -1)
 	tks := strings.Split(text, " ")
-	reg, _ := regexp.Compile("[^a-zA-Z0-9'’]+")
-	var cleanToks []string
+	reg, _ := regexp.Compile("[^a-zA-Z0-9’]+")
+
 	for _, val := range tks {
 		val = strings.Replace(val, " ", "", -1)
 		if val != "" {
 			cleanVal := reg.ReplaceAllString(val, " ")
 			tks2 := strings.Split(cleanVal, " ")
-
 			if len(tks2) > 1 {
 				for tk := range tks2 {
 					if tks2[tk] != "" {
@@ -165,7 +176,7 @@ func computeIdf(texts []string) map[string]float64 {
 	wordIdf := make(map[string]float64)
 
 	for word, count := range wordCounts {
-		wordIdf[word] = math.Log(N / count)
+		wordIdf[word] = math.Log10(N / count)
 	}
 	return wordIdf
 
