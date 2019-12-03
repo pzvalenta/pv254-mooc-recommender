@@ -447,12 +447,22 @@ func predictCourseUser(IDFvectors map[string]map[string]float64, profile userPro
 		}
 	*/
 
+	// based on input course
+	numberOfAttributes := 1 + len(course.Categories) // 1 subject, x categories
+	normalizedOccurence := 1 / math.Sqrt(float64(numberOfAttributes))
+
 	var ret float64
-	ret += IDFvectors["subject"][course.Subject] * profile.Subject[course.Subject]
-	ret += IDFvectors["provider"][course.Provider] * profile.Provider[course.Provider]
-	/*for i := range course.Categories {
+
+	/*
+		fmt.Println("\nuserprofile\t", course.Subject, ":", profile.Subject[course.Subject], ";", course.Provider, ":", profile.Provider[course.Provider])
+		fmt.Println("IDF        \t", course.Subject, ":", IDFvectors["subject"][course.Subject], ";", course.Provider, ":", IDFvectors["provider"][course.Provider])
+		fmt.Println("course     \t", course.Subject, ":", normalizedOccurence, ";", course.Provider, ":", normalizedOccurence)
+	*/
+	ret += IDFvectors["subject"][course.Subject] * profile.Subject[course.Subject] * normalizedOccurence
+	//ret += IDFvectors["provider"][course.Provider] * profile.Provider[course.Provider] * normalizedOccurence
+	for i := range course.Categories {
 		ret += IDFvectors["categories"][course.Categories[i]] * profile.Categories[course.Subject]
-	}*/
+	}
 	return ret
 }
 
@@ -475,7 +485,7 @@ func (s *State) getUserProfile(c *gin.Context) (userProfile, error) {
 	}
 
 	for i := range myCourses {
-		numberOfAttributes := 1 + 1 + len(myCourses[i].Categories) // 1 subject, 1 provider, x categories
+		numberOfAttributes := 1 + len(myCourses[i].Categories) // 1 subject,  x categories
 		normalizedOccurence := 1 / math.Sqrt(float64(numberOfAttributes))
 
 		// TODO add user rating of taken courses, multiply by rating, negative or positive
@@ -517,6 +527,14 @@ func (s *State) GeneralModelCourses(c *gin.Context) {
 		return
 	}
 
+	IDFvectors["categories"], err = s.getUniqueAttributes(c, "categories")
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	// TODO remove already absolved courses
 	allCourses, err := s.getAllCourses(c)
 	if err != nil {
 		log.Print(err)
@@ -524,12 +542,30 @@ func (s *State) GeneralModelCourses(c *gin.Context) {
 		return
 	}
 
+	var tmp []RecommendedAsArrayItem
+
 	for i := range allCourses {
 		predictionValue := predictCourseUser(IDFvectors, profile, allCourses[i])
-		//if predictionValue > 0 {
-		fmt.Println(predictionValue, ":", allCourses[i].ID)
-		//}
+
+		if predictionValue > 0 {
+			//fmt.Println(predictionValue, ":", allCourses[i].ID)
+
+			rec := Recommended{
+				Course: allCourses[i],
+				//RecommendedBecause: []Similarity `json:"recommendedBecause"`
+			}
+
+			sr := RecommendedAsArrayItem{
+				CourseID:          allCourses[i].ID,
+				Recommended:       rec,
+				OverallSimilarity: predictionValue,
+			}
+
+			tmp = append(tmp, sr)
+		}
 	}
 
-	c.JSON(http.StatusOK, "general model recommendation")
+	sort.Sort(SortedByOverallSimilarity{sr: tmp})
+
+	c.JSON(http.StatusOK, tmp)
 }
