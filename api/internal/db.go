@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"sort"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -37,13 +38,36 @@ func NewDatabase(host, port string) (*mongo.Database, error) {
 
 //RandomCourse ...
 func (s *State) RandomCourse(c *gin.Context) {
-	coursesCollection := s.DB.Collection("courses")
-	var result Course
-
-	filter := bson.D{{}} // empty filter
-	err := coursesCollection.FindOne(c, filter).Decode(&result)
+	myCourseIds, err := s.getMyCoursesIds(c)
 	if err != nil {
-		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	query := []bson.M{
+		bson.M{"$sample": bson.M{"size": 1}},
+		bson.M{"$match": bson.M{"_id": bson.M{"$nin": myCourseIds}}}, //_id :{ $nin : [...] }
+	}
+
+	coll := s.DB.Collection("courses")
+
+	data, err := coll.Aggregate(c, query)
+
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	var result []Course
+	for data.Next(c) {
+		l := Course{}
+		err = data.Decode(&l)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, "no content")
+			return
+		}
+		result = append(result, l)
 	}
 
 	c.JSON(http.StatusOK, result)
@@ -228,4 +252,144 @@ func (s *State) getIdf() (*map[string]float64, error) {
 	}
 
 	return &res, nil
+// GetCoursebByID ...
+func (s *State) GetCoursebByID(c *gin.Context) {
+	id := c.Param("id")
+	coursesCollection := s.DB.Collection("courses")
+	var result Course
+
+	filter := bson.D{
+		{Key: "_id", Value: bson.D{{Key: "$eq", Value: id}}},
+	}
+
+	err := coursesCollection.FindOne(c, filter).Decode(&result)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	c.JSON(http.StatusOK, result)
+}
+
+// GetCoursesByQuery ...
+func (s *State) GetCoursesByQuery(c *gin.Context) {
+	language := c.DefaultQuery("language", "English")
+	pageString := c.DefaultQuery("page", "0")
+	subject := c.DefaultQuery("subject", "")
+	provider := c.DefaultQuery("provider", "")
+	category := c.DefaultQuery("category", "")
+	school := c.DefaultQuery("school", "")
+	pageSize := 20
+
+	page, err := strconv.ParseUint(pageString, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err)
+		return
+	}
+	query := bson.M{
+		"details.language": language,
+	}
+	if subject != "" {
+		query["subject"] = subject
+	}
+	if category != "" {
+		query["categories"] = category
+	}
+	if provider != "" {
+		query["provider"] = provider
+	}
+	if school != "" {
+		query["schools"] = school
+	}
+
+	coursesCollection := s.DB.Collection("courses")
+	var result []Course
+	filter := []bson.M{
+		bson.M{"$match": query},
+		bson.M{
+			"$sort": bson.M{
+				"interested_count": -1,
+				"review_count":     -1,
+			},
+		},
+		bson.M{
+			"$skip": int(page) * pageSize,
+		},
+		bson.M{
+			"$limit": pageSize,
+		},
+	}
+	dbCourses, err := coursesCollection.Aggregate(c, filter)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "error")
+		return
+	}
+	dbCourses.All(c, &result)
+	c.JSON(http.StatusOK, result)
+
+}
+
+//GetAllSubjects ...
+func (s *State) GetAllSubjects(c *gin.Context) {
+	query := []bson.M{
+		bson.M{"$project": bson.M{"subjects": bson.M{"$split": []interface{}{"$subject", ", "}}}},
+		bson.M{"$unwind": bson.M{"path": "$subjects", "includeArrayIndex": "string", "preserveNullAndEmptyArrays": true}},
+		bson.M{"$group": bson.M{"_id": nil, "unique_subjects": bson.M{"$addToSet": "$subjects"}}},
+	}
+
+	coll := s.DB.Collection("courses")
+
+	data, err := coll.Aggregate(c, query)
+
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	type subjects struct {
+		UniqueSubjects []string `json:"unique_subjects" bson:"unique_subjects"`
+	}
+	var result []subjects
+
+	err = data.All(c, &result)
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+	c.JSON(http.StatusOK, result[0])
+}
+
+//GetAllCategories ...
+func (s *State) GetAllCategories(c *gin.Context) {
+	query := []bson.M{
+		bson.M{"$project": bson.M{"categoriess": "$categories", "subject": "$subject"}},
+		bson.M{"$unwind": bson.M{"path": "$categoriess", "includeArrayIndex": "string", "preserveNullAndEmptyArrays": true}},
+		bson.M{"$group": bson.M{"_id": "$subject", "unique_categories": bson.M{"$addToSet": "$categoriess"}}},
+	}
+
+	coll := s.DB.Collection("courses")
+
+	data, err := coll.Aggregate(c, query)
+
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	type categories struct {
+		ID               string   `json:"_id" bson:"_id"`
+		UniqueCategories []string `json:"unique_categories" bson:"unique_categories"`
+	}
+	var result []categories
+
+	err = data.All(c, &result)
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+	c.JSON(http.StatusOK, result)
 }
