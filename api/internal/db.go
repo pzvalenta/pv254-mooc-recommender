@@ -423,8 +423,11 @@ func (s *State) getUniqueAttributes(c *gin.Context, name string) (map[string]flo
 
 	ret := make(map[string]float64, total)
 
+	//fmt.Println(total)
 	for i := range result {
-		ret[result[i].ID] = 1 / math.Log(float64(total)/float64(result[i].Count))
+		ret[result[i].ID] = math.Log10(float64(total) / float64(result[i].Count))
+		//fmt.Println(result[i].ID, result[i].Count, ret[result[i].ID]) T
+		// TODO there is one result which hase no ID
 	}
 
 	return ret, nil
