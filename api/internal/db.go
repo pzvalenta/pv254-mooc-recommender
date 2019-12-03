@@ -223,9 +223,10 @@ func (s *State) getMyCourses(c *gin.Context) ([]Course, error) {
 	return res, nil
 }
 
+// only in english
 func (s *State) getAllCourses(c *gin.Context) ([]Course, error) {
 	var res []Course
-	filter := bson.D{}
+	filter := bson.D{{Key: "details.language", Value: bson.D{{Key: "$eq", Value: "English"}}}}
 	courseCollection := s.DB.Collection("courses")
 	data, err := courseCollection.Find(c, filter, nil)
 	if err != nil {
