@@ -399,7 +399,8 @@ func (s *State) getUniqueAttributes(c *gin.Context, name string) (map[string]flo
 	names := name + "s"
 
 	query := []bson.M{
-		bson.M{"$project": bson.M{names: bson.M{"$split": []interface{}{"$" + name, ", "}}}},
+		//bson.M{"$project": bson.M{names: bson.M{"$split": []interface{}{"$" + name, ", "}}}},
+		bson.M{"$project": bson.M{names: "$" + name}},
 		bson.M{"$unwind": bson.M{"path": "$" + names, "includeArrayIndex": "string", "preserveNullAndEmptyArrays": true}},
 		bson.M{"$group": bson.M{"_id": "$" + names, "count": bson.M{"$sum": 1}}},
 	}
