@@ -135,13 +135,17 @@ func tokenize(text string) []string {
 	reg, _ := regexp.Compile("[^a-zA-Z0-9’]+")
 
 	for _, val := range tks {
-		val = strings.Replace(val, " ", "", -1)
+		val = strings.ReplaceAll(val, " ", "")
+		val = strings.ReplaceAll(val, "’", "")
+		if len(val) < 2 {
+			continue
+		}
 		if val != "" {
 			cleanVal := reg.ReplaceAllString(val, " ")
 			tks2 := strings.Split(cleanVal, " ")
 			if len(tks2) > 1 {
 				for tk := range tks2 {
-					if tks2[tk] != "" {
+					if tks2[tk] != "" && len(tks2[tk])>1 {
 						cleanToks = append(cleanToks, tks2[tk])
 					}
 				}
