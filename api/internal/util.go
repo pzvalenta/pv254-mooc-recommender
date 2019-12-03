@@ -115,11 +115,14 @@ func getStopWords() map[string]string {
 
 func tokenize(text string) []string {
 	var cleanToks []string
+	text = " " + text + " "
 	text = strings.ToLower(text)
 	regHTML := regexp.MustCompile("(&gt;|&lt;)")
 	regAp := regexp.MustCompile("&#039;")
 	text = regAp.ReplaceAllString(text, "")
 	text = regHTML.ReplaceAllString(text, " ")
+	text = strings.ReplaceAll(text, ".", " ")
+	text = strings.ReplaceAll(text, "\n", " ")
 	regURL := regexp.MustCompile(`(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?`)
 	matches := regURL.FindAllStringSubmatch(text, -1)
 	for _, url := range matches {
@@ -145,7 +148,7 @@ func tokenize(text string) []string {
 			tks2 := strings.Split(cleanVal, " ")
 			if len(tks2) > 1 {
 				for tk := range tks2 {
-					if tks2[tk] != "" && len(tks2[tk])>1 {
+					if tks2[tk] != "" && len(tks2[tk]) > 1 {
 						cleanToks = append(cleanToks, tks2[tk])
 					}
 				}
