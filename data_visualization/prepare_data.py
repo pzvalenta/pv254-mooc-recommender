@@ -69,14 +69,13 @@ def subject_cat_data(data):
     for x in data:
         subject = x['subject']
         if subject not in subjects:
-            subjects[subject] = set()
+            subjects[subject] = {}
             subjects_course_count[subject] = 0
         subjects_course_count[subject] += 1
         for cat in x['categories']:
-            if cat not in cat_course_count:
-                cat_course_count[cat] = 0
-            cat_course_count[cat] += 1
-            subjects[subject].add(cat)
+            if cat not in subjects[subject]:
+                subjects[subject][cat] = 0
+            subjects[subject][cat] += 1
     id = 0
     for key in subjects:
         cats = subjects[key]
@@ -84,7 +83,7 @@ def subject_cat_data(data):
                  'weight': subjects_course_count[key], 'groups': [], 'id': id}
         id += 1
         for cat in cats:
-            c = {'label': cat, 'id': id, 'weight': cat_course_count[cat]}
+            c = {'label': cat, 'id': id, 'weight': subjects[key][cat]}
             group['groups'].append(c)
             id += 1
         json_res['groups'].append(group)
@@ -198,12 +197,12 @@ def main():
     data = getData()
     res = subject_cat_data(data)
     saveJsFile(res, "subject_cat_groups_data")
-    res2 = subject_provider_data(data)
-    saveJsFile(res2, "subject_provider_groups_data")
-    res3 = languages_data(data)
-    saveJsFile(res3, "languages_data")
-    res3 = provider_subject_data(data)
-    saveJsFile(res3, "provider_subject_groups_data")
+    # res2 = subject_provider_data(data)
+    # saveJsFile(res2, "subject_provider_groups_data")
+    # res3 = languages_data(data)
+    # saveJsFile(res3, "languages_data")
+    # res3 = provider_subject_data(data)
+    # saveJsFile(res3, "provider_subject_groups_data")
     print('done')
 
 

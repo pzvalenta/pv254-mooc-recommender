@@ -5,244 +5,244 @@ modelDataAvailable({
       "weight": 1113,
       "groups": [
         {
-          "label": "Entrepreneurship",
+          "label": "K12",
           "id": 1,
-          "weight": 306
-        },
-        {
-          "label": "Course Development",
-          "id": 2,
-          "weight": 145
-        },
-        {
-          "label": "Sustainability",
-          "id": 3,
-          "weight": 213
-        },
-        {
-          "label": "Design & Creativity",
-          "id": 4,
-          "weight": 206
-        },
-        {
-          "label": "Human Rights",
-          "id": 5,
-          "weight": 93
-        },
-        {
-          "label": "Higher Education",
-          "id": 6,
-          "weight": 133
-        },
-        {
-          "label": "Statistics & Probability",
-          "id": 7,
-          "weight": 165
-        },
-        {
-          "label": "Biology",
-          "id": 8,
-          "weight": 381
-        },
-        {
-          "label": "Physics",
-          "id": 9,
-          "weight": 210
-        },
-        {
-          "label": "Design Thinking",
-          "id": 10,
-          "weight": 21
-        },
-        {
-          "label": "Culture",
-          "id": 11,
-          "weight": 137
-        },
-        {
-          "label": "Grammar & Writing",
-          "id": 12,
-          "weight": 144
-        },
-        {
-          "label": "Disease & Disorders",
-          "id": 13,
-          "weight": 263
-        },
-        {
-          "label": "Art & Design",
-          "id": 14,
-          "weight": 53
+          "weight": 98
         },
         {
           "label": "Education & Teaching",
-          "id": 15,
-          "weight": 257
+          "id": 2,
+          "weight": 246
         },
         {
-          "label": "Foreign Language",
-          "id": 16,
-          "weight": 227
+          "label": "Higher Education",
+          "id": 3,
+          "weight": 114
         },
         {
-          "label": "Health Care",
-          "id": 17,
-          "weight": 421
+          "label": "Human Rights",
+          "id": 4,
+          "weight": 1
         },
         {
-          "label": "Programming Languages",
-          "id": 18,
-          "weight": 169
+          "label": "Online Education",
+          "id": 5,
+          "weight": 129
         },
         {
-          "label": "K12",
-          "id": 19,
-          "weight": 103
+          "label": "Teacher Development",
+          "id": 6,
+          "weight": 168
         },
         {
-          "label": "Nutrition & Wellness",
-          "id": 20,
-          "weight": 182
-        },
-        {
-          "label": "History",
-          "id": 21,
-          "weight": 239
-        },
-        {
-          "label": "Data Analysis",
-          "id": 22,
-          "weight": 160
-        },
-        {
-          "label": "DevOps",
-          "id": 23,
+          "label": "Test Prep",
+          "id": 7,
           "weight": 128
         },
         {
-          "label": "Communication Skills",
-          "id": 24,
-          "weight": 223
+          "label": "STEM",
+          "id": 8,
+          "weight": 130
         },
         {
-          "label": "Computer Science",
+          "label": "Course Development",
+          "id": 9,
+          "weight": 139
+        },
+        {
+          "label": "Disease & Disorders",
+          "id": 10,
+          "weight": 2
+        },
+        {
+          "label": "Music",
+          "id": 11,
+          "weight": 1
+        },
+        {
+          "label": "IELTS",
+          "id": 12,
+          "weight": 5
+        },
+        {
+          "label": "Design Thinking",
+          "id": 13,
+          "weight": 1
+        },
+        {
+          "label": "Management & Leadership",
+          "id": 14,
+          "weight": 9
+        },
+        {
+          "label": "Leadership",
+          "id": 15,
+          "weight": 7
+        },
+        {
+          "label": "Sustainability",
+          "id": 16,
+          "weight": 4
+        },
+        {
+          "label": "Foreign Language",
+          "id": 17,
+          "weight": 4
+        },
+        {
+          "label": "ESL",
+          "id": 18,
+          "weight": 6
+        },
+        {
+          "label": "Grammar & Writing",
+          "id": 19,
+          "weight": 4
+        },
+        {
+          "label": "Matlab",
+          "id": 20,
+          "weight": 1
+        },
+        {
+          "label": "R Programming",
+          "id": 21,
+          "weight": 1
+        },
+        {
+          "label": "Religion",
+          "id": 22,
+          "weight": 1
+        },
+        {
+          "label": "Environmental Science",
+          "id": 23,
+          "weight": 1
+        },
+        {
+          "label": "Culture",
+          "id": 24,
+          "weight": 2
+        },
+        {
+          "label": "Data Analysis",
           "id": 25,
-          "weight": 358
+          "weight": 3
         },
         {
           "label": "Sociology",
           "id": 26,
-          "weight": 199
+          "weight": 1
         },
         {
-          "label": "Music",
+          "label": "Programming Languages",
           "id": 27,
-          "weight": 165
+          "weight": 1
+        },
+        {
+          "label": "Art & Design",
+          "id": 28,
+          "weight": 1
         },
         {
           "label": "Inclusion",
-          "id": 28,
-          "weight": 11
-        },
-        {
-          "label": "SAP",
           "id": 29,
-          "weight": 90
+          "weight": 5
         },
         {
-          "label": "Test Prep",
+          "label": "Entrepreneurship",
           "id": 30,
-          "weight": 136
+          "weight": 2
         },
         {
-          "label": "Religion",
+          "label": "Physics",
           "id": 31,
-          "weight": 72
+          "weight": 3
         },
         {
           "label": "Sports",
           "id": 32,
-          "weight": 67
+          "weight": 1
         },
         {
-          "label": "Internet of Things",
+          "label": "Health Care",
           "id": 33,
-          "weight": 106
-        },
-        {
-          "label": "IELTS",
-          "id": 34,
-          "weight": 5
-        },
-        {
-          "label": "Leadership",
-          "id": 35,
-          "weight": 70
+          "weight": 4
         },
         {
           "label": "Career Development",
-          "id": 36,
-          "weight": 144
-        },
-        {
-          "label": "Online Education",
-          "id": 37,
-          "weight": 129
-        },
-        {
-          "label": "Law",
-          "id": 38,
-          "weight": 230
-        },
-        {
-          "label": "Cloud Computing",
-          "id": 39,
-          "weight": 72
-        },
-        {
-          "label": "R Programming",
-          "id": 40,
-          "weight": 44
-        },
-        {
-          "label": "Teacher Development",
-          "id": 41,
-          "weight": 173
-        },
-        {
-          "label": "ESL",
-          "id": 42,
-          "weight": 85
-        },
-        {
-          "label": "Environmental Science",
-          "id": 43,
-          "weight": 362
-        },
-        {
-          "label": "Psychology",
-          "id": 44,
-          "weight": 167
-        },
-        {
-          "label": "STEM",
-          "id": 45,
-          "weight": 134
-        },
-        {
-          "label": "Management & Leadership",
-          "id": 46,
-          "weight": 341
-        },
-        {
-          "label": "Matlab",
-          "id": 47,
-          "weight": 19
+          "id": 34,
+          "weight": 2
         },
         {
           "label": "Visual Arts",
+          "id": 35,
+          "weight": 1
+        },
+        {
+          "label": "Design & Creativity",
+          "id": 36,
+          "weight": 3
+        },
+        {
+          "label": "Law",
+          "id": 37,
+          "weight": 2
+        },
+        {
+          "label": "Statistics & Probability",
+          "id": 38,
+          "weight": 1
+        },
+        {
+          "label": "Internet of Things",
+          "id": 39,
+          "weight": 1
+        },
+        {
+          "label": "SAP",
+          "id": 40,
+          "weight": 1
+        },
+        {
+          "label": "Computer Science",
+          "id": 41,
+          "weight": 1
+        },
+        {
+          "label": "DevOps",
+          "id": 42,
+          "weight": 2
+        },
+        {
+          "label": "Cloud Computing",
+          "id": 43,
+          "weight": 1
+        },
+        {
+          "label": "History",
+          "id": 44,
+          "weight": 1
+        },
+        {
+          "label": "Nutrition & Wellness",
+          "id": 45,
+          "weight": 1
+        },
+        {
+          "label": "Communication Skills",
+          "id": 46,
+          "weight": 1
+        },
+        {
+          "label": "Psychology",
+          "id": 47,
+          "weight": 3
+        },
+        {
+          "label": "Biology",
           "id": 48,
-          "weight": 168
+          "weight": 1
         }
       ],
       "id": 0
@@ -252,134 +252,134 @@ modelDataAvailable({
       "weight": 716,
       "groups": [
         {
-          "label": "Entrepreneurship",
+          "label": "Music",
           "id": 50,
-          "weight": 306
-        },
-        {
-          "label": "Project Management",
-          "id": 51,
-          "weight": 88
-        },
-        {
-          "label": "Industry Specific",
-          "id": 52,
-          "weight": 163
-        },
-        {
-          "label": "Python",
-          "id": 53,
-          "weight": 172
-        },
-        {
-          "label": "Strategic Management",
-          "id": 54,
-          "weight": 310
-        },
-        {
-          "label": "Design & Creativity",
-          "id": 55,
-          "weight": 206
-        },
-        {
-          "label": "Music Theory",
-          "id": 56,
-          "weight": 26
-        },
-        {
-          "label": "Photography",
-          "id": 57,
-          "weight": 4
-        },
-        {
-          "label": "Design Thinking",
-          "id": 58,
-          "weight": 21
-        },
-        {
-          "label": "Fashion",
-          "id": 59,
-          "weight": 3
-        },
-        {
-          "label": "Culture",
-          "id": 60,
-          "weight": 137
-        },
-        {
-          "label": "Astronomy",
-          "id": 61,
-          "weight": 71
-        },
-        {
-          "label": "Art & Design",
-          "id": 62,
-          "weight": 53
+          "weight": 161
         },
         {
           "label": "Digital Media",
-          "id": 63,
-          "weight": 135
+          "id": 51,
+          "weight": 121
+        },
+        {
+          "label": "Design & Creativity",
+          "id": 52,
+          "weight": 186
+        },
+        {
+          "label": "Art & Design",
+          "id": 53,
+          "weight": 52
+        },
+        {
+          "label": "Visual Arts",
+          "id": 54,
+          "weight": 158
+        },
+        {
+          "label": "Design Thinking",
+          "id": 55,
+          "weight": 13
         },
         {
           "label": "History",
-          "id": 64,
-          "weight": 239
+          "id": 56,
+          "weight": 11
+        },
+        {
+          "label": "Python",
+          "id": 57,
+          "weight": 2
+        },
+        {
+          "label": "Psychology",
+          "id": 58,
+          "weight": 3
         },
         {
           "label": "Piano",
-          "id": 65,
+          "id": 59,
           "weight": 17
+        },
+        {
+          "label": "Film & Theatre",
+          "id": 60,
+          "weight": 56
+        },
+        {
+          "label": "Music Theory",
+          "id": 61,
+          "weight": 26
+        },
+        {
+          "label": "Culture",
+          "id": 62,
+          "weight": 6
+        },
+        {
+          "label": "Entrepreneurship",
+          "id": 63,
+          "weight": 2
+        },
+        {
+          "label": "Astronomy",
+          "id": 64,
+          "weight": 1
+        },
+        {
+          "label": "Fashion",
+          "id": 65,
+          "weight": 3
         },
         {
           "label": "Communication Skills",
           "id": 66,
-          "weight": 223
-        },
-        {
-          "label": "Music",
-          "id": 67,
-          "weight": 165
-        },
-        {
-          "label": "Literature",
-          "id": 68,
-          "weight": 166
-        },
-        {
-          "label": "SAP",
-          "id": 69,
-          "weight": 90
-        },
-        {
-          "label": "Film & Theatre",
-          "id": 70,
-          "weight": 56
-        },
-        {
-          "label": "Internet of Things",
-          "id": 71,
-          "weight": 106
+          "weight": 2
         },
         {
           "label": "Web Development",
-          "id": 72,
-          "weight": 192
-        },
-        {
-          "label": "Psychology",
-          "id": 73,
-          "weight": 167
+          "id": 67,
+          "weight": 3
         },
         {
           "label": "Journalism",
-          "id": 74,
-          "weight": 41
+          "id": 68,
+          "weight": 1
         },
         {
-          "label": "Visual Arts",
+          "label": "Literature",
+          "id": 69,
+          "weight": 1
+        },
+        {
+          "label": "Internet of Things",
+          "id": 70,
+          "weight": 1
+        },
+        {
+          "label": "Industry Specific",
+          "id": 71,
+          "weight": 1
+        },
+        {
+          "label": "SAP",
+          "id": 72,
+          "weight": 4
+        },
+        {
+          "label": "Project Management",
+          "id": 73,
+          "weight": 1
+        },
+        {
+          "label": "Strategic Management",
+          "id": 74,
+          "weight": 1
+        },
+        {
+          "label": "Photography",
           "id": 75,
-          "weight": 168
+          "weight": 3
         }
       ],
       "id": 49
@@ -389,124 +389,124 @@ modelDataAvailable({
       "weight": 438,
       "groups": [
         {
-          "label": "Entrepreneurship",
+          "label": "Communication Skills",
           "id": 77,
-          "weight": 306
-        },
-        {
-          "label": "Data Science",
-          "id": 78,
-          "weight": 297
-        },
-        {
-          "label": "Strategic Management",
-          "id": 79,
-          "weight": 310
-        },
-        {
-          "label": "Design & Creativity",
-          "id": 80,
-          "weight": 206
-        },
-        {
-          "label": "Humanities",
-          "id": 81,
-          "weight": 175
-        },
-        {
-          "label": "Business",
-          "id": 82,
-          "weight": 337
-        },
-        {
-          "label": "Higher Education",
-          "id": 83,
-          "weight": 133
-        },
-        {
-          "label": "Self Improvement",
-          "id": 84,
-          "weight": 133
-        },
-        {
-          "label": "Negotiation",
-          "id": 85,
-          "weight": 39
+          "weight": 197
         },
         {
           "label": "Personal Development",
-          "id": 86,
-          "weight": 30
+          "id": 78,
+          "weight": 29
+        },
+        {
+          "label": "Career Development",
+          "id": 79,
+          "weight": 123
+        },
+        {
+          "label": "Self Improvement",
+          "id": 80,
+          "weight": 120
         },
         {
           "label": "Storytelling",
-          "id": 87,
+          "id": 81,
           "weight": 33
         },
         {
-          "label": "Philosophy",
-          "id": 88,
-          "weight": 150
+          "label": "Negotiation",
+          "id": 82,
+          "weight": 39
         },
         {
-          "label": "Education & Teaching",
-          "id": 89,
-          "weight": 257
+          "label": "Design & Creativity",
+          "id": 83,
+          "weight": 2
         },
         {
-          "label": "Health Care",
-          "id": 90,
-          "weight": 421
+          "label": "Entrepreneurship",
+          "id": 84,
+          "weight": 1
+        },
+        {
+          "label": "Business",
+          "id": 85,
+          "weight": 2
         },
         {
           "label": "Nutrition & Wellness",
+          "id": 86,
+          "weight": 5
+        },
+        {
+          "label": "Management & Leadership",
+          "id": 87,
+          "weight": 3
+        },
+        {
+          "label": "Sociology",
+          "id": 88,
+          "weight": 1
+        },
+        {
+          "label": "ESL",
+          "id": 89,
+          "weight": 1
+        },
+        {
+          "label": "Psychology",
+          "id": 90,
+          "weight": 4
+        },
+        {
+          "label": "Data Science",
           "id": 91,
-          "weight": 182
+          "weight": 1
         },
         {
           "label": "Data Analysis",
           "id": 92,
-          "weight": 160
+          "weight": 1
         },
         {
-          "label": "Communication Skills",
+          "label": "Humanities",
           "id": 93,
-          "weight": 223
-        },
-        {
-          "label": "Sociology",
-          "id": 94,
-          "weight": 199
-        },
-        {
-          "label": "Leadership",
-          "id": 95,
-          "weight": 70
-        },
-        {
-          "label": "Career Development",
-          "id": 96,
-          "weight": 144
-        },
-        {
-          "label": "ESL",
-          "id": 97,
-          "weight": 85
-        },
-        {
-          "label": "Psychology",
-          "id": 98,
-          "weight": 167
+          "weight": 3
         },
         {
           "label": "Journalism",
-          "id": 99,
-          "weight": 41
+          "id": 94,
+          "weight": 1
         },
         {
-          "label": "Management & Leadership",
+          "label": "Strategic Management",
+          "id": 95,
+          "weight": 1
+        },
+        {
+          "label": "Philosophy",
+          "id": 96,
+          "weight": 2
+        },
+        {
+          "label": "Health Care",
+          "id": 97,
+          "weight": 1
+        },
+        {
+          "label": "Education & Teaching",
+          "id": 98,
+          "weight": 1
+        },
+        {
+          "label": "Leadership",
+          "id": 99,
+          "weight": 2
+        },
+        {
+          "label": "Higher Education",
           "id": 100,
-          "weight": 341
+          "weight": 1
         }
       ],
       "id": 76
@@ -516,249 +516,249 @@ modelDataAvailable({
       "weight": 1057,
       "groups": [
         {
-          "label": "Autonomous Vehicles",
-          "id": 102,
-          "weight": 14
-        },
-        {
-          "label": "Entrepreneurship",
-          "id": 103,
-          "weight": 306
-        },
-        {
-          "label": "Project Management",
-          "id": 104,
-          "weight": 88
-        },
-        {
-          "label": "Industry Specific",
-          "id": 105,
-          "weight": 163
-        },
-        {
-          "label": "Course Development",
-          "id": 106,
-          "weight": 145
-        },
-        {
-          "label": "Mechanical Engineering",
-          "id": 107,
-          "weight": 155
-        },
-        {
-          "label": "Journalism",
-          "id": 108,
-          "weight": 41
-        },
-        {
-          "label": "Strategic Management",
-          "id": 109,
-          "weight": 310
-        },
-        {
-          "label": "Python",
-          "id": 110,
-          "weight": 172
-        },
-        {
           "label": "Manufacturing",
-          "id": 111,
+          "id": 102,
           "weight": 47
         },
         {
-          "label": "Textiles",
-          "id": 112,
-          "weight": 12
-        },
-        {
-          "label": "Sustainability",
-          "id": 113,
-          "weight": 213
-        },
-        {
-          "label": "Computer Vision",
-          "id": 114,
-          "weight": 24
-        },
-        {
-          "label": "Data Science",
-          "id": 115,
-          "weight": 297
-        },
-        {
-          "label": "Design & Creativity",
-          "id": 116,
-          "weight": 206
-        },
-        {
-          "label": "Databases",
-          "id": 117,
-          "weight": 117
-        },
-        {
-          "label": "GIS",
-          "id": 118,
-          "weight": 40
-        },
-        {
-          "label": "Business",
-          "id": 119,
-          "weight": 337
-        },
-        {
-          "label": "Higher Education",
-          "id": 120,
-          "weight": 133
-        },
-        {
-          "label": "Biology",
-          "id": 121,
-          "weight": 381
-        },
-        {
-          "label": "Robotics",
-          "id": 122,
-          "weight": 55
-        },
-        {
-          "label": "Physics",
-          "id": 123,
-          "weight": 210
-        },
-        {
-          "label": "Telecommunications",
-          "id": 124,
-          "weight": 1
-        },
-        {
-          "label": "Chemistry",
-          "id": 125,
-          "weight": 162
+          "label": "Engineering",
+          "id": 103,
+          "weight": 360
         },
         {
           "label": "Civil Engineering",
-          "id": 126,
-          "weight": 160
+          "id": 104,
+          "weight": 155
         },
         {
-          "label": "Algorithms and Data Structures",
-          "id": 127,
+          "label": "Mechanical Engineering",
+          "id": 105,
           "weight": 153
         },
         {
-          "label": "Philosophy",
-          "id": 128,
-          "weight": 150
+          "label": "Electrical Engineering",
+          "id": 106,
+          "weight": 293
         },
         {
-          "label": "Health Care",
-          "id": 129,
-          "weight": 421
+          "label": "Industry Specific",
+          "id": 107,
+          "weight": 10
         },
         {
-          "label": "Digital Media",
-          "id": 130,
-          "weight": 135
+          "label": "Biology",
+          "id": 108,
+          "weight": 4
+        },
+        {
+          "label": "Robotics",
+          "id": 109,
+          "weight": 53
         },
         {
           "label": "Nanotechnology",
-          "id": 131,
-          "weight": 26
+          "id": 110,
+          "weight": 23
         },
         {
-          "label": "Aviation",
-          "id": 132,
+          "label": "GIS",
+          "id": 111,
+          "weight": 39
+        },
+        {
+          "label": "Matlab",
+          "id": 112,
+          "weight": 6
+        },
+        {
+          "label": "Higher Education",
+          "id": 113,
+          "weight": 1
+        },
+        {
+          "label": "Artificial Intelligence",
+          "id": 114,
+          "weight": 5
+        },
+        {
+          "label": "Computer Vision",
+          "id": 115,
+          "weight": 4
+        },
+        {
+          "label": "Chemistry",
+          "id": 116,
           "weight": 14
         },
         {
           "label": "Computer Science",
-          "id": 133,
-          "weight": 358
+          "id": 117,
+          "weight": 9
         },
         {
-          "label": "Internet of Things",
-          "id": 134,
-          "weight": 106
+          "label": "Autonomous Vehicles",
+          "id": 118,
+          "weight": 2
+        },
+        {
+          "label": "Sustainability",
+          "id": 119,
+          "weight": 7
         },
         {
           "label": "Urban Planning",
-          "id": 135,
-          "weight": 115
-        },
-        {
-          "label": "Career Development",
-          "id": 136,
-          "weight": 144
-        },
-        {
-          "label": "Engineering",
-          "id": 137,
-          "weight": 431
-        },
-        {
-          "label": "Quantum Mechanics",
-          "id": 138,
-          "weight": 35
-        },
-        {
-          "label": "Neural Networks",
-          "id": 139,
-          "weight": 14
-        },
-        {
-          "label": "Agriculture",
-          "id": 140,
-          "weight": 26
-        },
-        {
-          "label": "R Programming",
-          "id": 141,
-          "weight": 44
-        },
-        {
-          "label": "Environmental Science",
-          "id": 142,
-          "weight": 362
-        },
-        {
-          "label": "Teacher Development",
-          "id": 143,
-          "weight": 173
-        },
-        {
-          "label": "Computer Networking",
-          "id": 144,
-          "weight": 75
-        },
-        {
-          "label": "Electrical Engineering",
-          "id": 145,
-          "weight": 306
-        },
-        {
-          "label": "Artificial Intelligence",
-          "id": 146,
-          "weight": 221
+          "id": 120,
+          "weight": 2
         },
         {
           "label": "STEM",
-          "id": 147,
-          "weight": 134
+          "id": 121,
+          "weight": 1
         },
         {
           "label": "Management & Leadership",
-          "id": 148,
-          "weight": 341
+          "id": 122,
+          "weight": 1
         },
         {
-          "label": "Matlab",
-          "id": 149,
-          "weight": 19
+          "label": "Strategic Management",
+          "id": 123,
+          "weight": 1
+        },
+        {
+          "label": "Career Development",
+          "id": 124,
+          "weight": 2
+        },
+        {
+          "label": "Environmental Science",
+          "id": 125,
+          "weight": 8
         },
         {
           "label": "Visual Arts",
+          "id": 126,
+          "weight": 2
+        },
+        {
+          "label": "Philosophy",
+          "id": 127,
+          "weight": 1
+        },
+        {
+          "label": "Physics",
+          "id": 128,
+          "weight": 6
+        },
+        {
+          "label": "Project Management",
+          "id": 129,
+          "weight": 5
+        },
+        {
+          "label": "Internet of Things",
+          "id": 130,
+          "weight": 5
+        },
+        {
+          "label": "Business",
+          "id": 131,
+          "weight": 1
+        },
+        {
+          "label": "Digital Media",
+          "id": 132,
+          "weight": 5
+        },
+        {
+          "label": "Databases",
+          "id": 133,
+          "weight": 1
+        },
+        {
+          "label": "Python",
+          "id": 134,
+          "weight": 6
+        },
+        {
+          "label": "Journalism",
+          "id": 135,
+          "weight": 1
+        },
+        {
+          "label": "Textiles",
+          "id": 136,
+          "weight": 12
+        },
+        {
+          "label": "Health Care",
+          "id": 137,
+          "weight": 2
+        },
+        {
+          "label": "Agriculture",
+          "id": 138,
+          "weight": 1
+        },
+        {
+          "label": "Telecommunications",
+          "id": 139,
+          "weight": 1
+        },
+        {
+          "label": "Quantum Mechanics",
+          "id": 140,
+          "weight": 1
+        },
+        {
+          "label": "Aviation",
+          "id": 141,
+          "weight": 1
+        },
+        {
+          "label": "Data Science",
+          "id": 142,
+          "weight": 1
+        },
+        {
+          "label": "R Programming",
+          "id": 143,
+          "weight": 1
+        },
+        {
+          "label": "Teacher Development",
+          "id": 144,
+          "weight": 1
+        },
+        {
+          "label": "Algorithms and Data Structures",
+          "id": 145,
+          "weight": 1
+        },
+        {
+          "label": "Computer Networking",
+          "id": 146,
+          "weight": 1
+        },
+        {
+          "label": "Neural Networks",
+          "id": 147,
+          "weight": 1
+        },
+        {
+          "label": "Design & Creativity",
+          "id": 148,
+          "weight": 1
+        },
+        {
+          "label": "Entrepreneurship",
+          "id": 149,
+          "weight": 1
+        },
+        {
+          "label": "Course Development",
           "id": 150,
-          "weight": 168
+          "weight": 1
         }
       ],
       "id": 101
@@ -768,299 +768,299 @@ modelDataAvailable({
       "weight": 1004,
       "groups": [
         {
-          "label": "React",
+          "label": "Game Development",
           "id": 152,
-          "weight": 4
+          "weight": 84
         },
         {
-          "label": "Business Software",
+          "label": "Unity",
           "id": 153,
-          "weight": 42
-        },
-        {
-          "label": "C",
-          "id": 154,
-          "weight": 32
-        },
-        {
-          "label": "Project Management",
-          "id": 155,
-          "weight": 88
-        },
-        {
-          "label": "Javascript",
-          "id": 156,
-          "weight": 54
-        },
-        {
-          "label": "Data Science",
-          "id": 157,
-          "weight": 297
-        },
-        {
-          "label": "Python",
-          "id": 158,
-          "weight": 172
-        },
-        {
-          "label": "Objective C",
-          "id": 159,
-          "weight": 2
-        },
-        {
-          "label": "Design & Creativity",
-          "id": 160,
-          "weight": 206
-        },
-        {
-          "label": "C++",
-          "id": 161,
-          "weight": 27
-        },
-        {
-          "label": "Databases",
-          "id": 162,
-          "weight": 117
-        },
-        {
-          "label": "SQL",
-          "id": 163,
-          "weight": 1
-        },
-        {
-          "label": "Finance",
-          "id": 164,
-          "weight": 392
-        },
-        {
-          "label": "Business",
-          "id": 165,
-          "weight": 337
-        },
-        {
-          "label": "Statistics & Probability",
-          "id": 166,
-          "weight": 165
-        },
-        {
-          "label": "Physics",
-          "id": 167,
-          "weight": 210
-        },
-        {
-          "label": "Mobile Development",
-          "id": 168,
-          "weight": 169
-        },
-        {
-          "label": "Design Thinking",
-          "id": 169,
-          "weight": 21
-        },
-        {
-          "label": "Programming",
-          "id": 170,
-          "weight": 242
-        },
-        {
-          "label": "Data Visualization",
-          "id": 171,
-          "weight": 40
-        },
-        {
-          "label": "Big Data",
-          "id": 172,
-          "weight": 103
-        },
-        {
-          "label": "C#",
-          "id": 173,
-          "weight": 15
-        },
-        {
-          "label": "F#",
-          "id": 174,
-          "weight": 1
-        },
-        {
-          "label": "Algorithms and Data Structures",
-          "id": 175,
-          "weight": 153
-        },
-        {
-          "label": "Scala",
-          "id": 176,
-          "weight": 6
-        },
-        {
-          "label": "Programming Languages",
-          "id": 177,
-          "weight": 169
+          "weight": 28
         },
         {
           "label": "Digital Media",
-          "id": 178,
-          "weight": 135
+          "id": 154,
+          "weight": 5
         },
         {
-          "label": "Haskell",
+          "label": "Android Development",
+          "id": 155,
+          "weight": 81
+        },
+        {
+          "label": "Web Development",
+          "id": 156,
+          "weight": 183
+        },
+        {
+          "label": "Javascript",
+          "id": 157,
+          "weight": 53
+        },
+        {
+          "label": "Mobile Development",
+          "id": 158,
+          "weight": 166
+        },
+        {
+          "label": "Computer Science",
+          "id": 159,
+          "weight": 59
+        },
+        {
+          "label": "Programming",
+          "id": 160,
+          "weight": 242
+        },
+        {
+          "label": "C",
+          "id": 161,
+          "weight": 16
+        },
+        {
+          "label": "Java",
+          "id": 162,
+          "weight": 67
+        },
+        {
+          "label": "Programming Languages",
+          "id": 163,
+          "weight": 145
+        },
+        {
+          "label": "Software Development",
+          "id": 164,
+          "weight": 114
+        },
+        {
+          "label": "Algorithms and Data Structures",
+          "id": 165,
+          "weight": 8
+        },
+        {
+          "label": "Angular",
+          "id": 166,
+          "weight": 9
+        },
+        {
+          "label": "DevOps",
+          "id": 167,
+          "weight": 8
+        },
+        {
+          "label": "Python",
+          "id": 168,
+          "weight": 79
+        },
+        {
+          "label": "Amazon Web Services (AWS)",
+          "id": 169,
+          "weight": 24
+        },
+        {
+          "label": "Cloud Computing",
+          "id": 170,
+          "weight": 34
+        },
+        {
+          "label": "iOS Development",
+          "id": 171,
+          "weight": 44
+        },
+        {
+          "label": "Business",
+          "id": 172,
+          "weight": 1
+        },
+        {
+          "label": "C++",
+          "id": 173,
+          "weight": 24
+        },
+        {
+          "label": "C#",
+          "id": 174,
+          "weight": 15
+        },
+        {
+          "label": "Databases",
+          "id": 175,
+          "weight": 104
+        },
+        {
+          "label": "Engineering",
+          "id": 176,
+          "weight": 3
+        },
+        {
+          "label": "Physics",
+          "id": 177,
+          "weight": 1
+        },
+        {
+          "label": "Design & Creativity",
+          "id": 178,
+          "weight": 3
+        },
+        {
+          "label": "Big Data",
           "id": 179,
           "weight": 4
         },
         {
-          "label": "Cybersecurity",
+          "label": "Data Analysis",
           "id": 180,
-          "weight": 161
-        },
-        {
-          "label": "Semantic Web",
-          "id": 181,
-          "weight": 1
-        },
-        {
-          "label": "Microsoft Excel",
-          "id": 182,
-          "weight": 27
-        },
-        {
-          "label": "Go",
-          "id": 183,
-          "weight": 4
-        },
-        {
-          "label": "Software Development",
-          "id": 184,
-          "weight": 122
+          "weight": 6
         },
         {
           "label": "PHP",
-          "id": 185,
+          "id": 181,
           "weight": 5
         },
         {
-          "label": "Data Analysis",
-          "id": 186,
-          "weight": 160
-        },
-        {
-          "label": "DevOps",
-          "id": 187,
-          "weight": 128
-        },
-        {
-          "label": "Android Development",
-          "id": 188,
-          "weight": 81
-        },
-        {
-          "label": "Amazon Web Services (AWS)",
-          "id": 189,
-          "weight": 39
-        },
-        {
-          "label": "Computer Science",
-          "id": 190,
-          "weight": 358
-        },
-        {
-          "label": "Business Intelligence",
-          "id": 191,
-          "weight": 149
-        },
-        {
-          "label": "SAP",
-          "id": 192,
-          "weight": 90
-        },
-        {
-          "label": "Test Prep",
-          "id": 193,
-          "weight": 136
-        },
-        {
-          "label": "Game Development",
-          "id": 194,
-          "weight": 85
-        },
-        {
-          "label": "Internet of Things",
-          "id": 195,
-          "weight": 106
-        },
-        {
-          "label": "Unity",
-          "id": 196,
-          "weight": 28
-        },
-        {
-          "label": "Engineering",
-          "id": 197,
-          "weight": 431
-        },
-        {
-          "label": "Career Development",
-          "id": 198,
-          "weight": 144
-        },
-        {
-          "label": "Java",
-          "id": 199,
-          "weight": 73
-        },
-        {
-          "label": "Cloud Computing",
-          "id": 200,
-          "weight": 72
-        },
-        {
-          "label": "R Programming",
-          "id": 201,
-          "weight": 44
-        },
-        {
-          "label": "Ruby",
-          "id": 202,
-          "weight": 8
-        },
-        {
-          "label": "Computer Networking",
-          "id": 203,
-          "weight": 75
-        },
-        {
-          "label": "Angular",
-          "id": 204,
-          "weight": 9
-        },
-        {
-          "label": "Information Technology",
-          "id": 205,
-          "weight": 214
-        },
-        {
-          "label": "Web Development",
-          "id": 206,
-          "weight": 192
-        },
-        {
           "label": "Swift",
-          "id": 207,
+          "id": 182,
           "weight": 13
         },
         {
-          "label": "STEM",
-          "id": 208,
-          "weight": 134
+          "label": "F#",
+          "id": 183,
+          "weight": 1
         },
         {
           "label": "Matlab",
-          "id": 209,
-          "weight": 19
+          "id": 184,
+          "weight": 5
         },
         {
-          "label": "iOS Development",
+          "label": "Internet of Things",
+          "id": 185,
+          "weight": 4
+        },
+        {
+          "label": "React",
+          "id": 186,
+          "weight": 4
+        },
+        {
+          "label": "Information Technology",
+          "id": 187,
+          "weight": 5
+        },
+        {
+          "label": "Scala",
+          "id": 188,
+          "weight": 4
+        },
+        {
+          "label": "STEM",
+          "id": 189,
+          "weight": 1
+        },
+        {
+          "label": "Statistics & Probability",
+          "id": 190,
+          "weight": 6
+        },
+        {
+          "label": "Haskell",
+          "id": 191,
+          "weight": 4
+        },
+        {
+          "label": "Data Science",
+          "id": 192,
+          "weight": 2
+        },
+        {
+          "label": "Go",
+          "id": 193,
+          "weight": 4
+        },
+        {
+          "label": "Computer Networking",
+          "id": 194,
+          "weight": 1
+        },
+        {
+          "label": "Data Visualization",
+          "id": 195,
+          "weight": 2
+        },
+        {
+          "label": "SAP",
+          "id": 196,
+          "weight": 30
+        },
+        {
+          "label": "Test Prep",
+          "id": 197,
+          "weight": 6
+        },
+        {
+          "label": "SQL",
+          "id": 198,
+          "weight": 1
+        },
+        {
+          "label": "R Programming",
+          "id": 199,
+          "weight": 4
+        },
+        {
+          "label": "Semantic Web",
+          "id": 200,
+          "weight": 1
+        },
+        {
+          "label": "Cybersecurity",
+          "id": 201,
+          "weight": 3
+        },
+        {
+          "label": "Objective C",
+          "id": 202,
+          "weight": 2
+        },
+        {
+          "label": "Microsoft Excel",
+          "id": 203,
+          "weight": 1
+        },
+        {
+          "label": "Business Software",
+          "id": 204,
+          "weight": 1
+        },
+        {
+          "label": "Ruby",
+          "id": 205,
+          "weight": 8
+        },
+        {
+          "label": "Business Intelligence",
+          "id": 206,
+          "weight": 4
+        },
+        {
+          "label": "Design Thinking",
+          "id": 207,
+          "weight": 2
+        },
+        {
+          "label": "Finance",
+          "id": 208,
+          "weight": 1
+        },
+        {
+          "label": "Project Management",
+          "id": 209,
+          "weight": 1
+        },
+        {
+          "label": "Career Development",
           "id": 210,
-          "weight": 44
+          "weight": 7
         }
       ],
       "id": 151
@@ -1070,249 +1070,249 @@ modelDataAvailable({
       "weight": 1287,
       "groups": [
         {
-          "label": "Industry Specific",
-          "id": 212,
-          "weight": 163
-        },
-        {
-          "label": "Data Science",
-          "id": 213,
-          "weight": 297
-        },
-        {
-          "label": "Cryptography",
-          "id": 214,
-          "weight": 27
-        },
-        {
-          "label": "Python",
-          "id": 215,
-          "weight": 172
-        },
-        {
-          "label": "Mechanical Engineering",
-          "id": 216,
-          "weight": 155
-        },
-        {
-          "label": "Sustainability",
-          "id": 217,
-          "weight": 213
-        },
-        {
-          "label": "Genomics",
-          "id": 218,
-          "weight": 51
-        },
-        {
-          "label": "Humanities",
-          "id": 219,
-          "weight": 175
-        },
-        {
-          "label": "GIS",
-          "id": 220,
-          "weight": 40
-        },
-        {
-          "label": "Higher Education",
-          "id": 221,
-          "weight": 133
-        },
-        {
-          "label": "Biology",
-          "id": 222,
-          "weight": 381
-        },
-        {
-          "label": "Statistics & Probability",
-          "id": 223,
-          "weight": 165
-        },
-        {
-          "label": "Physics",
-          "id": 224,
-          "weight": 210
-        },
-        {
-          "label": "Chemistry",
-          "id": 225,
-          "weight": 162
-        },
-        {
           "label": "Climate Change",
-          "id": 226,
-          "weight": 75
-        },
-        {
-          "label": "Grammar & Writing",
-          "id": 227,
-          "weight": 144
-        },
-        {
-          "label": "Algorithms and Data Structures",
-          "id": 228,
-          "weight": 153
-        },
-        {
-          "label": "Astronomy",
-          "id": 229,
+          "id": 212,
           "weight": 71
         },
         {
-          "label": "Disease & Disorders",
-          "id": 230,
-          "weight": 263
+          "label": "Environmental Science",
+          "id": 213,
+          "weight": 330
         },
         {
-          "label": "Philosophy",
-          "id": 231,
-          "weight": 150
+          "label": "Physics",
+          "id": 214,
+          "weight": 198
         },
         {
-          "label": "Economics",
-          "id": 232,
-          "weight": 276
+          "label": "Genomics",
+          "id": 215,
+          "weight": 51
         },
         {
-          "label": "Health Care",
-          "id": 233,
-          "weight": 421
+          "label": "Biology",
+          "id": 216,
+          "weight": 360
         },
         {
-          "label": "Cybersecurity",
-          "id": 234,
-          "weight": 161
+          "label": "Python",
+          "id": 217,
+          "weight": 3
         },
         {
-          "label": "Programming Languages",
-          "id": 235,
-          "weight": 169
-        },
-        {
-          "label": "Nanotechnology",
-          "id": 236,
-          "weight": 26
-        },
-        {
-          "label": "Nutrition & Wellness",
-          "id": 237,
-          "weight": 182
-        },
-        {
-          "label": "History",
-          "id": 238,
-          "weight": 239
-        },
-        {
-          "label": "Data Analysis",
-          "id": 239,
-          "weight": 160
-        },
-        {
-          "label": "Health & Medicine",
-          "id": 240,
-          "weight": 90
-        },
-        {
-          "label": "Communication Skills",
-          "id": 241,
-          "weight": 223
-        },
-        {
-          "label": "Sociology",
-          "id": 242,
-          "weight": 199
-        },
-        {
-          "label": "Music",
-          "id": 243,
-          "weight": 165
-        },
-        {
-          "label": "Sports",
-          "id": 244,
-          "weight": 67
-        },
-        {
-          "label": "Public Health",
-          "id": 245,
-          "weight": 144
-        },
-        {
-          "label": "Religion",
-          "id": 246,
-          "weight": 72
+          "label": "Chemistry",
+          "id": 218,
+          "weight": 147
         },
         {
           "label": "Urban Planning",
-          "id": 247,
-          "weight": 115
-        },
-        {
-          "label": "Quantum Mechanics",
-          "id": 248,
-          "weight": 35
-        },
-        {
-          "label": "Quantum Computing",
-          "id": 249,
-          "weight": 15
-        },
-        {
-          "label": "Engineering",
-          "id": 250,
-          "weight": 431
-        },
-        {
-          "label": "Law",
-          "id": 251,
-          "weight": 230
+          "id": 219,
+          "weight": 3
         },
         {
           "label": "Agriculture",
-          "id": 252,
-          "weight": 26
+          "id": 220,
+          "weight": 22
         },
         {
-          "label": "Environmental Science",
-          "id": 253,
-          "weight": 362
-        },
-        {
-          "label": "Mathematics",
-          "id": 254,
-          "weight": 144
-        },
-        {
-          "label": "Electrical Engineering",
-          "id": 255,
-          "weight": 306
-        },
-        {
-          "label": "Psychology",
-          "id": 256,
-          "weight": 167
-        },
-        {
-          "label": "STEM",
-          "id": 257,
-          "weight": 134
+          "label": "Public Health",
+          "id": 221,
+          "weight": 6
         },
         {
           "label": "Science",
+          "id": 222,
+          "weight": 148
+        },
+        {
+          "label": "Astronomy",
+          "id": 223,
+          "weight": 69
+        },
+        {
+          "label": "Industry Specific",
+          "id": 224,
+          "weight": 3
+        },
+        {
+          "label": "Sustainability",
+          "id": 225,
+          "weight": 21
+        },
+        {
+          "label": "Health Care",
+          "id": 226,
+          "weight": 11
+        },
+        {
+          "label": "Health & Medicine",
+          "id": 227,
+          "weight": 3
+        },
+        {
+          "label": "Philosophy",
+          "id": 228,
+          "weight": 1
+        },
+        {
+          "label": "Disease & Disorders",
+          "id": 229,
+          "weight": 7
+        },
+        {
+          "label": "Quantum Mechanics",
+          "id": 230,
+          "weight": 32
+        },
+        {
+          "label": "Quantum Computing",
+          "id": 231,
+          "weight": 2
+        },
+        {
+          "label": "Statistics & Probability",
+          "id": 232,
+          "weight": 2
+        },
+        {
+          "label": "Economics",
+          "id": 233,
+          "weight": 1
+        },
+        {
+          "label": "Engineering",
+          "id": 234,
+          "weight": 58
+        },
+        {
+          "label": "Algorithms and Data Structures",
+          "id": 235,
+          "weight": 2
+        },
+        {
+          "label": "GIS",
+          "id": 236,
+          "weight": 1
+        },
+        {
+          "label": "Data Science",
+          "id": 237,
+          "weight": 2
+        },
+        {
+          "label": "Data Analysis",
+          "id": 238,
+          "weight": 1
+        },
+        {
+          "label": "STEM",
+          "id": 239,
+          "weight": 1
+        },
+        {
+          "label": "Nanotechnology",
+          "id": 240,
+          "weight": 3
+        },
+        {
+          "label": "Cryptography",
+          "id": 241,
+          "weight": 1
+        },
+        {
+          "label": "Cybersecurity",
+          "id": 242,
+          "weight": 1
+        },
+        {
+          "label": "Mechanical Engineering",
+          "id": 243,
+          "weight": 2
+        },
+        {
+          "label": "Higher Education",
+          "id": 244,
+          "weight": 3
+        },
+        {
+          "label": "History",
+          "id": 245,
+          "weight": 4
+        },
+        {
+          "label": "Sports",
+          "id": 246,
+          "weight": 1
+        },
+        {
+          "label": "Law",
+          "id": 247,
+          "weight": 2
+        },
+        {
+          "label": "Nutrition & Wellness",
+          "id": 248,
+          "weight": 2
+        },
+        {
+          "label": "Mathematics",
+          "id": 249,
+          "weight": 2
+        },
+        {
+          "label": "Music",
+          "id": 250,
+          "weight": 1
+        },
+        {
+          "label": "Humanities",
+          "id": 251,
+          "weight": 4
+        },
+        {
+          "label": "Grammar & Writing",
+          "id": 252,
+          "weight": 2
+        },
+        {
+          "label": "Religion",
+          "id": 253,
+          "weight": 1
+        },
+        {
+          "label": "Electrical Engineering",
+          "id": 254,
+          "weight": 2
+        },
+        {
+          "label": "Visual Arts",
+          "id": 255,
+          "weight": 1
+        },
+        {
+          "label": "Sociology",
+          "id": 256,
+          "weight": 1
+        },
+        {
+          "label": "Psychology",
+          "id": 257,
+          "weight": 1
+        },
+        {
+          "label": "Communication Skills",
           "id": 258,
-          "weight": 151
+          "weight": 1
         },
         {
           "label": "Matlab",
           "id": 259,
-          "weight": 19
+          "weight": 1
         },
         {
-          "label": "Visual Arts",
+          "label": "Programming Languages",
           "id": 260,
-          "weight": 168
+          "weight": 1
         }
       ],
       "id": 211
@@ -1322,239 +1322,239 @@ modelDataAvailable({
       "weight": 1230,
       "groups": [
         {
-          "label": "Industry Specific",
-          "id": 262,
-          "weight": 163
-        },
-        {
-          "label": "Poetry",
-          "id": 263,
-          "weight": 26
-        },
-        {
-          "label": "Sustainability",
-          "id": 264,
-          "weight": 213
-        },
-        {
           "label": "Humanities",
-          "id": 265,
-          "weight": 175
-        },
-        {
-          "label": "Human Rights",
-          "id": 266,
-          "weight": 93
-        },
-        {
-          "label": "Finance",
-          "id": 267,
-          "weight": 392
-        },
-        {
-          "label": "Business",
-          "id": 268,
-          "weight": 337
-        },
-        {
-          "label": "Higher Education",
-          "id": 269,
-          "weight": 133
-        },
-        {
-          "label": "Statistics & Probability",
-          "id": 270,
-          "weight": 165
-        },
-        {
-          "label": "Self Improvement",
-          "id": 271,
-          "weight": 133
-        },
-        {
-          "label": "Political Science",
-          "id": 272,
-          "weight": 169
-        },
-        {
-          "label": "Culture",
-          "id": 273,
-          "weight": 137
-        },
-        {
-          "label": "Anthropology",
-          "id": 274,
-          "weight": 75
-        },
-        {
-          "label": "Grammar & Writing",
-          "id": 275,
-          "weight": 144
-        },
-        {
-          "label": "Astronomy",
-          "id": 276,
-          "weight": 71
-        },
-        {
-          "label": "Philosophy",
-          "id": 277,
-          "weight": 150
-        },
-        {
-          "label": "Education & Teaching",
-          "id": 278,
-          "weight": 257
-        },
-        {
-          "label": "Foreign Language",
-          "id": 279,
-          "weight": 227
-        },
-        {
-          "label": "Health Care",
-          "id": 280,
-          "weight": 421
-        },
-        {
-          "label": "Digital Media",
-          "id": 281,
-          "weight": 135
-        },
-        {
-          "label": "K12",
-          "id": 282,
-          "weight": 103
-        },
-        {
-          "label": "Nutrition & Wellness",
-          "id": 283,
-          "weight": 182
-        },
-        {
-          "label": "History",
-          "id": 284,
-          "weight": 239
-        },
-        {
-          "label": "Data Analysis",
-          "id": 285,
-          "weight": 160
-        },
-        {
-          "label": "Health & Medicine",
-          "id": 286,
-          "weight": 90
-        },
-        {
-          "label": "Communication Skills",
-          "id": 287,
-          "weight": 223
-        },
-        {
-          "label": "Nursing",
-          "id": 288,
-          "weight": 68
-        },
-        {
-          "label": "Sociology",
-          "id": 289,
-          "weight": 199
-        },
-        {
-          "label": "Literature",
-          "id": 290,
+          "id": 262,
           "weight": 166
         },
         {
-          "label": "SAP",
-          "id": 291,
-          "weight": 90
+          "label": "History",
+          "id": 263,
+          "weight": 210
         },
         {
-          "label": "Test Prep",
-          "id": 292,
-          "weight": 136
+          "label": "Literature",
+          "id": 264,
+          "weight": 165
         },
         {
-          "label": "Sports",
-          "id": 293,
-          "weight": 67
-        },
-        {
-          "label": "Religion",
-          "id": 294,
-          "weight": 72
-        },
-        {
-          "label": "Game Development",
-          "id": 295,
-          "weight": 85
-        },
-        {
-          "label": "Leadership",
-          "id": 296,
-          "weight": 70
-        },
-        {
-          "label": "Career Development",
-          "id": 297,
-          "weight": 144
-        },
-        {
-          "label": "Marketing",
-          "id": 298,
+          "label": "Foreign Language",
+          "id": 265,
           "weight": 223
         },
         {
-          "label": "Urban Planning",
-          "id": 299,
-          "weight": 115
+          "label": "Grammar & Writing",
+          "id": 266,
+          "weight": 136
         },
         {
-          "label": "Law",
-          "id": 300,
-          "weight": 230
+          "label": "Journalism",
+          "id": 267,
+          "weight": 34
         },
         {
-          "label": "R Programming",
-          "id": 301,
-          "weight": 44
+          "label": "Digital Media",
+          "id": 268,
+          "weight": 2
         },
         {
-          "label": "Teacher Development",
-          "id": 302,
-          "weight": 173
+          "label": "Culture",
+          "id": 269,
+          "weight": 117
+        },
+        {
+          "label": "Religion",
+          "id": 270,
+          "weight": 67
+        },
+        {
+          "label": "Philosophy",
+          "id": 271,
+          "weight": 144
         },
         {
           "label": "ESL",
+          "id": 272,
+          "weight": 77
+        },
+        {
+          "label": "Business",
+          "id": 273,
+          "weight": 7
+        },
+        {
+          "label": "Nursing",
+          "id": 274,
+          "weight": 2
+        },
+        {
+          "label": "Health & Medicine",
+          "id": 275,
+          "weight": 1
+        },
+        {
+          "label": "Poetry",
+          "id": 276,
+          "weight": 26
+        },
+        {
+          "label": "K12",
+          "id": 277,
+          "weight": 3
+        },
+        {
+          "label": "Sports",
+          "id": 278,
+          "weight": 58
+        },
+        {
+          "label": "Self Improvement",
+          "id": 279,
+          "weight": 5
+        },
+        {
+          "label": "Career Development",
+          "id": 280,
+          "weight": 3
+        },
+        {
+          "label": "Management & Leadership",
+          "id": 281,
+          "weight": 4
+        },
+        {
+          "label": "Leadership",
+          "id": 282,
+          "weight": 3
+        },
+        {
+          "label": "Industry Specific",
+          "id": 283,
+          "weight": 2
+        },
+        {
+          "label": "Anthropology",
+          "id": 284,
+          "weight": 7
+        },
+        {
+          "label": "Sociology",
+          "id": 285,
+          "weight": 6
+        },
+        {
+          "label": "Higher Education",
+          "id": 286,
+          "weight": 6
+        },
+        {
+          "label": "Finance",
+          "id": 287,
+          "weight": 1
+        },
+        {
+          "label": "Human Rights",
+          "id": 288,
+          "weight": 5
+        },
+        {
+          "label": "Visual Arts",
+          "id": 289,
+          "weight": 2
+        },
+        {
+          "label": "Sustainability",
+          "id": 290,
+          "weight": 1
+        },
+        {
+          "label": "Communication Skills",
+          "id": 291,
+          "weight": 13
+        },
+        {
+          "label": "Political Science",
+          "id": 292,
+          "weight": 3
+        },
+        {
+          "label": "Astronomy",
+          "id": 293,
+          "weight": 1
+        },
+        {
+          "label": "Teacher Development",
+          "id": 294,
+          "weight": 1
+        },
+        {
+          "label": "Marketing",
+          "id": 295,
+          "weight": 3
+        },
+        {
+          "label": "Test Prep",
+          "id": 296,
+          "weight": 1
+        },
+        {
+          "label": "Game Development",
+          "id": 297,
+          "weight": 1
+        },
+        {
+          "label": "Urban Planning",
+          "id": 298,
+          "weight": 1
+        },
+        {
+          "label": "Statistics & Probability",
+          "id": 299,
+          "weight": 1
+        },
+        {
+          "label": "Nutrition & Wellness",
+          "id": 300,
+          "weight": 2
+        },
+        {
+          "label": "Data Analysis",
+          "id": 301,
+          "weight": 1
+        },
+        {
+          "label": "R Programming",
+          "id": 302,
+          "weight": 1
+        },
+        {
+          "label": "Health Care",
           "id": 303,
-          "weight": 85
+          "weight": 3
         },
         {
           "label": "Artificial Intelligence",
           "id": 304,
-          "weight": 221
+          "weight": 1
         },
         {
           "label": "Psychology",
           "id": 305,
-          "weight": 167
+          "weight": 1
         },
         {
-          "label": "Journalism",
+          "label": "Law",
           "id": 306,
-          "weight": 41
+          "weight": 1
         },
         {
-          "label": "Management & Leadership",
+          "label": "Education & Teaching",
           "id": 307,
-          "weight": 341
+          "weight": 3
         },
         {
-          "label": "Visual Arts",
+          "label": "SAP",
           "id": 308,
-          "weight": 168
+          "weight": 1
         }
       ],
       "id": 261
@@ -1564,44 +1564,44 @@ modelDataAvailable({
       "weight": 2218,
       "groups": [
         {
-          "label": "Business Software",
-          "id": 310,
-          "weight": 42
-        },
-        {
-          "label": "Autonomous Vehicles",
-          "id": 311,
-          "weight": 14
-        },
-        {
           "label": "Entrepreneurship",
+          "id": 310,
+          "weight": 296
+        },
+        {
+          "label": "Sales",
+          "id": 311,
+          "weight": 33
+        },
+        {
+          "label": "Accounting",
           "id": 312,
-          "weight": 306
+          "weight": 87
         },
         {
-          "label": "Project Management",
+          "label": "Finance",
           "id": 313,
-          "weight": 88
+          "weight": 375
         },
         {
-          "label": "Industry Specific",
+          "label": "Business",
           "id": 314,
-          "weight": 163
+          "weight": 292
+        },
+        {
+          "label": "Management & Leadership",
+          "id": 315,
+          "weight": 318
         },
         {
           "label": "Strategic Management",
-          "id": 315,
-          "weight": 310
-        },
-        {
-          "label": "Python",
           "id": 316,
-          "weight": 172
+          "weight": 300
         },
         {
-          "label": "Recommender Systems",
+          "label": "Leadership",
           "id": 317,
-          "weight": 8
+          "weight": 51
         },
         {
           "label": "Social Entrepreneurship",
@@ -1609,324 +1609,324 @@ modelDataAvailable({
           "weight": 31
         },
         {
-          "label": "Design & Creativity",
+          "label": "Human Resources",
           "id": 319,
-          "weight": 206
-        },
-        {
-          "label": "Sustainability",
-          "id": 320,
-          "weight": 213
-        },
-        {
-          "label": "Databases",
-          "id": 321,
-          "weight": 117
-        },
-        {
-          "label": "Data Warehousing",
-          "id": 322,
-          "weight": 1
-        },
-        {
-          "label": "Data Mining",
-          "id": 323,
-          "weight": 30
-        },
-        {
-          "label": "Finance",
-          "id": 324,
-          "weight": 392
-        },
-        {
-          "label": "Business",
-          "id": 325,
-          "weight": 337
-        },
-        {
-          "label": "Sales",
-          "id": 326,
-          "weight": 33
-        },
-        {
-          "label": "Photography",
-          "id": 327,
-          "weight": 4
-        },
-        {
-          "label": "Statistics & Probability",
-          "id": 328,
-          "weight": 165
-        },
-        {
-          "label": "Self Improvement",
-          "id": 329,
-          "weight": 133
-        },
-        {
-          "label": "Logistics",
-          "id": 330,
-          "weight": 28
-        },
-        {
-          "label": "Design Thinking",
-          "id": 331,
-          "weight": 21
-        },
-        {
-          "label": "Data Visualization",
-          "id": 332,
           "weight": 40
         },
         {
-          "label": "Civil Engineering",
+          "label": "Project Management",
+          "id": 320,
+          "weight": 77
+        },
+        {
+          "label": "Advertising",
+          "id": 321,
+          "weight": 14
+        },
+        {
+          "label": "Python",
+          "id": 322,
+          "weight": 7
+        },
+        {
+          "label": "Fintech",
+          "id": 323,
+          "weight": 22
+        },
+        {
+          "label": "Search Engine Optimization (SEO)",
+          "id": 324,
+          "weight": 7
+        },
+        {
+          "label": "Digital Marketing",
+          "id": 325,
+          "weight": 54
+        },
+        {
+          "label": "Artificial Intelligence",
+          "id": 326,
+          "weight": 5
+        },
+        {
+          "label": "Business Intelligence",
+          "id": 327,
+          "weight": 142
+        },
+        {
+          "label": "Industry Specific",
+          "id": 328,
+          "weight": 142
+        },
+        {
+          "label": "Algorithms and Data Structures",
+          "id": 329,
+          "weight": 1
+        },
+        {
+          "label": "Data Analysis",
+          "id": 330,
+          "weight": 9
+        },
+        {
+          "label": "Marketing",
+          "id": 331,
+          "weight": 215
+        },
+        {
+          "label": "Health Care",
+          "id": 332,
+          "weight": 3
+        },
+        {
+          "label": "Social Media Marketing",
           "id": 333,
-          "weight": 160
+          "weight": 16
         },
         {
-          "label": "Big Data",
+          "label": "Aviation",
           "id": 334,
-          "weight": 103
+          "weight": 13
         },
         {
-          "label": "Culture",
+          "label": "Personal Finance",
           "id": 335,
-          "weight": 137
+          "weight": 27
         },
         {
-          "label": "Climate Change",
+          "label": "Self Improvement",
           "id": 336,
-          "weight": 75
+          "weight": 4
         },
         {
-          "label": "Grammar & Writing",
+          "label": "Hospitality Management",
           "id": 337,
-          "weight": 144
+          "weight": 19
         },
         {
-          "label": "Google Analytics",
+          "label": "Religion",
           "id": 338,
           "weight": 1
         },
         {
-          "label": "Algorithms and Data Structures",
+          "label": "Environmental Science",
           "id": 339,
-          "weight": 153
+          "weight": 6
         },
         {
-          "label": "Microsoft Office",
+          "label": "Tourism",
           "id": 340,
+          "weight": 26
+        },
+        {
+          "label": "Logistics",
+          "id": 341,
+          "weight": 28
+        },
+        {
+          "label": "Law",
+          "id": 342,
           "weight": 9
         },
         {
-          "label": "Search Engine Optimization (SEO)",
-          "id": 341,
-          "weight": 7
-        },
-        {
-          "label": "Philosophy",
-          "id": 342,
-          "weight": 150
-        },
-        {
-          "label": "Economics",
+          "label": "Design & Creativity",
           "id": 343,
-          "weight": 276
+          "weight": 4
         },
         {
-          "label": "Digital Marketing",
+          "label": "Psychology",
           "id": 344,
-          "weight": 57
+          "weight": 4
         },
         {
-          "label": "Accounting",
+          "label": "Databases",
           "id": 345,
-          "weight": 91
+          "weight": 5
         },
         {
-          "label": "Health Care",
+          "label": "Culture",
           "id": 346,
-          "weight": 421
+          "weight": 5
         },
         {
           "label": "Microsoft Excel",
           "id": 347,
-          "weight": 27
-        },
-        {
-          "label": "Microsoft Powerpoint",
-          "id": 348,
-          "weight": 6
-        },
-        {
-          "label": "Programming Languages",
-          "id": 349,
-          "weight": 169
-        },
-        {
-          "label": "Advertising",
-          "id": 350,
-          "weight": 14
-        },
-        {
-          "label": "Human Resources",
-          "id": 351,
-          "weight": 43
-        },
-        {
-          "label": "Software Development",
-          "id": 352,
-          "weight": 122
-        },
-        {
-          "label": "Aviation",
-          "id": 353,
-          "weight": 14
-        },
-        {
-          "label": "Nutrition & Wellness",
-          "id": 354,
-          "weight": 182
-        },
-        {
-          "label": "Data Analysis",
-          "id": 355,
-          "weight": 160
-        },
-        {
-          "label": "Communication Skills",
-          "id": 356,
-          "weight": 223
-        },
-        {
-          "label": "Business Intelligence",
-          "id": 357,
-          "weight": 149
-        },
-        {
-          "label": "Hospitality Management",
-          "id": 358,
           "weight": 19
         },
         {
-          "label": "Nursing",
-          "id": 359,
-          "weight": 68
+          "label": "Business Software",
+          "id": 348,
+          "weight": 34
         },
         {
-          "label": "SAP",
-          "id": 360,
-          "weight": 90
+          "label": "Statistics & Probability",
+          "id": 349,
+          "weight": 2
         },
         {
-          "label": "Inclusion",
-          "id": 361,
-          "weight": 11
+          "label": "Big Data",
+          "id": 350,
+          "weight": 5
         },
         {
-          "label": "Fintech",
-          "id": 362,
-          "weight": 26
-        },
-        {
-          "label": "Blockchain and Cryptocurrency",
-          "id": 363,
-          "weight": 38
-        },
-        {
-          "label": "Test Prep",
-          "id": 364,
-          "weight": 136
-        },
-        {
-          "label": "Religion",
-          "id": 365,
-          "weight": 72
+          "label": "Economics",
+          "id": 351,
+          "weight": 14
         },
         {
           "label": "Internet of Things",
-          "id": 366,
-          "weight": 106
+          "id": 352,
+          "weight": 2
+        },
+        {
+          "label": "Data Visualization",
+          "id": 353,
+          "weight": 1
+        },
+        {
+          "label": "Microsoft Office",
+          "id": 354,
+          "weight": 9
+        },
+        {
+          "label": "Communication Skills",
+          "id": 355,
+          "weight": 5
+        },
+        {
+          "label": "Information Technology",
+          "id": 356,
+          "weight": 2
+        },
+        {
+          "label": "Microsoft Powerpoint",
+          "id": 357,
+          "weight": 6
+        },
+        {
+          "label": "Blockchain and Cryptocurrency",
+          "id": 358,
+          "weight": 1
+        },
+        {
+          "label": "Adwords",
+          "id": 359,
+          "weight": 7
+        },
+        {
+          "label": "Test Prep",
+          "id": 360,
+          "weight": 1
+        },
+        {
+          "label": "Software Development",
+          "id": 361,
+          "weight": 1
+        },
+        {
+          "label": "Sustainability",
+          "id": 362,
+          "weight": 5
+        },
+        {
+          "label": "Grammar & Writing",
+          "id": 363,
+          "weight": 1
+        },
+        {
+          "label": "Climate Change",
+          "id": 364,
+          "weight": 1
+        },
+        {
+          "label": "Design Thinking",
+          "id": 365,
+          "weight": 4
         },
         {
           "label": "Machine Learning",
+          "id": 366,
+          "weight": 3
+        },
+        {
+          "label": "Nutrition & Wellness",
           "id": 367,
-          "weight": 182
+          "weight": 2
         },
         {
           "label": "Sports",
           "id": 368,
-          "weight": 67
+          "weight": 1
+        },
+        {
+          "label": "Nursing",
+          "id": 369,
+          "weight": 1
+        },
+        {
+          "label": "Google Analytics",
+          "id": 370,
+          "weight": 1
+        },
+        {
+          "label": "Inclusion",
+          "id": 371,
+          "weight": 1
+        },
+        {
+          "label": "SAP",
+          "id": 372,
+          "weight": 36
+        },
+        {
+          "label": "Programming Languages",
+          "id": 373,
+          "weight": 2
+        },
+        {
+          "label": "Recommender Systems",
+          "id": 374,
+          "weight": 1
         },
         {
           "label": "Public Health",
-          "id": 369,
-          "weight": 144
+          "id": 375,
+          "weight": 1
         },
         {
-          "label": "Tourism",
-          "id": 370,
-          "weight": 26
-        },
-        {
-          "label": "Leadership",
-          "id": 371,
-          "weight": 70
-        },
-        {
-          "label": "Marketing",
-          "id": 372,
-          "weight": 223
-        },
-        {
-          "label": "Adwords",
-          "id": 373,
-          "weight": 7
-        },
-        {
-          "label": "Law",
-          "id": 374,
-          "weight": 230
+          "label": "Data Mining",
+          "id": 376,
+          "weight": 3
         },
         {
           "label": "R Programming",
-          "id": 375,
-          "weight": 44
-        },
-        {
-          "label": "Environmental Science",
-          "id": 376,
-          "weight": 362
-        },
-        {
-          "label": "Information Technology",
           "id": 377,
-          "weight": 214
+          "weight": 1
         },
         {
-          "label": "Artificial Intelligence",
+          "label": "Philosophy",
           "id": 378,
-          "weight": 221
+          "weight": 1
         },
         {
-          "label": "Psychology",
+          "label": "Civil Engineering",
           "id": 379,
-          "weight": 167
+          "weight": 1
         },
         {
-          "label": "Social Media Marketing",
+          "label": "Photography",
           "id": 380,
-          "weight": 19
+          "weight": 1
         },
         {
-          "label": "Management & Leadership",
+          "label": "Data Warehousing",
           "id": 381,
-          "weight": 341
+          "weight": 1
         },
         {
-          "label": "Personal Finance",
+          "label": "Autonomous Vehicles",
           "id": 382,
-          "weight": 27
+          "weight": 1
         }
       ],
       "id": 309
@@ -1936,224 +1936,224 @@ modelDataAvailable({
       "weight": 1009,
       "groups": [
         {
-          "label": "Project Management",
+          "label": "Health Care",
           "id": 384,
-          "weight": 88
+          "weight": 382
+        },
+        {
+          "label": "Public Health",
+          "id": 385,
+          "weight": 130
+        },
+        {
+          "label": "Disease & Disorders",
+          "id": 386,
+          "weight": 253
+        },
+        {
+          "label": "Health & Medicine",
+          "id": 387,
+          "weight": 86
+        },
+        {
+          "label": "Nutrition & Wellness",
+          "id": 388,
+          "weight": 164
         },
         {
           "label": "Data Science",
-          "id": 385,
-          "weight": 297
-        },
-        {
-          "label": "Bioinformatics",
-          "id": 386,
-          "weight": 50
-        },
-        {
-          "label": "Sustainability",
-          "id": 387,
-          "weight": 213
-        },
-        {
-          "label": "Databases",
-          "id": 388,
-          "weight": 117
-        },
-        {
-          "label": "Human Rights",
           "id": 389,
-          "weight": 93
+          "weight": 2
         },
         {
-          "label": "Data Mining",
+          "label": "Algorithms and Data Structures",
           "id": 390,
-          "weight": 30
+          "weight": 1
         },
         {
-          "label": "Finance",
+          "label": "Artificial Intelligence",
           "id": 391,
-          "weight": 392
+          "weight": 2
         },
         {
           "label": "Business",
           "id": 392,
-          "weight": 337
-        },
-        {
-          "label": "Biology",
-          "id": 393,
-          "weight": 381
-        },
-        {
-          "label": "Robotics",
-          "id": 394,
-          "weight": 55
-        },
-        {
-          "label": "Physics",
-          "id": 395,
-          "weight": 210
-        },
-        {
-          "label": "Statistics & Probability",
-          "id": 396,
-          "weight": 165
-        },
-        {
-          "label": "Chemistry",
-          "id": 397,
-          "weight": 162
-        },
-        {
-          "label": "Big Data",
-          "id": 398,
-          "weight": 103
-        },
-        {
-          "label": "Anthropology",
-          "id": 399,
-          "weight": 75
-        },
-        {
-          "label": "Climate Change",
-          "id": 400,
-          "weight": 75
-        },
-        {
-          "label": "Algorithms and Data Structures",
-          "id": 401,
-          "weight": 153
-        },
-        {
-          "label": "Disease & Disorders",
-          "id": 402,
-          "weight": 263
-        },
-        {
-          "label": "Education & Teaching",
-          "id": 403,
-          "weight": 257
-        },
-        {
-          "label": "Economics",
-          "id": 404,
-          "weight": 276
-        },
-        {
-          "label": "Health Care",
-          "id": 405,
-          "weight": 421
-        },
-        {
-          "label": "Human Resources",
-          "id": 406,
-          "weight": 43
-        },
-        {
-          "label": "Nutrition & Wellness",
-          "id": 407,
-          "weight": 182
-        },
-        {
-          "label": "Data Analysis",
-          "id": 408,
-          "weight": 160
-        },
-        {
-          "label": "Health & Medicine",
-          "id": 409,
-          "weight": 90
-        },
-        {
-          "label": "Communication Skills",
-          "id": 410,
-          "weight": 223
+          "weight": 2
         },
         {
           "label": "Nursing",
-          "id": 411,
-          "weight": 68
+          "id": 393,
+          "weight": 65
         },
         {
-          "label": "Sociology",
-          "id": 412,
-          "weight": 199
+          "label": "Databases",
+          "id": 394,
+          "weight": 1
         },
         {
-          "label": "Sports",
-          "id": 413,
-          "weight": 67
+          "label": "Data Analysis",
+          "id": 395,
+          "weight": 8
         },
         {
-          "label": "Public Health",
-          "id": 414,
-          "weight": 144
-        },
-        {
-          "label": "Religion",
-          "id": 415,
-          "weight": 72
-        },
-        {
-          "label": "Internet of Things",
-          "id": 416,
-          "weight": 106
-        },
-        {
-          "label": "Leadership",
-          "id": 417,
-          "weight": 70
+          "label": "Bioinformatics",
+          "id": 396,
+          "weight": 1
         },
         {
           "label": "Career Development",
-          "id": 418,
-          "weight": 144
-        },
-        {
-          "label": "Urban Planning",
-          "id": 419,
-          "weight": 115
-        },
-        {
-          "label": "Law",
-          "id": 420,
-          "weight": 230
-        },
-        {
-          "label": "R Programming",
-          "id": 421,
-          "weight": 44
-        },
-        {
-          "label": "ESL",
-          "id": 422,
-          "weight": 85
-        },
-        {
-          "label": "Information Technology",
-          "id": 423,
-          "weight": 214
-        },
-        {
-          "label": "Electrical Engineering",
-          "id": 424,
-          "weight": 306
-        },
-        {
-          "label": "Artificial Intelligence",
-          "id": 425,
-          "weight": 221
-        },
-        {
-          "label": "Psychology",
-          "id": 426,
-          "weight": 167
+          "id": 397,
+          "weight": 3
         },
         {
           "label": "Management & Leadership",
+          "id": 398,
+          "weight": 5
+        },
+        {
+          "label": "Leadership",
+          "id": 399,
+          "weight": 6
+        },
+        {
+          "label": "Human Rights",
+          "id": 400,
+          "weight": 1
+        },
+        {
+          "label": "Big Data",
+          "id": 401,
+          "weight": 2
+        },
+        {
+          "label": "Law",
+          "id": 402,
+          "weight": 2
+        },
+        {
+          "label": "Finance",
+          "id": 403,
+          "weight": 2
+        },
+        {
+          "label": "Chemistry",
+          "id": 404,
+          "weight": 1
+        },
+        {
+          "label": "Biology",
+          "id": 405,
+          "weight": 8
+        },
+        {
+          "label": "Sports",
+          "id": 406,
+          "weight": 4
+        },
+        {
+          "label": "Religion",
+          "id": 407,
+          "weight": 1
+        },
+        {
+          "label": "Urban Planning",
+          "id": 408,
+          "weight": 1
+        },
+        {
+          "label": "ESL",
+          "id": 409,
+          "weight": 1
+        },
+        {
+          "label": "Psychology",
+          "id": 410,
+          "weight": 3
+        },
+        {
+          "label": "Project Management",
+          "id": 411,
+          "weight": 1
+        },
+        {
+          "label": "Communication Skills",
+          "id": 412,
+          "weight": 1
+        },
+        {
+          "label": "Anthropology",
+          "id": 413,
+          "weight": 1
+        },
+        {
+          "label": "Sustainability",
+          "id": 414,
+          "weight": 2
+        },
+        {
+          "label": "Climate Change",
+          "id": 415,
+          "weight": 1
+        },
+        {
+          "label": "Education & Teaching",
+          "id": 416,
+          "weight": 5
+        },
+        {
+          "label": "Sociology",
+          "id": 417,
+          "weight": 1
+        },
+        {
+          "label": "Economics",
+          "id": 418,
+          "weight": 2
+        },
+        {
+          "label": "Human Resources",
+          "id": 419,
+          "weight": 2
+        },
+        {
+          "label": "R Programming",
+          "id": 420,
+          "weight": 1
+        },
+        {
+          "label": "Information Technology",
+          "id": 421,
+          "weight": 1
+        },
+        {
+          "label": "Physics",
+          "id": 422,
+          "weight": 1
+        },
+        {
+          "label": "Robotics",
+          "id": 423,
+          "weight": 1
+        },
+        {
+          "label": "Internet of Things",
+          "id": 424,
+          "weight": 1
+        },
+        {
+          "label": "Data Mining",
+          "id": 425,
+          "weight": 1
+        },
+        {
+          "label": "Statistics & Probability",
+          "id": 426,
+          "weight": 1
+        },
+        {
+          "label": "Electrical Engineering",
           "id": 427,
-          "weight": 341
+          "weight": 1
         }
       ],
       "id": 383
@@ -2163,179 +2163,179 @@ modelDataAvailable({
       "weight": 414,
       "groups": [
         {
-          "label": "Data Science",
-          "id": 429,
-          "weight": 297
-        },
-        {
-          "label": "Python",
-          "id": 430,
-          "weight": 172
-        },
-        {
-          "label": "Finance",
-          "id": 431,
-          "weight": 392
-        },
-        {
-          "label": "Business",
-          "id": 432,
-          "weight": 337
-        },
-        {
-          "label": "Higher Education",
-          "id": 433,
-          "weight": 133
-        },
-        {
-          "label": "Statistics & Probability",
-          "id": 434,
-          "weight": 165
-        },
-        {
-          "label": "Biology",
-          "id": 435,
-          "weight": 381
-        },
-        {
-          "label": "Political Science",
-          "id": 436,
-          "weight": 169
-        },
-        {
           "label": "Calculus",
-          "id": 437,
-          "weight": 80
-        },
-        {
-          "label": "Civil Engineering",
-          "id": 438,
-          "weight": 160
-        },
-        {
-          "label": "Algorithms and Data Structures",
-          "id": 439,
-          "weight": 153
-        },
-        {
-          "label": "Economics",
-          "id": 440,
-          "weight": 276
-        },
-        {
-          "label": "Health Care",
-          "id": 441,
-          "weight": 421
-        },
-        {
-          "label": "Cybersecurity",
-          "id": 442,
-          "weight": 161
-        },
-        {
-          "label": "Programming Languages",
-          "id": 443,
-          "weight": 169
+          "id": 429,
+          "weight": 78
         },
         {
           "label": "Algebra & Geometry",
-          "id": 444,
-          "weight": 67
+          "id": 430,
+          "weight": 66
         },
         {
           "label": "K12",
-          "id": 445,
-          "weight": 103
-        },
-        {
-          "label": "Data Analysis",
-          "id": 446,
-          "weight": 160
-        },
-        {
-          "label": "Computer Science",
-          "id": 447,
-          "weight": 358
-        },
-        {
-          "label": "Sociology",
-          "id": 448,
-          "weight": 199
-        },
-        {
-          "label": "Machine Learning",
-          "id": 449,
-          "weight": 182
-        },
-        {
-          "label": "Foundations of Mathematics",
-          "id": 450,
-          "weight": 25
-        },
-        {
-          "label": "Public Health",
-          "id": 451,
-          "weight": 144
-        },
-        {
-          "label": "Quantum Mechanics",
-          "id": 452,
-          "weight": 35
-        },
-        {
-          "label": "Engineering",
-          "id": 453,
-          "weight": 431
-        },
-        {
-          "label": "R Programming",
-          "id": 454,
-          "weight": 44
-        },
-        {
-          "label": "Linear Algebra",
-          "id": 455,
+          "id": 431,
           "weight": 1
         },
         {
           "label": "Mathematics",
-          "id": 456,
-          "weight": 144
+          "id": 432,
+          "weight": 139
         },
         {
-          "label": "Artificial Intelligence",
-          "id": 457,
-          "weight": 221
-        },
-        {
-          "label": "Psychology",
-          "id": 458,
-          "weight": 167
-        },
-        {
-          "label": "Electrical Engineering",
-          "id": 459,
-          "weight": 306
-        },
-        {
-          "label": "STEM",
-          "id": 460,
+          "label": "Statistics & Probability",
+          "id": 433,
           "weight": 134
         },
         {
-          "label": "Cryptography",
-          "id": 461,
-          "weight": 27
+          "label": "R Programming",
+          "id": 434,
+          "weight": 10
         },
         {
-          "label": "Matlab",
-          "id": 462,
-          "weight": 19
+          "label": "Foundations of Mathematics",
+          "id": 435,
+          "weight": 25
+        },
+        {
+          "label": "Algorithms and Data Structures",
+          "id": 436,
+          "weight": 3
+        },
+        {
+          "label": "Higher Education",
+          "id": 437,
+          "weight": 5
+        },
+        {
+          "label": "Engineering",
+          "id": 438,
+          "weight": 6
+        },
+        {
+          "label": "STEM",
+          "id": 439,
+          "weight": 1
+        },
+        {
+          "label": "Civil Engineering",
+          "id": 440,
+          "weight": 1
+        },
+        {
+          "label": "Artificial Intelligence",
+          "id": 441,
+          "weight": 1
+        },
+        {
+          "label": "Machine Learning",
+          "id": 442,
+          "weight": 2
+        },
+        {
+          "label": "Business",
+          "id": 443,
+          "weight": 1
+        },
+        {
+          "label": "Data Science",
+          "id": 444,
+          "weight": 4
+        },
+        {
+          "label": "Data Analysis",
+          "id": 445,
+          "weight": 8
+        },
+        {
+          "label": "Sociology",
+          "id": 446,
+          "weight": 2
+        },
+        {
+          "label": "Computer Science",
+          "id": 447,
+          "weight": 5
+        },
+        {
+          "label": "Public Health",
+          "id": 448,
+          "weight": 6
+        },
+        {
+          "label": "Health Care",
+          "id": 449,
+          "weight": 3
+        },
+        {
+          "label": "Cryptography",
+          "id": 450,
+          "weight": 1
+        },
+        {
+          "label": "Cybersecurity",
+          "id": 451,
+          "weight": 1
+        },
+        {
+          "label": "Python",
+          "id": 452,
+          "weight": 1
+        },
+        {
+          "label": "Psychology",
+          "id": 453,
+          "weight": 1
+        },
+        {
+          "label": "Economics",
+          "id": 454,
+          "weight": 2
+        },
+        {
+          "label": "Political Science",
+          "id": 455,
+          "weight": 1
+        },
+        {
+          "label": "Linear Algebra",
+          "id": 456,
+          "weight": 1
         },
         {
           "label": "Visual Arts",
+          "id": 457,
+          "weight": 1
+        },
+        {
+          "label": "Biology",
+          "id": 458,
+          "weight": 2
+        },
+        {
+          "label": "Finance",
+          "id": 459,
+          "weight": 2
+        },
+        {
+          "label": "Matlab",
+          "id": 460,
+          "weight": 2
+        },
+        {
+          "label": "Electrical Engineering",
+          "id": 461,
+          "weight": 1
+        },
+        {
+          "label": "Quantum Mechanics",
+          "id": 462,
+          "weight": 1
+        },
+        {
+          "label": "Programming Languages",
           "id": 463,
-          "weight": 168
+          "weight": 1
         }
       ],
       "id": 428
@@ -2345,314 +2345,314 @@ modelDataAvailable({
       "weight": 1554,
       "groups": [
         {
-          "label": "Autonomous Vehicles",
-          "id": 465,
-          "weight": 14
-        },
-        {
-          "label": "Public Policy",
-          "id": 466,
-          "weight": 40
-        },
-        {
-          "label": "Project Management",
-          "id": 467,
-          "weight": 88
-        },
-        {
-          "label": "Industry Specific",
-          "id": 468,
-          "weight": 163
-        },
-        {
-          "label": "Entrepreneurship",
-          "id": 469,
-          "weight": 306
-        },
-        {
-          "label": "Strategic Management",
-          "id": 470,
-          "weight": 310
-        },
-        {
-          "label": "Sustainability",
-          "id": 471,
-          "weight": 213
-        },
-        {
-          "label": "Humanities",
-          "id": 472,
-          "weight": 175
-        },
-        {
-          "label": "Natural Language Processing (NLP)",
-          "id": 473,
-          "weight": 20
-        },
-        {
           "label": "Social Sciences",
-          "id": 474,
+          "id": 465,
           "weight": 254
         },
         {
+          "label": "Culture",
+          "id": 466,
+          "weight": 7
+        },
+        {
+          "label": "Psychology",
+          "id": 467,
+          "weight": 145
+        },
+        {
+          "label": "Sustainability",
+          "id": 468,
+          "weight": 173
+        },
+        {
+          "label": "Public Policy",
+          "id": 469,
+          "weight": 40
+        },
+        {
+          "label": "Urban Planning",
+          "id": 470,
+          "weight": 107
+        },
+        {
+          "label": "Sociology",
+          "id": 471,
+          "weight": 187
+        },
+        {
           "label": "Human Rights",
+          "id": 472,
+          "weight": 86
+        },
+        {
+          "label": "Political Science",
+          "id": 473,
+          "weight": 165
+        },
+        {
+          "label": "Law",
+          "id": 474,
+          "weight": 213
+        },
+        {
+          "label": "Economics",
           "id": 475,
-          "weight": 93
+          "weight": 257
         },
         {
-          "label": "Finance",
+          "label": "Anthropology",
           "id": 476,
-          "weight": 392
+          "weight": 67
         },
         {
-          "label": "Business",
+          "label": "Social Media Marketing",
           "id": 477,
-          "weight": 337
+          "weight": 1
         },
         {
-          "label": "Higher Education",
+          "label": "Copyright",
           "id": 478,
-          "weight": 133
+          "weight": 1
         },
         {
           "label": "Biology",
           "id": 479,
-          "weight": 381
+          "weight": 4
         },
         {
-          "label": "Statistics & Probability",
+          "label": "Higher Education",
           "id": 480,
-          "weight": 165
+          "weight": 2
         },
         {
-          "label": "Self Improvement",
+          "label": "Visual Arts",
           "id": 481,
-          "weight": 133
+          "weight": 3
         },
         {
-          "label": "Political Science",
+          "label": "Teacher Development",
           "id": 482,
-          "weight": 169
+          "weight": 3
         },
         {
-          "label": "Patents",
+          "label": "Climate Change",
           "id": 483,
-          "weight": 1
+          "weight": 2
         },
         {
-          "label": "Calculus",
+          "label": "Marketing",
           "id": 484,
-          "weight": 80
+          "weight": 3
         },
         {
-          "label": "Civil Engineering",
+          "label": "Business",
           "id": 485,
-          "weight": 160
+          "weight": 23
         },
         {
-          "label": "Copyright",
+          "label": "Music",
           "id": 486,
           "weight": 1
         },
         {
-          "label": "Big Data",
+          "label": "Strategic Management",
           "id": 487,
-          "weight": 103
-        },
-        {
-          "label": "Personal Development",
-          "id": 488,
-          "weight": 30
-        },
-        {
-          "label": "Culture",
-          "id": 489,
-          "weight": 137
-        },
-        {
-          "label": "Anthropology",
-          "id": 490,
-          "weight": 75
-        },
-        {
-          "label": "Climate Change",
-          "id": 491,
-          "weight": 75
-        },
-        {
-          "label": "Grammar & Writing",
-          "id": 492,
-          "weight": 144
-        },
-        {
-          "label": "Game Theory",
-          "id": 493,
-          "weight": 2
-        },
-        {
-          "label": "Disease & Disorders",
-          "id": 494,
-          "weight": 263
-        },
-        {
-          "label": "Philosophy",
-          "id": 495,
-          "weight": 150
-        },
-        {
-          "label": "Education & Teaching",
-          "id": 496,
-          "weight": 257
-        },
-        {
-          "label": "Economics",
-          "id": 497,
-          "weight": 276
-        },
-        {
-          "label": "Health Care",
-          "id": 498,
-          "weight": 421
-        },
-        {
-          "label": "Cybersecurity",
-          "id": 499,
-          "weight": 161
-        },
-        {
-          "label": "Digital Media",
-          "id": 500,
-          "weight": 135
-        },
-        {
-          "label": "Accounting",
-          "id": 501,
-          "weight": 91
-        },
-        {
-          "label": "Gender Studies",
-          "id": 502,
-          "weight": 6
-        },
-        {
-          "label": "Human Resources",
-          "id": 503,
-          "weight": 43
+          "weight": 7
         },
         {
           "label": "Nutrition & Wellness",
-          "id": 504,
-          "weight": 182
-        },
-        {
-          "label": "History",
-          "id": 505,
-          "weight": 239
-        },
-        {
-          "label": "Data Analysis",
-          "id": 506,
-          "weight": 160
-        },
-        {
-          "label": "Communication Skills",
-          "id": 507,
-          "weight": 223
-        },
-        {
-          "label": "Sociology",
-          "id": 508,
-          "weight": 199
-        },
-        {
-          "label": "Music",
-          "id": 509,
-          "weight": 165
-        },
-        {
-          "label": "Inclusion",
-          "id": 510,
-          "weight": 11
-        },
-        {
-          "label": "Religion",
-          "id": 511,
-          "weight": 72
-        },
-        {
-          "label": "Sports",
-          "id": 512,
-          "weight": 67
-        },
-        {
-          "label": "Public Health",
-          "id": 513,
-          "weight": 144
-        },
-        {
-          "label": "Urban Planning",
-          "id": 514,
-          "weight": 115
-        },
-        {
-          "label": "Marketing",
-          "id": 515,
-          "weight": 223
-        },
-        {
-          "label": "Engineering",
-          "id": 516,
-          "weight": 431
-        },
-        {
-          "label": "Law",
-          "id": 517,
-          "weight": 230
+          "id": 488,
+          "weight": 6
         },
         {
           "label": "Agriculture",
-          "id": 518,
-          "weight": 26
-        },
-        {
-          "label": "Teacher Development",
-          "id": 519,
-          "weight": 173
+          "id": 489,
+          "weight": 3
         },
         {
           "label": "Environmental Science",
-          "id": 520,
-          "weight": 362
+          "id": 490,
+          "weight": 16
         },
         {
-          "label": "Information Technology",
-          "id": 521,
-          "weight": 214
+          "label": "Statistics & Probability",
+          "id": 491,
+          "weight": 8
         },
         {
-          "label": "Mathematics",
-          "id": 522,
-          "weight": 144
+          "label": "Communication Skills",
+          "id": 492,
+          "weight": 3
         },
         {
-          "label": "Psychology",
-          "id": 523,
-          "weight": 167
+          "label": "Data Analysis",
+          "id": 493,
+          "weight": 4
         },
         {
-          "label": "Social Media Marketing",
-          "id": 524,
-          "weight": 19
+          "label": "Digital Media",
+          "id": 494,
+          "weight": 1
+        },
+        {
+          "label": "Big Data",
+          "id": 495,
+          "weight": 2
+        },
+        {
+          "label": "Project Management",
+          "id": 496,
+          "weight": 2
+        },
+        {
+          "label": "History",
+          "id": 497,
+          "weight": 13
+        },
+        {
+          "label": "Philosophy",
+          "id": 498,
+          "weight": 1
+        },
+        {
+          "label": "Industry Specific",
+          "id": 499,
+          "weight": 5
+        },
+        {
+          "label": "Finance",
+          "id": 500,
+          "weight": 6
+        },
+        {
+          "label": "Religion",
+          "id": 501,
+          "weight": 1
+        },
+        {
+          "label": "Humanities",
+          "id": 502,
+          "weight": 2
+        },
+        {
+          "label": "Self Improvement",
+          "id": 503,
+          "weight": 4
+        },
+        {
+          "label": "Sports",
+          "id": 504,
+          "weight": 2
         },
         {
           "label": "Science",
-          "id": 525,
-          "weight": 151
+          "id": 505,
+          "weight": 3
         },
         {
-          "label": "Visual Arts",
+          "label": "Grammar & Writing",
+          "id": 506,
+          "weight": 1
+        },
+        {
+          "label": "Civil Engineering",
+          "id": 507,
+          "weight": 3
+        },
+        {
+          "label": "Entrepreneurship",
+          "id": 508,
+          "weight": 3
+        },
+        {
+          "label": "Health Care",
+          "id": 509,
+          "weight": 1
+        },
+        {
+          "label": "Public Health",
+          "id": 510,
+          "weight": 1
+        },
+        {
+          "label": "Inclusion",
+          "id": 511,
+          "weight": 5
+        },
+        {
+          "label": "Education & Teaching",
+          "id": 512,
+          "weight": 2
+        },
+        {
+          "label": "Mathematics",
+          "id": 513,
+          "weight": 3
+        },
+        {
+          "label": "Information Technology",
+          "id": 514,
+          "weight": 1
+        },
+        {
+          "label": "Gender Studies",
+          "id": 515,
+          "weight": 6
+        },
+        {
+          "label": "Game Theory",
+          "id": 516,
+          "weight": 2
+        },
+        {
+          "label": "Patents",
+          "id": 517,
+          "weight": 1
+        },
+        {
+          "label": "Disease & Disorders",
+          "id": 518,
+          "weight": 1
+        },
+        {
+          "label": "Autonomous Vehicles",
+          "id": 519,
+          "weight": 1
+        },
+        {
+          "label": "Cybersecurity",
+          "id": 520,
+          "weight": 1
+        },
+        {
+          "label": "Human Resources",
+          "id": 521,
+          "weight": 1
+        },
+        {
+          "label": "Accounting",
+          "id": 522,
+          "weight": 2
+        },
+        {
+          "label": "Calculus",
+          "id": 523,
+          "weight": 1
+        },
+        {
+          "label": "Personal Development",
+          "id": 524,
+          "weight": 1
+        },
+        {
+          "label": "Engineering",
+          "id": 525,
+          "weight": 4
+        },
+        {
+          "label": "Natural Language Processing (NLP)",
           "id": 526,
-          "weight": 168
+          "weight": 1
         }
       ],
       "id": 464
@@ -2662,339 +2662,339 @@ modelDataAvailable({
       "weight": 1267,
       "groups": [
         {
-          "label": "Autonomous Vehicles",
-          "id": 528,
-          "weight": 14
-        },
-        {
-          "label": "Entrepreneurship",
-          "id": 529,
-          "weight": 306
-        },
-        {
-          "label": "C",
-          "id": 530,
-          "weight": 32
-        },
-        {
-          "label": "Project Management",
-          "id": 531,
-          "weight": 88
-        },
-        {
-          "label": "Reinforcement Learning",
-          "id": 532,
-          "weight": 11
-        },
-        {
-          "label": "Course Development",
-          "id": 533,
-          "weight": 145
-        },
-        {
-          "label": "Journalism",
-          "id": 534,
-          "weight": 41
-        },
-        {
-          "label": "Python",
-          "id": 535,
-          "weight": 172
-        },
-        {
-          "label": "Javascript",
-          "id": 536,
-          "weight": 54
-        },
-        {
-          "label": "Recommender Systems",
-          "id": 537,
-          "weight": 8
-        },
-        {
-          "label": "Design & Creativity",
-          "id": 538,
-          "weight": 206
-        },
-        {
-          "label": "Computer Vision",
-          "id": 539,
-          "weight": 24
-        },
-        {
-          "label": "C++",
-          "id": 540,
-          "weight": 27
-        },
-        {
-          "label": "Natural Language Processing (NLP)",
-          "id": 541,
-          "weight": 20
-        },
-        {
-          "label": "Databases",
-          "id": 542,
-          "weight": 117
-        },
-        {
-          "label": "Finance",
-          "id": 543,
-          "weight": 392
-        },
-        {
-          "label": "Business",
-          "id": 544,
-          "weight": 337
-        },
-        {
-          "label": "Statistics & Probability",
-          "id": 545,
-          "weight": 165
-        },
-        {
-          "label": "Robotics",
-          "id": 546,
-          "weight": 55
-        },
-        {
-          "label": "Physics",
-          "id": 547,
-          "weight": 210
-        },
-        {
-          "label": "Mobile Development",
-          "id": 548,
-          "weight": 169
-        },
-        {
-          "label": "Design Thinking",
-          "id": 549,
-          "weight": 21
-        },
-        {
-          "label": "Network Security",
-          "id": 550,
-          "weight": 21
-        },
-        {
-          "label": "Calculus",
-          "id": 551,
-          "weight": 80
-        },
-        {
-          "label": "Big Data",
-          "id": 552,
-          "weight": 103
-        },
-        {
-          "label": "Algorithms and Data Structures",
-          "id": 553,
-          "weight": 153
-        },
-        {
-          "label": "Scala",
-          "id": 554,
-          "weight": 6
-        },
-        {
-          "label": "Management & Leadership",
-          "id": 555,
-          "weight": 341
-        },
-        {
-          "label": "Health Care",
-          "id": 556,
-          "weight": 421
-        },
-        {
           "label": "Cybersecurity",
-          "id": 557,
-          "weight": 161
-        },
-        {
-          "label": "Digital Media",
-          "id": 558,
-          "weight": 135
-        },
-        {
-          "label": "Programming Languages",
-          "id": 559,
-          "weight": 169
-        },
-        {
-          "label": "Algebra & Geometry",
-          "id": 560,
-          "weight": 67
-        },
-        {
-          "label": "Unsupervised Learning",
-          "id": 561,
-          "weight": 1
-        },
-        {
-          "label": "Software Development",
-          "id": 562,
-          "weight": 122
-        },
-        {
-          "label": "Data Analysis",
-          "id": 563,
-          "weight": 160
-        },
-        {
-          "label": "DevOps",
-          "id": 564,
-          "weight": 128
-        },
-        {
-          "label": "Amazon Web Services (AWS)",
-          "id": 565,
-          "weight": 39
-        },
-        {
-          "label": "Computer Science",
-          "id": 566,
-          "weight": 358
-        },
-        {
-          "label": "Business Intelligence",
-          "id": 567,
-          "weight": 149
-        },
-        {
-          "label": "Music",
-          "id": 568,
-          "weight": 165
-        },
-        {
-          "label": "SAP",
-          "id": 569,
-          "weight": 90
-        },
-        {
-          "label": "Blockchain and Cryptocurrency",
-          "id": 570,
-          "weight": 38
-        },
-        {
-          "label": "Machine Learning",
-          "id": 571,
-          "weight": 182
-        },
-        {
-          "label": "Fintech",
-          "id": 572,
-          "weight": 26
-        },
-        {
-          "label": "Internet of Things",
-          "id": 573,
-          "weight": 106
-        },
-        {
-          "label": "Deep Learning",
-          "id": 574,
-          "weight": 36
-        },
-        {
-          "label": "Quantum Computing",
-          "id": 575,
-          "weight": 15
-        },
-        {
-          "label": "Quantum Mechanics",
-          "id": 576,
-          "weight": 35
-        },
-        {
-          "label": "Career Development",
-          "id": 577,
-          "weight": 144
-        },
-        {
-          "label": "Neural Networks",
-          "id": 578,
-          "weight": 14
-        },
-        {
-          "label": "Law",
-          "id": 579,
-          "weight": 230
-        },
-        {
-          "label": "Cisco",
-          "id": 580,
-          "weight": 3
-        },
-        {
-          "label": "Java",
-          "id": 581,
-          "weight": 73
-        },
-        {
-          "label": "Cloud Computing",
-          "id": 582,
-          "weight": 72
-        },
-        {
-          "label": "R Programming",
-          "id": 583,
-          "weight": 44
-        },
-        {
-          "label": "Computer Networking",
-          "id": 584,
-          "weight": 75
+          "id": 528,
+          "weight": 154
         },
         {
           "label": "Information Technology",
-          "id": 585,
-          "weight": 214
+          "id": 529,
+          "weight": 205
         },
         {
-          "label": "TensorFlow",
-          "id": 586,
-          "weight": 26
+          "label": "Algorithms and Data Structures",
+          "id": 530,
+          "weight": 131
         },
         {
-          "label": "Web Development",
-          "id": 587,
-          "weight": 192
+          "label": "Computer Science",
+          "id": 531,
+          "weight": 282
+        },
+        {
+          "label": "Java",
+          "id": 532,
+          "weight": 6
+        },
+        {
+          "label": "Machine Learning",
+          "id": 533,
+          "weight": 165
         },
         {
           "label": "Supervised Learning",
-          "id": 588,
-          "weight": 32
+          "id": 534,
+          "weight": 31
+        },
+        {
+          "label": "Finance",
+          "id": 535,
+          "weight": 5
+        },
+        {
+          "label": "Reinforcement Learning",
+          "id": 536,
+          "weight": 11
+        },
+        {
+          "label": "Web Development",
+          "id": 537,
+          "weight": 6
+        },
+        {
+          "label": "DevOps",
+          "id": 538,
+          "weight": 116
+        },
+        {
+          "label": "Software Development",
+          "id": 539,
+          "weight": 7
         },
         {
           "label": "Artificial Intelligence",
-          "id": 589,
-          "weight": 221
+          "id": 540,
+          "weight": 202
         },
         {
-          "label": "Psychology",
-          "id": 590,
-          "weight": 167
+          "label": "Deep Learning",
+          "id": 541,
+          "weight": 36
         },
         {
-          "label": "Intro to Machine Learning",
-          "id": 591,
+          "label": "Python",
+          "id": 542,
+          "weight": 43
+        },
+        {
+          "label": "Internet of Things",
+          "id": 543,
+          "weight": 90
+        },
+        {
+          "label": "Music",
+          "id": 544,
+          "weight": 1
+        },
+        {
+          "label": "Digital Media",
+          "id": 545,
+          "weight": 1
+        },
+        {
+          "label": "C",
+          "id": 546,
+          "weight": 16
+        },
+        {
+          "label": "Health Care",
+          "id": 547,
+          "weight": 4
+        },
+        {
+          "label": "Computer Vision",
+          "id": 548,
           "weight": 20
         },
         {
-          "label": "Electrical Engineering",
-          "id": 592,
-          "weight": 306
+          "label": "Cryptography",
+          "id": 549,
+          "weight": 25
         },
         {
-          "label": "Cryptography",
-          "id": 593,
-          "weight": 27
+          "label": "Cloud Computing",
+          "id": 550,
+          "weight": 36
+        },
+        {
+          "label": "Amazon Web Services (AWS)",
+          "id": 551,
+          "weight": 12
+        },
+        {
+          "label": "Blockchain and Cryptocurrency",
+          "id": 552,
+          "weight": 37
+        },
+        {
+          "label": "Fintech",
+          "id": 553,
+          "weight": 4
+        },
+        {
+          "label": "Business",
+          "id": 554,
+          "weight": 7
+        },
+        {
+          "label": "TensorFlow",
+          "id": 555,
+          "weight": 25
+        },
+        {
+          "label": "Programming Languages",
+          "id": 556,
+          "weight": 15
+        },
+        {
+          "label": "Computer Networking",
+          "id": 557,
+          "weight": 73
+        },
+        {
+          "label": "Cisco",
+          "id": 558,
+          "weight": 3
+        },
+        {
+          "label": "Natural Language Processing (NLP)",
+          "id": 559,
+          "weight": 18
+        },
+        {
+          "label": "Psychology",
+          "id": 560,
+          "weight": 2
+        },
+        {
+          "label": "Intro to Machine Learning",
+          "id": 561,
+          "weight": 19
+        },
+        {
+          "label": "Neural Networks",
+          "id": 562,
+          "weight": 13
+        },
+        {
+          "label": "C++",
+          "id": 563,
+          "weight": 3
+        },
+        {
+          "label": "Network Security",
+          "id": 564,
+          "weight": 21
+        },
+        {
+          "label": "Data Analysis",
+          "id": 565,
+          "weight": 4
+        },
+        {
+          "label": "Business Intelligence",
+          "id": 566,
+          "weight": 2
+        },
+        {
+          "label": "Recommender Systems",
+          "id": 567,
+          "weight": 7
+        },
+        {
+          "label": "Design & Creativity",
+          "id": 568,
+          "weight": 7
+        },
+        {
+          "label": "Design Thinking",
+          "id": 569,
+          "weight": 1
+        },
+        {
+          "label": "Big Data",
+          "id": 570,
+          "weight": 6
+        },
+        {
+          "label": "Law",
+          "id": 571,
+          "weight": 1
+        },
+        {
+          "label": "Robotics",
+          "id": 572,
+          "weight": 1
+        },
+        {
+          "label": "Autonomous Vehicles",
+          "id": 573,
+          "weight": 10
+        },
+        {
+          "label": "Mobile Development",
+          "id": 574,
+          "weight": 3
+        },
+        {
+          "label": "Databases",
+          "id": 575,
+          "weight": 2
+        },
+        {
+          "label": "Project Management",
+          "id": 576,
+          "weight": 1
+        },
+        {
+          "label": "Electrical Engineering",
+          "id": 577,
+          "weight": 9
+        },
+        {
+          "label": "Course Development",
+          "id": 578,
+          "weight": 1
+        },
+        {
+          "label": "R Programming",
+          "id": 579,
+          "weight": 1
+        },
+        {
+          "label": "Quantum Computing",
+          "id": 580,
+          "weight": 13
+        },
+        {
+          "label": "Quantum Mechanics",
+          "id": 581,
+          "weight": 1
+        },
+        {
+          "label": "Entrepreneurship",
+          "id": 582,
+          "weight": 1
+        },
+        {
+          "label": "Management & Leadership",
+          "id": 583,
+          "weight": 1
+        },
+        {
+          "label": "Physics",
+          "id": 584,
+          "weight": 1
+        },
+        {
+          "label": "Journalism",
+          "id": 585,
+          "weight": 1
+        },
+        {
+          "label": "Algebra & Geometry",
+          "id": 586,
+          "weight": 1
+        },
+        {
+          "label": "Calculus",
+          "id": 587,
+          "weight": 1
+        },
+        {
+          "label": "SAP",
+          "id": 588,
+          "weight": 14
+        },
+        {
+          "label": "Statistics & Probability",
+          "id": 589,
+          "weight": 2
         },
         {
           "label": "Matlab",
+          "id": 590,
+          "weight": 1
+        },
+        {
+          "label": "Scala",
+          "id": 591,
+          "weight": 1
+        },
+        {
+          "label": "Career Development",
+          "id": 592,
+          "weight": 2
+        },
+        {
+          "label": "Unsupervised Learning",
+          "id": 593,
+          "weight": 1
+        },
+        {
+          "label": "Javascript",
           "id": 594,
-          "weight": 19
+          "weight": 1
         }
       ],
       "id": 527
@@ -3004,234 +3004,234 @@ modelDataAvailable({
       "weight": 463,
       "groups": [
         {
-          "label": "Business Software",
+          "label": "Big Data",
           "id": 596,
-          "weight": 42
-        },
-        {
-          "label": "Course Development",
-          "id": 597,
-          "weight": 145
+          "weight": 84
         },
         {
           "label": "Data Science",
-          "id": 598,
-          "weight": 297
-        },
-        {
-          "label": "Python",
-          "id": 599,
-          "weight": 172
-        },
-        {
-          "label": "Bioinformatics",
-          "id": 600,
-          "weight": 50
-        },
-        {
-          "label": "Natural Language Processing (NLP)",
-          "id": 601,
-          "weight": 20
-        },
-        {
-          "label": "Databases",
-          "id": 602,
-          "weight": 117
+          "id": 597,
+          "weight": 285
         },
         {
           "label": "Data Mining",
-          "id": 603,
-          "weight": 30
-        },
-        {
-          "label": "Business",
-          "id": 604,
-          "weight": 337
-        },
-        {
-          "label": "Higher Education",
-          "id": 605,
-          "weight": 133
-        },
-        {
-          "label": "Statistics & Probability",
-          "id": 606,
-          "weight": 165
-        },
-        {
-          "label": "Biology",
-          "id": 607,
-          "weight": 381
-        },
-        {
-          "label": "Data Visualization",
-          "id": 608,
-          "weight": 40
-        },
-        {
-          "label": "Big Data",
-          "id": 609,
-          "weight": 103
-        },
-        {
-          "label": "Algorithms and Data Structures",
-          "id": 610,
-          "weight": 153
-        },
-        {
-          "label": "Scala",
-          "id": 611,
-          "weight": 6
-        },
-        {
-          "label": "Digital Marketing",
-          "id": 612,
-          "weight": 57
-        },
-        {
-          "label": "Health Care",
-          "id": 613,
-          "weight": 421
+          "id": 598,
+          "weight": 26
         },
         {
           "label": "Microsoft Excel",
-          "id": 614,
-          "weight": 27
+          "id": 599,
+          "weight": 7
         },
         {
-          "label": "Accounting",
-          "id": 615,
-          "weight": 91
+          "label": "Business Software",
+          "id": 600,
+          "weight": 7
         },
         {
-          "label": "Programming Languages",
-          "id": 616,
-          "weight": 169
-        },
-        {
-          "label": "Cybersecurity",
-          "id": 617,
-          "weight": 161
-        },
-        {
-          "label": "K12",
-          "id": 618,
-          "weight": 103
-        },
-        {
-          "label": "Data Analysis",
-          "id": 619,
-          "weight": 160
-        },
-        {
-          "label": "DevOps",
-          "id": 620,
-          "weight": 128
-        },
-        {
-          "label": "Amazon Web Services (AWS)",
-          "id": 621,
-          "weight": 39
-        },
-        {
-          "label": "Computer Science",
-          "id": 622,
-          "weight": 358
-        },
-        {
-          "label": "Business Intelligence",
-          "id": 623,
-          "weight": 149
-        },
-        {
-          "label": "SAP",
-          "id": 624,
-          "weight": 90
+          "label": "Data Visualization",
+          "id": 601,
+          "weight": 37
         },
         {
           "label": "Machine Learning",
-          "id": 625,
-          "weight": 182
+          "id": 602,
+          "weight": 12
         },
         {
-          "label": "Internet of Things",
-          "id": 626,
-          "weight": 106
+          "label": "R Programming",
+          "id": 603,
+          "weight": 24
+        },
+        {
+          "label": "Bioinformatics",
+          "id": 604,
+          "weight": 49
+        },
+        {
+          "label": "Python",
+          "id": 605,
+          "weight": 31
+        },
+        {
+          "label": "Data Analysis",
+          "id": 606,
+          "weight": 115
+        },
+        {
+          "label": "Scala",
+          "id": 607,
+          "weight": 1
+        },
+        {
+          "label": "Artificial Intelligence",
+          "id": 608,
+          "weight": 5
+        },
+        {
+          "label": "Business Intelligence",
+          "id": 609,
+          "weight": 1
         },
         {
           "label": "Leadership",
-          "id": 627,
-          "weight": 70
+          "id": 610,
+          "weight": 1
+        },
+        {
+          "label": "DevOps",
+          "id": 611,
+          "weight": 2
+        },
+        {
+          "label": "Computer Science",
+          "id": 612,
+          "weight": 2
+        },
+        {
+          "label": "Amazon Web Services (AWS)",
+          "id": 613,
+          "weight": 3
+        },
+        {
+          "label": "Databases",
+          "id": 614,
+          "weight": 4
+        },
+        {
+          "label": "Health Care",
+          "id": 615,
+          "weight": 7
+        },
+        {
+          "label": "Cloud Computing",
+          "id": 616,
+          "weight": 1
+        },
+        {
+          "label": "Accounting",
+          "id": 617,
+          "weight": 2
+        },
+        {
+          "label": "Statistics & Probability",
+          "id": 618,
+          "weight": 8
+        },
+        {
+          "label": "Environmental Science",
+          "id": 619,
+          "weight": 1
+        },
+        {
+          "label": "Business",
+          "id": 620,
+          "weight": 1
+        },
+        {
+          "label": "Digital Marketing",
+          "id": 621,
+          "weight": 3
         },
         {
           "label": "Marketing",
+          "id": 622,
+          "weight": 2
+        },
+        {
+          "label": "Internet of Things",
+          "id": 623,
+          "weight": 2
+        },
+        {
+          "label": "Algorithms and Data Structures",
+          "id": 624,
+          "weight": 6
+        },
+        {
+          "label": "Programming Languages",
+          "id": 625,
+          "weight": 4
+        },
+        {
+          "label": "Course Development",
+          "id": 626,
+          "weight": 4
+        },
+        {
+          "label": "Biology",
+          "id": 627,
+          "weight": 2
+        },
+        {
+          "label": "Matlab",
           "id": 628,
-          "weight": 223
+          "weight": 3
         },
         {
           "label": "Urban Planning",
           "id": 629,
-          "weight": 115
+          "weight": 1
         },
         {
-          "label": "Career Development",
+          "label": "Higher Education",
           "id": 630,
-          "weight": 144
+          "weight": 1
         },
         {
-          "label": "Cloud Computing",
+          "label": "K12",
           "id": 631,
-          "weight": 72
-        },
-        {
-          "label": "R Programming",
-          "id": 632,
-          "weight": 44
-        },
-        {
-          "label": "Environmental Science",
-          "id": 633,
-          "weight": 362
-        },
-        {
-          "label": "Social Media Marketing",
-          "id": 634,
-          "weight": 19
-        },
-        {
-          "label": "TensorFlow",
-          "id": 635,
-          "weight": 26
-        },
-        {
-          "label": "Artificial Intelligence",
-          "id": 636,
-          "weight": 221
-        },
-        {
-          "label": "Supervised Learning",
-          "id": 637,
-          "weight": 32
-        },
-        {
-          "label": "Journalism",
-          "id": 638,
-          "weight": 41
+          "weight": 1
         },
         {
           "label": "Intro to Machine Learning",
-          "id": 639,
-          "weight": 20
+          "id": 632,
+          "weight": 1
         },
         {
-          "label": "Matlab",
+          "label": "Career Development",
+          "id": 633,
+          "weight": 2
+        },
+        {
+          "label": "Journalism",
+          "id": 634,
+          "weight": 3
+        },
+        {
+          "label": "SAP",
+          "id": 635,
+          "weight": 4
+        },
+        {
+          "label": "Supervised Learning",
+          "id": 636,
+          "weight": 1
+        },
+        {
+          "label": "Natural Language Processing (NLP)",
+          "id": 637,
+          "weight": 1
+        },
+        {
+          "label": "Cybersecurity",
+          "id": 638,
+          "weight": 1
+        },
+        {
+          "label": "TensorFlow",
+          "id": 639,
+          "weight": 1
+        },
+        {
+          "label": "Social Media Marketing",
           "id": 640,
-          "weight": 19
+          "weight": 2
         }
       ],
       "id": 595
     }
   ]
 }
-    ,{label: 'our data',file:'data_subject_cat_groups.js}.jsonp'})
+    ,{label: 'our data',file:'subject_cat_groups_data.js}.jsonp'})
     
