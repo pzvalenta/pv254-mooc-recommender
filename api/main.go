@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	state, err := internal.NewState("5de7a8ad424af359d171b1a5")
+	state, err := internal.NewState()
 	if err != nil {
 		fmt.Printf("error creating app state: %v", err)
 		os.Exit(1)
