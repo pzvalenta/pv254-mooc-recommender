@@ -2,6 +2,7 @@ package internal
 
 import (
 	"math"
+	"sort"
 )
 
 // Course ...
@@ -108,6 +109,9 @@ func (c *Course) FindSimilar(courses []Course, similarityThreshold float64) []Si
 			result = append(result, SimilarCourse{Course: *(normalizedDists[i].Course), Similarity: simVal})
 		}
 	}
+	sort.Slice(result, func(i, j int) bool {
+		return result[i].Similarity > result[j].Similarity
+	})
 	return result
 }
 

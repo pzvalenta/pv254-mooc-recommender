@@ -62,9 +62,15 @@ func wordCount(a []string) *map[string]int {
 	return &m1
 }
 
+func getStopChars() map[string]string {
+	return map[string]string{"&": " ", "  ": " ", "-": " ","_":" ",
+		".": " ", ":": " ", "(": " ", "’": "", "'": "",";":" ",
+		")": " ", "\n": " ", ",": " ","\"":" ",
+	}
+}
+// deprecated
 func getStopWords() map[string]string {
-	return map[string]string{"&": " ", "  ": " ", "-": " ", ".": " ", ":": " ", "(": " ",
-		")": " ", "\n": " ", ",": " ", " a ": " ", " about ": " ", " above ": " ",
+	return map[string]string{" a ": " ", " about ": " ", " above ": " ",
 		" across ": " ", " after ": " ", " afterwards ": " ", " again ": " ", " against ": " ",
 		" all ": " ", " almost ": " ", " alone ": " ", " along ": " ", " already ": " ",
 		" also ": " ", " although ": " ", " always ": " ", " am ": " ", " among ": " ",
@@ -110,51 +116,57 @@ func getStopWords() map[string]string {
 		" were ": " ", " what ": " ", " whatever ": " ", " when ": " ", " whence ": " ", " whenever ": " ", " where ": " ", " whereafter ": " ",
 		" whereas ": " ", " whereby ": " ", " wherein ": " ", " whereupon ": " ", " wherever ": " ", " whether ": " ", " which ": " ", " while ": " ",
 		" whither ": " ", " who ": " ", " whoever ": " ", " whole ": " ", " whom ": " ", " whose ": " ", " why ": " ", " will ": " ", " with ": " ",
-		" within ": " ", " without ": " ", " would ": " ", " yet ": " ", " you ": " ", " your ": " ", " yours ": " ", " yourself ": " ", " yourselves ": " "}
+		" within ": " ", " without ": " ", " would ": " ", " yet ": " ", " you ": " ", " your ": " ", " yours ": " ", " yourself ": " ", " yourselves ": " ",
+	}
+}
+func getStopWordsNoSpaces() map[string]string {
+	return map[string]string{"a": " ", "about": " ", "above": " ", "after": " ", "all": " ", "also": " ", "always": " ", "am": " ", "an": " ", "and": " ", "any": " ", "are": " ", "at": " ", "be": " ", "been": " ", "being": " ", "but": " ", "by": " ", "came": " ", "can": " ", "cant": " ", "come": " ", "could": " ", "did": " ", "didnt": " ", "do": " ", "does": " ", "doesnt": " ", "doing": " ", "dont": " ", "else": " ", "for": " ", "from": " ", "get": " ", "give": " ", "goes": " ", "going": " ", "had": " ", "happen": " ", "has": " ", "have": " ", "having": " ", "how": " ", "i": " ", "if": " ", "ill": " ", "im": " ", "in": " ", "into": " ", "is": " ", "isnt": " ", "it": " ", "its": " ", "ive": " ", "just": " ", "keep": " ", "let": " ", "like": " ", "made": " ", "make": " ", "many": " ", "may": " ", "me": " ", "mean": " ", "more": " ", "most": " ", "much": " ", "no": " ", "not": " ", "now": " ", "of": " ", "only": " ", "or": " ", "our": " ", "really": " ", "say": " ", "see": " ", "some": " ", "something": " ", "take": " ", "tell": " ", "than": " ", "that": " ", "the": " ", "their": " ", "them": " ", "then": " ", "there": " ", "they": " ", "thing": " ", "this": " ", "to": " ", "try": " ", "up": " ", "us": " ", "use": " ", "used": " ", "uses": " ", "very": " ", "want": " ", "was": " ", "way": " ", "we": " ", "what": " ", "when": " ", "where": " ", "which": " ", "who": " ", "why": " ", "will": " ", "with": " ", "without": " ", "wont": " ", "you": " ", "your": " ", "youre": " ", "him": " ", "her": " ", "again": " ", "against": " ", "arent": " ", "as": " ", "because": " ", "before": " ", "below": " ", "between": " ", "both": " ", "cannot": " ", "couldnt": " ", "down": " ", "during": " ", "each": " ", "few": " ", "further": " ", "hadnt": " ", "hasnt": " ", "havent": " ", "he": " ", "hed": " ", "hell": " ", "hes": " ", "here": " ", "heres": " ", "hers": " ", "herself": " ", "himself": " ", "his": " ", "hows": " ", "id": " ", "itself": " ", "lets": " ", "mustnt": " ", "my": " ", "myself": " ", "nor": " ", "off": " ", "on": " ", "once": " ", "other": " ", "ought": " ", "ours": " ", "ourselves": " ", "out": " ", "over": " ", "own": " ", "same": " ", "shant": " ", "she": " ", "shed": " ", "shell": " ", "shes": " ", "should": " ", "shouldnt": " ", "so": " ", "such": " ", "thats": " ", "theirs": " ", "themselves": " ", "theres": " ", "these": " ", "theyd": " ", "theyll": " ", "theyre": " ", "theyve": " ", "those": " ", "through": " ", "too": " ", "under": " ", "until": " ", "wasnt": " ", "wed": " ", "well": " ", "were": " ", "weve": " ", "werent": " ", "whats": " ", "whens": " ", "wheres": " ", "while": " ", "whos": " ", "whom": " ", "whys": " ", "would": " ", "wouldnt": " ", "youd": " ", "youll": " ", "youve": " ", "yours": " ", "yourself": " ", "yourselves": " "}
+}
+
+func getWords(text string) []string {
+	words := regexp.MustCompile("\\w+")
+	return words.FindAllString(text, -1)
 }
 
 func tokenize(text string) []string {
 	var cleanToks []string
 	text = " " + text + " "
 	text = strings.ToLower(text)
+	regURL := regexp.MustCompile(`(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?`)
 	regHTML := regexp.MustCompile("(&gt;|&lt;)")
 	regAp := regexp.MustCompile("&#039;")
-	text = regAp.ReplaceAllString(text, "")
-	text = regHTML.ReplaceAllString(text, " ")
-	text = strings.ReplaceAll(text, ".", " ")
-	text = strings.ReplaceAll(text, "\n", " ")
-	regURL := regexp.MustCompile(`(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?`)
+	reg := regexp.MustCompile("[^a-zA-Z0-9]+")
+
 	matches := regURL.FindAllStringSubmatch(text, -1)
 	for _, url := range matches {
 		cleanToks = append(cleanToks, url[0])
 	}
 	text = regURL.ReplaceAllString(text, "")
 
-	for word, newWord := range getStopWords() {
-		text = strings.Replace(text, word, newWord, -1)
+	text = regAp.ReplaceAllString(text, "")
+	text = regHTML.ReplaceAllString(text, " ")
+	for word, newWord := range getStopChars() {
+		text = strings.ReplaceAll(text, word, newWord)
 	}
-	text = strings.Replace(text, "  ", " ", -1)
-	tks := strings.Split(text, " ")
-	reg, _ := regexp.Compile("[^a-zA-Z0-9’]+")
+
+	tks := getWords(text)
 
 	for _, val := range tks {
-		val = strings.ReplaceAll(val, " ", "")
-		val = strings.ReplaceAll(val, "’", "")
-		if len(val) < 2 {
+		skip := false
+
+		for word := range getStopWordsNoSpaces() {
+			if val == word {
+				skip = true
+			}
+		}
+		if skip || len(val) < 2 {
 			continue
 		}
 		if val != "" {
 			cleanVal := reg.ReplaceAllString(val, " ")
-			tks2 := strings.Split(cleanVal, " ")
-			if len(tks2) > 1 {
-				for tk := range tks2 {
-					if tks2[tk] != "" && len(tks2[tk]) > 1 {
-						cleanToks = append(cleanToks, tks2[tk])
-					}
-				}
-			} else {
-				cleanToks = append(cleanToks, cleanVal)
-			}
+			cleanToks = append(cleanToks, cleanVal)
+		}else{
+			continue
 		}
 	}
 	return cleanToks
