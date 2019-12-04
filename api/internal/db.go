@@ -226,10 +226,22 @@ func (s *State) getMyCourses(c *gin.Context, user_id string) ([]Course, error) {
 	return res, nil
 }
 
-// only in english
-func (s *State) getAllCourses(c *gin.Context) ([]Course, error) {
+func (s *State) getAllCoursesWithoutMine(c *gin.Context, user_id string) ([]Course, error) {
+	myCourseIDs, err := s.getMyCoursesIds(c, user_id)
+	if err != nil {
+		return nil, fmt.Errorf("%v", err)
+	}
+
+	ids := bson.A{}
+	for _, id := range myCourseIDs {
+		ids = append(ids, id)
+	}
+
+	//only in english
 	var res []Course
-	filter := bson.D{{Key: "details.language", Value: bson.D{{Key: "$eq", Value: "English"}}}}
+	filter := bson.D{{Key: "_id", Value: bson.D{{Key: "$nin", Value: ids}}},
+		{Key: "details.language", Value: bson.D{{Key: "$eq", Value: "English"}}}}
+
 	courseCollection := s.DB.Collection("courses")
 	data, err := courseCollection.Find(c, filter, nil)
 	if err != nil {
@@ -246,6 +258,37 @@ func (s *State) getAllCourses(c *gin.Context) ([]Course, error) {
 	}
 
 	return res, nil
+}
+
+func (s *State) getMyRatings(c *gin.Context, user_id string) (map[string]int64, error) {
+	users := s.DB.Collection("users")
+
+	id, err := primitive.ObjectIDFromHex(user_id)
+	if err != nil {
+		return nil, fmt.Errorf("error creating id from hex: %v", err)
+	}
+
+	filter := bson.M{"_id": id}
+	data, err := users.Find(c, filter)
+	if err != nil {
+		return nil, fmt.Errorf("unable to find user's course IDs: %v", err)
+	}
+
+	l := User{}
+	if data.Next(c) {
+		err = data.Decode(&l)
+		if err != nil {
+			return nil, fmt.Errorf("unable to decode user's enrolledIn: %v", err)
+		}
+	}
+
+	ret := make(map[string]int64)
+
+	for i, c := range l.EnrolledIn {
+		ret[c] = l.Rating[i]
+	}
+
+	return ret, nil
 }
 
 // GetCoursebByID ...
@@ -402,10 +445,10 @@ func (s *State) getUniqueAttributes(c *gin.Context, name string) (map[string]flo
 	names := name + "s"
 
 	query := []bson.M{
-		//bson.M{"$project": bson.M{names: bson.M{"$split": []interface{}{"$" + name, ", "}}}},
 		bson.M{"$project": bson.M{names: "$" + name}},
 		bson.M{"$unwind": bson.M{"path": "$" + names, "includeArrayIndex": "string", "preserveNullAndEmptyArrays": true}},
 		bson.M{"$group": bson.M{"_id": "$" + names, "count": bson.M{"$sum": 1}}},
+		bson.M{"$match": bson.M{"_id": bson.M{"$ne": nil}}},
 	}
 
 	coll := s.DB.Collection("courses")
@@ -440,31 +483,21 @@ func (s *State) getUniqueAttributes(c *gin.Context, name string) (map[string]flo
 // returns  userProfileVector dot product ( IDFvector dot product courseVector )
 //                             [attributeName][attrValue]=IDFvalue
 func predictCourseUser(IDFvectors map[string]map[string]float64, profile userProfile, course Course) float64 {
-	//weighted course vector = IDFvector dot product courseVector
-	/*
-		weightedCourseVector := make(map[string]float64)
-		weightedCourseVector[course.Subject] = IDFvectors["subject"][course.Subject]
-		weightedCourseVector[course.Provider] = IDFvectors["provider"][course.Provider]
-		for i := range course.Categories {
-			weightedCourseVector[course.Categories[i]] = IDFvectors["categories"][course.Categories[i]]
-		}
-	*/
-
 	// based on input course
-	numberOfAttributes := 1 + len(course.Categories) // 1 subject, x categories
+	numberOfAttributes := 1 + len(course.Categories) + len(course.Schools) + len(course.Teachers)
 	normalizedOccurence := 1 / math.Sqrt(float64(numberOfAttributes))
 
 	var ret float64
 
-	/*
-		fmt.Println("\nuserprofile\t", course.Subject, ":", profile.Subject[course.Subject], ";", course.Provider, ":", profile.Provider[course.Provider])
-		fmt.Println("IDF        \t", course.Subject, ":", IDFvectors["subject"][course.Subject], ";", course.Provider, ":", IDFvectors["provider"][course.Provider])
-		fmt.Println("course     \t", course.Subject, ":", normalizedOccurence, ";", course.Provider, ":", normalizedOccurence)
-	*/
 	ret += IDFvectors["subject"][course.Subject] * profile.Subject[course.Subject] * normalizedOccurence
-	//ret += IDFvectors["provider"][course.Provider] * profile.Provider[course.Provider] * normalizedOccurence
 	for i := range course.Categories {
-		ret += IDFvectors["categories"][course.Categories[i]] * profile.Categories[course.Subject]
+		ret += IDFvectors["categories"][course.Categories[i]] * profile.Categories[course.Categories[i]]
+	}
+	for i := range course.Schools {
+		ret += IDFvectors["schools"][course.Schools[i]] * profile.Schools[course.Schools[i]] * 0.5 /// school should have lower weight
+	}
+	for i := range course.Teachers {
+		ret += IDFvectors["teachers"][course.Teachers[i]] * profile.Teachers[course.Teachers[i]]
 	}
 	return ret
 }
@@ -473,6 +506,8 @@ type userProfile struct {
 	Categories map[string]float64
 	Provider   map[string]float64
 	Subject    map[string]float64
+	Teachers   map[string]float64
+	Schools    map[string]float64
 }
 
 func (s *State) getUserProfile(c *gin.Context) (userProfile, error) {
@@ -480,6 +515,8 @@ func (s *State) getUserProfile(c *gin.Context) (userProfile, error) {
 	profile.Categories = make(map[string]float64)
 	profile.Provider = make(map[string]float64)
 	profile.Subject = make(map[string]float64)
+	profile.Teachers = make(map[string]float64)
+	profile.Schools = make(map[string]float64)
 
 	user_id := c.DefaultQuery("user_id", "5dc5715c70a18970fe47de7c")
 
@@ -489,17 +526,27 @@ func (s *State) getUserProfile(c *gin.Context) (userProfile, error) {
 		return profile, fmt.Errorf("%v", err)
 	}
 
+	myRatings, err := s.getMyRatings(c, user_id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "no content")
+		return profile, fmt.Errorf("%v", err)
+	}
+
 	for i := range myCourses {
-		numberOfAttributes := 1 + len(myCourses[i].Categories) // 1 subject,  x categories
+		numberOfAttributes := 1 + len(myCourses[i].Categories) + len(myCourses[i].Schools) + len(myCourses[i].Teachers)
 		normalizedOccurence := 1 / math.Sqrt(float64(numberOfAttributes))
 
-		// TODO add user rating of taken courses, multiply by rating, negative or positive
-		profile.Subject[myCourses[i].Subject] += normalizedOccurence
-		profile.Provider[myCourses[i].Provider] += normalizedOccurence
+		profile.Subject[myCourses[i].Subject] += normalizedOccurence * float64(myRatings[myCourses[i].ID])
+		profile.Provider[myCourses[i].Provider] += normalizedOccurence * float64(myRatings[myCourses[i].ID])
 		for j := range myCourses[i].Categories {
-			profile.Categories[myCourses[i].Categories[j]] += normalizedOccurence
+			profile.Categories[myCourses[i].Categories[j]] += normalizedOccurence * float64(myRatings[myCourses[i].ID])
 		}
-
+		for j := range myCourses[i].Schools {
+			profile.Schools[myCourses[i].Schools[j]] += normalizedOccurence * float64(myRatings[myCourses[i].ID])
+		}
+		for j := range myCourses[i].Teachers {
+			profile.Teachers[myCourses[i].Teachers[j]] += normalizedOccurence * float64(myRatings[myCourses[i].ID])
+		}
 	}
 
 	return profile, nil
@@ -514,7 +561,6 @@ func (s *State) GeneralModelCourses(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, "no content")
 		return
 	}
-	//fmt.Println(profile)
 
 	IDFvectors := make(map[string]map[string]float64)
 
@@ -524,23 +570,33 @@ func (s *State) GeneralModelCourses(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, "no content")
 		return
 	}
-
 	IDFvectors["provider"], err = s.getUniqueAttributes(c, "provider")
 	if err != nil {
 		log.Print(err)
 		c.JSON(http.StatusInternalServerError, "no content")
 		return
 	}
-
 	IDFvectors["categories"], err = s.getUniqueAttributes(c, "categories")
 	if err != nil {
 		log.Print(err)
 		c.JSON(http.StatusInternalServerError, "no content")
 		return
 	}
+	IDFvectors["schools"], err = s.getUniqueAttributes(c, "schools")
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+	IDFvectors["teachers"], err = s.getUniqueAttributes(c, "teachers")
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
 
-	// TODO remove already absolved courses
-	allCourses, err := s.getAllCourses(c)
+	user_id := c.DefaultQuery("user_id", "5dc5715c70a18970fe47de7c")
+	allCourses, err := s.getAllCoursesWithoutMine(c, user_id)
 	if err != nil {
 		log.Print(err)
 		c.JSON(http.StatusInternalServerError, "no content")
@@ -572,5 +628,5 @@ func (s *State) GeneralModelCourses(c *gin.Context) {
 
 	sort.Sort(SortedByOverallSimilarity{sr: tmp})
 
-	c.JSON(http.StatusOK, tmp)
+	c.JSON(http.StatusOK, tmp[:Min(10, len(tmp))])
 }
