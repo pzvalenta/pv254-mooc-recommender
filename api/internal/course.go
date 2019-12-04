@@ -81,32 +81,30 @@ func (c *Course) FindSimilar(courses []Course, similarityThreshold float64) []Si
 		panic(err)
 	}
 
-	var vectDists []CourseSimVal
-	for i := range courses {
-		simVal := c.isSimilar(&courses[i], idf)
-		vectDists = append(vectDists, CourseSimVal{&courses[i], simVal})
-	}
+	var courseDists []CourseSimVal
+	tfidf1 := c.tfidf(*idf)
 
-	maxVal := 0.0
-	var normalizedDists []CourseSimVal
-	for i := range vectDists {
-		if vectDists[i].SimVal >= 3 {
+	for i := range courses {
+		simVal := c.isSimilar(tfidf1, &courses[i], idf)
+
+		if simVal >= 3 {
 			continue
 		}
-		if maxVal < vectDists[i].SimVal {
-			maxVal = vectDists[i].SimVal
+		courseDists = append(courseDists, CourseSimVal{&courses[i], simVal})
+
+	}
+	for i := range courseDists {
+		if courseDists[i].Course.ID == c.ID || courseDists[i].SimVal == 0.0 {
+			courseDists[i].SimVal = math.MaxFloat64
+		} else {
+			courseDists[i].SimVal = math.Pow(courseDists[i].SimVal, -1)
 		}
-		normalizedDists = append(normalizedDists, vectDists[i])
 	}
 
-	for i := range normalizedDists {
-		normalizedDists[i].SimVal = math.Abs(normalizedDists[i].SimVal/maxVal - 1)
-	}
-
-	for i := range normalizedDists {
-		simVal := normalizedDists[i].SimVal
+	for i := range courseDists {
+		simVal := courseDists[i].SimVal
 		if simVal > similarityThreshold {
-			result = append(result, SimilarCourse{Course: *(normalizedDists[i].Course), Similarity: simVal})
+			result = append(result, SimilarCourse{Course: *(courseDists[i].Course), Similarity: simVal})
 		}
 	}
 	sort.Slice(result, func(i, j int) bool {
@@ -124,20 +122,18 @@ func (c *Course) tfidf(idf map[string]float64) *map[string]float64 {
 	return &tfidf
 }
 
-func (c *Course) isSimilar(c1 *Course, idf *map[string]float64) float64 {
+func (c *Course) isSimilar(cIdf *map[string]float64, c1 *Course, idf *map[string]float64) float64 {
 	if c.ID == c1.ID {
 		return 1.0
 	}
-	tfidf1 := c.tfidf(*idf)
 	tfidf2 := c1.tfidf(*idf)
-
 	res := 0.0
 	wordList := make(map[string]bool)
 
-	if len(*tfidf1) == 0 || len(*tfidf2) == 0 {
+	if len(*cIdf) == 0 || len(*tfidf2) == 0 {
 		return 3 // ja neviem kolko mam returnut ked jeden je uplne odveci
 	}
-	for word := range *tfidf1 {
+	for word := range *cIdf {
 		wordList[word] = true
 	}
 	for word := range *tfidf2 {
@@ -145,7 +141,7 @@ func (c *Course) isSimilar(c1 *Course, idf *map[string]float64) float64 {
 	}
 	for word := range wordList {
 		val1, val2 := 0.0, 0.0
-		if num, ok := (*tfidf1)[word]; ok {
+		if num, ok := (*cIdf)[word]; ok {
 			val1 = num
 		}
 		if num, ok := (*tfidf2)[word]; ok {

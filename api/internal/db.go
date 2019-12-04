@@ -131,6 +131,9 @@ func (s *State) OverfittingCourses(c *gin.Context) {
 	for i := range myCourses {
 		filter := bson.D{
 			{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
+			{Key: "details.language", Value: "English"},
+			{Key: "overview", Value: bson.D{{Key: "$nin", Value:  []interface{}{nil, "", " ", "."}}}},
+
 		}
 		coursesWithoutMine, err := s.findCoursesAccordingFilter(c, filter, coursesCollection)
 		if err != nil {
