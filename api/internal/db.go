@@ -49,6 +49,7 @@ func (s *State) RandomCourse(c *gin.Context) {
 	query := []bson.M{
 		bson.M{"$sample": bson.M{"size": 1}},
 		bson.M{"$match": bson.M{"_id": bson.M{"$nin": myCourseIds}}}, //_id :{ $nin : [...] }
+		bson.M{"$match": bson.M{"details.language": bson.M{"$eq": "English"}}},
 	}
 
 	coll := s.DB.Collection("courses")
