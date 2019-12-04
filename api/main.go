@@ -34,6 +34,7 @@ func main() {
 		public.GET("/courses", state.GetCoursesByQuery)
 		public.GET("/subjects", state.GetAllSubjects)
 		public.GET("/categories", state.GetAllCategories)
+		public.GET("/generalRecommending", state.GeneralModelCourses)
 	}
 
 	err = router.Run()
