@@ -5,10 +5,12 @@ import (
 
 	"go.mongodb.org/mongo-driver/mongo"
 )
+
 //State ...
 type State struct {
 	DB         *mongo.Database
 }
+
 //NewState ...
 func NewState() (*State, error) {
 	DB, err := NewDatabase("localhost", "27017")

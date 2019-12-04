@@ -47,9 +47,9 @@ func (s *State) RandomCourse(c *gin.Context) {
 	}
 
 	query := []bson.M{
-		bson.M{"$sample": bson.M{"size": 1}},
-		bson.M{"$match": bson.M{"_id": bson.M{"$nin": myCourseIds}}}, //_id :{ $nin : [...] }
-		bson.M{"$match": bson.M{"details.language": bson.M{"$eq": "English"}}},
+		{"$sample": bson.M{"size": 1}},
+		{"$match": bson.M{"_id": bson.M{"$nin": myCourseIds}}}, //_id :{ $nin : [...] }
+		{"$match": bson.M{"details.language": bson.M{"$eq": "English"}}},
 	}
 
 	coll := s.DB.Collection("courses")
@@ -94,10 +94,12 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 	recommended := make(map[string][]SimilarCourse)
 	coursesCollection := s.DB.Collection("courses")
 	for i := range myCourses {
+		fmt.Println(myCourses[i].Details.Language)
 		filter := bson.D{
 			{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
 			{Key: "subject", Value: myCourses[i].Subject},
 			{Key: "categories", Value: bson.D{{Key: "$nin", Value: myCourses[i].Categories}}},
+			//{Key: "details", Value: bson.D{{Key: "language", Value: myCourses[i].Details.Language}}},
 		}
 
 		coursesFromOtherSubtree, err := s.findCoursesAccordingFilter(c, filter, coursesCollection)
@@ -113,7 +115,7 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 
 	sorted := FromRecommenedToSortedRecommended(fromMapWithSimilar(recommended))
 	sort.Sort(SortedByOverallSimilarity{sr: sorted})
-	c.JSON(http.StatusOK, sorted)
+	c.JSON(http.StatusOK, sorted[:Min(10, len(sorted))])
 }
 
 //OverfittingCourses ...
@@ -150,6 +152,44 @@ func (s *State) OverfittingCourses(c *gin.Context) {
 
 	sorted := FromRecommenedToSortedRecommended(fromMapWithSimilar(recommended))
 	sort.Sort(SortedByOverallSimilarity{sr: sorted})
+	c.JSON(http.StatusOK, sorted[:Min(10, len(sorted))])
+}
+
+// CategoryRecommending ...
+func (s *State) CategoryRecommending(c *gin.Context) {
+	user_id := c.DefaultQuery("user_id", "5dc5715c70a18970fe47de7c")
+	myCourseIds, err := s.getMyCoursesIds(c, user_id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	myCourses, err := s.getMyCourses(c, user_id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+	recommended := make(map[string][]PopularCourse)
+	coursesCollection := s.DB.Collection("courses")
+	for i := range myCourses {
+		filter := bson.D{
+			{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
+			{Key: "categories", Value: bson.D{{Key: "$in", Value: myCourses[i].Categories}}},
+		}
+		coursesWithoutMine, err := s.findCoursesAccordingFilter(c, filter, coursesCollection)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, "no content")
+			return
+		}
+
+		//include interested count
+		popular := myCourses[i].FindSimilarAndPopular(coursesWithoutMine, 0.1)
+		sort.Sort(SortedByPopularity{course: &myCourses[i], coursesWithPopularity: popular})
+		recommended[myCourses[i].ID] = popular
+	}
+
+	sorted := FromRecommenedPopularToSortedRecommendedSorted(fromMapWithPopular(recommended))
+	sort.Sort(SortedByOverallPopularity{sr: sorted})
 	c.JSON(http.StatusOK, sorted[:Min(10, len(sorted))])
 }
 
@@ -345,36 +385,39 @@ func (s *State) GetCoursesByQuery(c *gin.Context) {
 	coursesCollection := s.DB.Collection("courses")
 	var result []Course
 	filter := []bson.M{
-		bson.M{"$match": query},
-		bson.M{
+		{"$match": query},
+		{
 			"$sort": bson.M{
 				"interested_count": -1,
 				"review_count":     -1,
 			},
 		},
-		bson.M{
+		{
 			"$skip": int(page) * pageSize,
 		},
-		bson.M{
+		{
 			"$limit": pageSize,
 		},
 	}
 	dbCourses, err := coursesCollection.Aggregate(c, filter)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, "error")
+		c.JSON(http.StatusInternalServerError, "no content")
 		return
 	}
-	dbCourses.All(c, &result)
+	err = dbCourses.All(c, &result)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
 	c.JSON(http.StatusOK, result)
-
 }
 
 //GetAllSubjects ...
 func (s *State) GetAllSubjects(c *gin.Context) {
 	query := []bson.M{
-		bson.M{"$project": bson.M{"subjects": bson.M{"$split": []interface{}{"$subject", ", "}}}},
-		bson.M{"$unwind": bson.M{"path": "$subjects", "includeArrayIndex": "string", "preserveNullAndEmptyArrays": true}},
-		bson.M{"$group": bson.M{"_id": nil, "unique_subjects": bson.M{"$addToSet": "$subjects"}}},
+		{"$project": bson.M{"subjects": bson.M{"$split": []interface{}{"$subject", ", "}}}},
+		{"$unwind": bson.M{"path": "$subjects", "includeArrayIndex": "string", "preserveNullAndEmptyArrays": true}},
+		{"$group": bson.M{"_id": nil, "unique_subjects": bson.M{"$addToSet": "$subjects"}}},
 	}
 
 	coll := s.DB.Collection("courses")
@@ -404,9 +447,9 @@ func (s *State) GetAllSubjects(c *gin.Context) {
 //GetAllCategories ...
 func (s *State) GetAllCategories(c *gin.Context) {
 	query := []bson.M{
-		bson.M{"$project": bson.M{"categoriess": "$categories", "subject": "$subject"}},
-		bson.M{"$unwind": bson.M{"path": "$categoriess", "includeArrayIndex": "string", "preserveNullAndEmptyArrays": true}},
-		bson.M{"$group": bson.M{"_id": "$subject", "unique_categories": bson.M{"$addToSet": "$categoriess"}}},
+		{"$project": bson.M{"categoriess": "$categories", "subject": "$subject"}},
+		{"$unwind": bson.M{"path": "$categoriess", "includeArrayIndex": "string", "preserveNullAndEmptyArrays": true}},
+		{"$group": bson.M{"_id": "$subject", "unique_categories": bson.M{"$addToSet": "$categoriess"}}},
 	}
 
 	coll := s.DB.Collection("courses")
@@ -608,7 +651,7 @@ func (s *State) GeneralModelCourses(c *gin.Context) {
 		predictionValue := predictCourseUser(IDFvectors, profile, allCourses[i])
 
 		if predictionValue > 0 {
-			rec := Recommended{
+			rec := RecommendedSimilar{
 				Course: allCourses[i],
 				//RecommendedBecause: []Similarity `json:"recommendedBecause"`
 			}
