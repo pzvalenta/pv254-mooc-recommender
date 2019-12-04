@@ -9,14 +9,13 @@ import (
 //State ...
 type State struct {
 	DB         *mongo.Database
-	customerID string
 }
 
 //NewState ...
-func NewState(customerID string) (*State, error) {
+func NewState() (*State, error) {
 	DB, err := NewDatabase("localhost", "27017")
 	if err != nil {
 		return nil, fmt.Errorf("error creating state: %v", err)
 	}
-	return &State{DB: DB, customerID: customerID}, nil
+	return &State{DB: DB}, nil
 }
