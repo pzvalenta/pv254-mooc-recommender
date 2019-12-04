@@ -90,10 +90,12 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 	recommended := make(map[string][]SimilarCourse)
 	coursesCollection := s.DB.Collection("courses")
 	for i := range myCourses {
+		fmt.Println( myCourses[i].Details.Language)
 		filter := bson.D{
 			{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
 			{Key: "subject", Value: myCourses[i].Subject},
 			{Key: "categories", Value: bson.D{{Key: "$nin", Value: myCourses[i].Categories}}},
+			//{Key: "details", Value: bson.D{{Key: "language", Value: myCourses[i].Details.Language}}},
 		}
 
 		coursesFromOtherSubtree, err := s.findCoursesAccordingFilter(c, filter, coursesCollection)
@@ -138,6 +140,42 @@ func (s *State) OverfittingCourses(c *gin.Context) {
 			return
 		}
 
+		similar := myCourses[i].FindSimilar(coursesWithoutMine, 0.1)
+		sort.Sort(SortedBySimilarity{course: &myCourses[i], coursesWithSimilarity: similar})
+		recommended[myCourses[i].ID] = similar
+	}
+
+	sorted := FromRecommenedToSortedRecommended(fromMapWithSimilar(recommended))
+	sort.Sort(SortedByOverallSimilarity{sr: sorted})
+	c.JSON(http.StatusOK, sorted[:Min(10, len(sorted))])
+}
+
+func (s *State) CategoryRecommending(c *gin.Context) {
+	myCourseIds, err := s.getMyCoursesIds(c)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+
+	myCourses, err := s.getMyCourses(c)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
+	recommended := make(map[string][]SimilarCourse)
+	coursesCollection := s.DB.Collection("courses")
+	for i := range myCourses {
+		filter := bson.D{
+			{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
+			{Key: "categories", Value: bson.D{{Key: "$in", Value: myCourses[i].Categories}}},
+		}
+		coursesWithoutMine, err := s.findCoursesAccordingFilter(c, filter, coursesCollection)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, "no content")
+			return
+		}
+
+		//include interested count
 		similar := myCourses[i].FindSimilar(coursesWithoutMine, 0.1)
 		sort.Sort(SortedBySimilarity{course: &myCourses[i], coursesWithSimilarity: similar})
 		recommended[myCourses[i].ID] = similar
