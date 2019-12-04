@@ -111,7 +111,7 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 
 	sorted := FromRecommenedToSortedRecommended(fromMapWithSimilar(recommended))
 	sort.Sort(SortedByOverallSimilarity{sr: sorted})
-	c.JSON(http.StatusOK, sorted)
+	c.JSON(http.StatusOK, sorted[:Min(10, len(sorted))])
 }
 
 //OverfittingCourses ...
