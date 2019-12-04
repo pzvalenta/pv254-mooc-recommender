@@ -37,11 +37,13 @@ type Details struct {
 	Session          string   `json:"session" bson:"session"`
 	StartDate        []string `json:"start_date" bson:"start_date"`
 }
+
 //SortedBySimilarity ...
 type SortedBySimilarity struct {
 	coursesWithSimilarity []SimilarCourse
 	course                *Course
 }
+
 //SimilarCourse ...
 type SimilarCourse struct {
 	Course     Course
@@ -55,12 +57,48 @@ func (s SortedBySimilarity) Swap(i, j int) {
 func (s SortedBySimilarity) Less(i, j int) bool {
 	return s.coursesWithSimilarity[i].Similarity < s.coursesWithSimilarity[j].Similarity
 }
+
+type PopularCourse struct {
+	Course     Course
+	Popularity float64
+}
+
+type SortedByPopularity struct {
+	coursesWithPopularity []PopularCourse
+	course                *Course
+}
+
+func (s SortedByPopularity) Len() int { return len(s.coursesWithPopularity) }
+func (s SortedByPopularity) Swap(i, j int) {
+	s.coursesWithPopularity[i], s.coursesWithPopularity[j] = s.coursesWithPopularity[j], s.coursesWithPopularity[i]
+}
+func (s SortedByPopularity) Less(i, j int) bool {
+	return s.coursesWithPopularity[i].Popularity < s.coursesWithPopularity[j].Popularity
+}
+
 //FindSimilar ...
 func (c *Course) FindSimilar(courses []Course, similarityThresold float64) []SimilarCourse {
 	var result []SimilarCourse
 	for i := range courses {
 		if c.isSimilar(&courses[i]) > similarityThresold {
 			result = append(result, SimilarCourse{Course: courses[i], Similarity: c.isSimilar(&courses[i])})
+		}
+	}
+	return result
+}
+
+func (c *Course) FindSimilarAndPopular(courses []Course, similarityThresold float64) []PopularCourse {
+	var result []PopularCourse
+	for i := range courses {
+		if c.isSimilar(&courses[i]) > similarityThresold {
+			popularity := c.isSimilar(&courses[i]) * 10
+			if courses[i].InterestedCount > 0 {
+				popularity *= float64(courses[i].InterestedCount)
+			}
+			if courses[i].Rating != nil && *courses[i].Rating > 0.0 {
+				popularity *= *courses[i].Rating
+			}
+			result = append(result, PopularCourse{Course: courses[i], Popularity: popularity})
 		}
 	}
 	return result

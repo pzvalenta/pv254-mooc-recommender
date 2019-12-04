@@ -26,9 +26,10 @@ func main() {
 			c.String(http.StatusOK, "Welcome to sample dockerized golang api")
 		})
 
-		public.GET("/random", state.RandomCourse)
-		public.GET("/taxonomy", state.TaxonomyCourses)
-		public.GET("/overfitting", state.OverfittingCourses)
+		public.GET("/randomRecommending", state.RandomCourse)
+		public.GET("/taxonomyRecommending", state.TaxonomyCourses)
+		public.GET("/overfittingRecommending", state.OverfittingCourses)
+		public.GET("/categoryRecommending", state.CategoryRecommending)
 		public.GET("/getbyid/:id", state.GetCoursebByID)
 		public.GET("/courses", state.GetCoursesByQuery)
 		public.GET("/subjects", state.GetAllSubjects)
