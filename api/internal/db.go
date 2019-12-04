@@ -441,6 +441,7 @@ type attribute struct {
 }
 
 // TODO refactor into two functions, one universal which returns array of attribute and second one which returns IDF
+// it's basically the same as GetAllCategories and GetAllSubjects
 // return map    [courseAttributeValue] = IDF of said value
 func (s *State) getUniqueAttributes(c *gin.Context, name string) (map[string]float64, error) {
 	names := name + "s"
@@ -471,10 +472,8 @@ func (s *State) getUniqueAttributes(c *gin.Context, name string) (map[string]flo
 
 	ret := make(map[string]float64, total)
 
-	//fmt.Println(total)
 	for i := range result {
 		ret[result[i].ID] = math.Log10(float64(total) / float64(result[i].Count))
-		//fmt.Println(result[i].ID, result[i].Count, ret[result[i].ID]) T
 		// TODO there is one result which hase no ID
 	}
 
@@ -549,7 +548,6 @@ func (s *State) getUserProfile(c *gin.Context) (userProfile, error) {
 			profile.Teachers[myCourses[i].Teachers[j]] += normalizedOccurence * float64(myRatings[myCourses[i].ID])
 		}
 	}
-
 	return profile, nil
 }
 
@@ -610,8 +608,6 @@ func (s *State) GeneralModelCourses(c *gin.Context) {
 		predictionValue := predictCourseUser(IDFvectors, profile, allCourses[i])
 
 		if predictionValue > 0 {
-			//fmt.Println(predictionValue, ":", allCourses[i].ID)
-
 			rec := Recommended{
 				Course: allCourses[i],
 				//RecommendedBecause: []Similarity `json:"recommendedBecause"`
