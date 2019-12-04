@@ -232,7 +232,6 @@ func (s *State) getMyCourses(c *gin.Context) ([]Course, error) {
 	return res, nil
 }
 
-
 func (s *State) getIdf() (*map[string]float64, error) {
 	idfCol := s.DB.Collection("idf")
 	c := context.Background()
@@ -252,6 +251,8 @@ func (s *State) getIdf() (*map[string]float64, error) {
 	}
 
 	return &res, nil
+}
+
 // GetCoursebByID ...
 func (s *State) GetCoursebByID(c *gin.Context) {
 	id := c.Param("id")
