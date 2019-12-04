@@ -481,7 +481,9 @@ func (s *State) getUserProfile(c *gin.Context) (userProfile, error) {
 	profile.Provider = make(map[string]float64)
 	profile.Subject = make(map[string]float64)
 
-	myCourses, err := s.getMyCourses(c)
+	user_id := c.DefaultQuery("user_id", "5dc5715c70a18970fe47de7c")
+
+	myCourses, err := s.getMyCourses(c, user_id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, "no content")
 		return profile, fmt.Errorf("%v", err)
