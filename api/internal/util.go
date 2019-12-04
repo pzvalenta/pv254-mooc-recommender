@@ -1,4 +1,5 @@
 package internal
+
 //Min ...
 func Min(x, y int) int {
 	if x > y {

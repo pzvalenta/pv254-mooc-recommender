@@ -45,8 +45,8 @@ func (s *State) RandomCourse(c *gin.Context) {
 	}
 
 	query := []bson.M{
-		bson.M{"$sample": bson.M{"size": 1}},
-		bson.M{"$match": bson.M{"_id": bson.M{"$nin": myCourseIds}}}, //_id :{ $nin : [...] }
+		{"$sample": bson.M{"size": 1}},
+		{"$match": bson.M{"_id": bson.M{"$nin": myCourseIds}}}, //_id :{ $nin : [...] }
 	}
 
 	coll := s.DB.Collection("courses")
@@ -90,7 +90,7 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 	recommended := make(map[string][]SimilarCourse)
 	coursesCollection := s.DB.Collection("courses")
 	for i := range myCourses {
-		fmt.Println( myCourses[i].Details.Language)
+		fmt.Println(myCourses[i].Details.Language)
 		filter := bson.D{
 			{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
 			{Key: "subject", Value: myCourses[i].Subject},
@@ -162,7 +162,7 @@ func (s *State) CategoryRecommending(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, "no content")
 		return
 	}
-	recommended := make(map[string][]SimilarCourse)
+	recommended := make(map[string][]PopularCourse)
 	coursesCollection := s.DB.Collection("courses")
 	for i := range myCourses {
 		filter := bson.D{
@@ -176,13 +176,13 @@ func (s *State) CategoryRecommending(c *gin.Context) {
 		}
 
 		//include interested count
-		similar := myCourses[i].FindSimilar(coursesWithoutMine, 0.1)
-		sort.Sort(SortedBySimilarity{course: &myCourses[i], coursesWithSimilarity: similar})
-		recommended[myCourses[i].ID] = similar
+		popular := myCourses[i].FindSimilarAndPopular(coursesWithoutMine, 0.1)
+		sort.Sort(SortedByPopularity{course: &myCourses[i], coursesWithPopularity: popular})
+		recommended[myCourses[i].ID] = popular
 	}
 
-	sorted := FromRecommenedToSortedRecommended(fromMapWithSimilar(recommended))
-	sort.Sort(SortedByOverallSimilarity{sr: sorted})
+	sorted := FromRecommenedPopularToSortedRecommendedSorted(fromMapWithPopular(recommended))
+	sort.Sort(SortedByOverallPopularity{sr: sorted})
 	c.JSON(http.StatusOK, sorted[:Min(10, len(sorted))])
 }
 
@@ -313,36 +313,39 @@ func (s *State) GetCoursesByQuery(c *gin.Context) {
 	coursesCollection := s.DB.Collection("courses")
 	var result []Course
 	filter := []bson.M{
-		bson.M{"$match": query},
-		bson.M{
+		{"$match": query},
+		{
 			"$sort": bson.M{
 				"interested_count": -1,
 				"review_count":     -1,
 			},
 		},
-		bson.M{
+		{
 			"$skip": int(page) * pageSize,
 		},
-		bson.M{
+		{
 			"$limit": pageSize,
 		},
 	}
 	dbCourses, err := coursesCollection.Aggregate(c, filter)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, "error")
+		c.JSON(http.StatusInternalServerError, "no content")
 		return
 	}
-	dbCourses.All(c, &result)
+	err = dbCourses.All(c, &result)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "no content")
+		return
+	}
 	c.JSON(http.StatusOK, result)
-
 }
 
 //GetAllSubjects ...
 func (s *State) GetAllSubjects(c *gin.Context) {
 	query := []bson.M{
-		bson.M{"$project": bson.M{"subjects": bson.M{"$split": []interface{}{"$subject", ", "}}}},
-		bson.M{"$unwind": bson.M{"path": "$subjects", "includeArrayIndex": "string", "preserveNullAndEmptyArrays": true}},
-		bson.M{"$group": bson.M{"_id": nil, "unique_subjects": bson.M{"$addToSet": "$subjects"}}},
+		{"$project": bson.M{"subjects": bson.M{"$split": []interface{}{"$subject", ", "}}}},
+		{"$unwind": bson.M{"path": "$subjects", "includeArrayIndex": "string", "preserveNullAndEmptyArrays": true}},
+		{"$group": bson.M{"_id": nil, "unique_subjects": bson.M{"$addToSet": "$subjects"}}},
 	}
 
 	coll := s.DB.Collection("courses")
@@ -372,9 +375,9 @@ func (s *State) GetAllSubjects(c *gin.Context) {
 //GetAllCategories ...
 func (s *State) GetAllCategories(c *gin.Context) {
 	query := []bson.M{
-		bson.M{"$project": bson.M{"categoriess": "$categories", "subject": "$subject"}},
-		bson.M{"$unwind": bson.M{"path": "$categoriess", "includeArrayIndex": "string", "preserveNullAndEmptyArrays": true}},
-		bson.M{"$group": bson.M{"_id": "$subject", "unique_categories": bson.M{"$addToSet": "$categoriess"}}},
+		{"$project": bson.M{"categoriess": "$categories", "subject": "$subject"}},
+		{"$unwind": bson.M{"path": "$categoriess", "includeArrayIndex": "string", "preserveNullAndEmptyArrays": true}},
+		{"$group": bson.M{"_id": "$subject", "unique_categories": bson.M{"$addToSet": "$categoriess"}}},
 	}
 
 	coll := s.DB.Collection("courses")
