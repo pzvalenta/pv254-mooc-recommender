@@ -39,7 +39,8 @@ func NewDatabase(host, port string) (*mongo.Database, error) {
 
 //RandomCourse ...
 func (s *State) RandomCourse(c *gin.Context) {
-	myCourseIds, err := s.getMyCoursesIds(c)
+	user_id := c.DefaultQuery("user_id", "5dc5715c70a18970fe47de7c")
+	myCourseIds, err := s.getMyCoursesIds(c, user_id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, "no content")
 		return
@@ -76,13 +77,14 @@ func (s *State) RandomCourse(c *gin.Context) {
 
 //TaxonomyCourses ...
 func (s *State) TaxonomyCourses(c *gin.Context) {
-	myCourseIds, err := s.getMyCoursesIds(c)
+	user_id := c.DefaultQuery("user_id", "5dc5715c70a18970fe47de7c")
+	myCourseIds, err := s.getMyCoursesIds(c, user_id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, "no content")
 		return
 	}
 
-	myCourses, err := s.getMyCourses(c)
+	myCourses, err := s.getMyCourses(c, user_id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, "no content")
 		return
@@ -115,13 +117,14 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 
 //OverfittingCourses ...
 func (s *State) OverfittingCourses(c *gin.Context) {
-	myCourseIds, err := s.getMyCoursesIds(c)
+	user_id := c.DefaultQuery("user_id", "5dc5715c70a18970fe47de7c")
+	myCourseIds, err := s.getMyCoursesIds(c, user_id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, "no content")
 		return
 	}
 
-	myCourses, err := s.getMyCourses(c)
+	myCourses, err := s.getMyCourses(c, user_id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, "no content")
 		return
@@ -167,10 +170,10 @@ func (s *State) findCoursesAccordingFilter(c *gin.Context, filter interface{}, c
 	return result, nil
 }
 
-func (s *State) getMyCoursesIds(c *gin.Context) ([]string, error) {
+func (s *State) getMyCoursesIds(c *gin.Context, user_id string) ([]string, error) {
 	users := s.DB.Collection("users")
 
-	id, err := primitive.ObjectIDFromHex(s.customerID)
+	id, err := primitive.ObjectIDFromHex(user_id)
 	if err != nil {
 		return nil, fmt.Errorf("error creating id from hex: %v", err)
 	}
@@ -192,8 +195,8 @@ func (s *State) getMyCoursesIds(c *gin.Context) ([]string, error) {
 	return l.EnrolledIn, nil
 }
 
-func (s *State) getMyCourses(c *gin.Context) ([]Course, error) {
-	myCourseIDs, err := s.getMyCoursesIds(c)
+func (s *State) getMyCourses(c *gin.Context, user_id string) ([]Course, error) {
+	myCourseIDs, err := s.getMyCoursesIds(c, user_id)
 	if err != nil {
 		return nil, fmt.Errorf("%v", err)
 	}
