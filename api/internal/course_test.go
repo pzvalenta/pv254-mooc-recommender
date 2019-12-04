@@ -10,7 +10,7 @@ import (
 
 func TestSomething(t *testing.T) {
 
-	s, _ := NewState("5dceb44288861f034fc60b16")
+	s, _ := NewState("5dc5715c70a18970fe47de7c")
 	coursesCollection := s.DB.Collection("courses")
 	c := context.Background()
 	course1, _ := s.GetCourseByID("machine-learning-835")
@@ -22,7 +22,7 @@ func TestSomething(t *testing.T) {
 			"$match": bson.M{
 				"details.language": "English",
 				"overview":         bson.M{"$nin": []interface{}{nil, "", " ", "."}},
-				"subject":          "cs",
+				// "subject":          "cs",
 			},
 		},
 	}
@@ -31,7 +31,7 @@ func TestSomething(t *testing.T) {
 
 	dbCourses.All(c, &courses)
 
-	res := course1.FindSimilar(courses, 0.75)
+	res := course1.FindSimilar(courses, 0.92)
 
 	log.Println(res)
 
@@ -50,6 +50,7 @@ func TestMathCourse(t *testing.T) {
 			"$match": bson.M{
 				"details.language": "English",
 				"overview":         bson.M{"$nin": []interface{}{nil, "", " ", "."}},
+				// "sulbject":          "maths",
 			},
 		},
 	}
@@ -76,7 +77,7 @@ func TestAnatomy(t *testing.T) {
 			"$match": bson.M{
 				"details.language": "English",
 				"overview":         bson.M{"$nin": []interface{}{nil, "", " ", "."}},
-				"subject":          "health",
+				// "subject":          "health",
 			},
 		},
 	}
@@ -84,7 +85,7 @@ func TestAnatomy(t *testing.T) {
 	dbCourses, _ := coursesCollection.Aggregate(c, query)
 	dbCourses.All(c, &courses)
 
-	res := course1.FindSimilar(courses, 0.78)
+	res := course1.FindSimilar(courses, 0.80)
 
 	log.Println(res)
 
@@ -92,9 +93,9 @@ func TestAnatomy(t *testing.T) {
 
 func TestIDF(t *testing.T) {
 	x := []string{
-		". It is often used as a weighting factor information in searches of information retrieval, text mining, and user modeling.",
-		", is a numerical statistic that is intended to reflect how important a word is to a document in a collection or corpus",
-		"In information retrieval, tf–idf or TFIDF, short for term frequency–inverse document frequency",
+		"This. words like this  https://regex-golang.appspot.com/assets  word like this. It's It’s Its often used as a weighting factor information in searches of information retrieval, text mining, and user modeling.",
+		", is a numerical-statistic, that is intended to reflect how important a word is to a document in a collection or corpus",
+		"In &gt; information retrieval,&lt; tf–idf http://ozeman.eu	 or TFIDF, short for term frequency–inverse document frequency",
 	}
 	res := computeIdf(x)
 	log.Println(res)
