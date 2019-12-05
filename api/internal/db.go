@@ -94,12 +94,11 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 	recommended := make(map[string][]SimilarCourse)
 	coursesCollection := s.DB.Collection("courses")
 	for i := range myCourses {
-		fmt.Println(myCourses[i].Details.Language)
 		filter := bson.D{
 			{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
 			{Key: "subject", Value: myCourses[i].Subject},
 			{Key: "categories", Value: bson.D{{Key: "$nin", Value: myCourses[i].Categories}}},
-			//{Key: "details", Value: bson.D{{Key: "language", Value: myCourses[i].Details.Language}}},
+			{Key: "details.language", Value: "English"},
 		}
 
 		coursesFromOtherSubtree, err := s.findCoursesAccordingFilter(c, filter, coursesCollection)
@@ -108,7 +107,7 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 			return
 		}
 
-		similar := myCourses[i].FindSimilar(coursesFromOtherSubtree, 0.08)
+		similar := myCourses[i].FindSimilar(coursesFromOtherSubtree, 0.5)
 		sort.Sort(SortedBySimilarity{coursesWithSimilarity: similar, course: &myCourses[i]})
 		recommended[myCourses[i].ID] = similar
 	}
@@ -138,6 +137,8 @@ func (s *State) OverfittingCourses(c *gin.Context) {
 	for i := range myCourses {
 		filter := bson.D{
 			{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
+			{Key: "details.language", Value: "English"},
+			{Key: "overview", Value: bson.D{{Key: "$nin", Value: []interface{}{nil, "", " ", "."}}}},
 		}
 		coursesWithoutMine, err := s.findCoursesAccordingFilter(c, filter, coursesCollection)
 		if err != nil {
@@ -145,7 +146,7 @@ func (s *State) OverfittingCourses(c *gin.Context) {
 			return
 		}
 
-		similar := myCourses[i].FindSimilar(coursesWithoutMine, 0.1)
+		similar := myCourses[i].FindSimilar(coursesWithoutMine, 0.7)
 		sort.Sort(SortedBySimilarity{course: &myCourses[i], coursesWithSimilarity: similar})
 		recommended[myCourses[i].ID] = similar
 	}
@@ -236,6 +237,16 @@ func (s *State) getMyCoursesIds(c *gin.Context, user_id string) ([]string, error
 	return l.EnrolledIn, nil
 }
 
+//GetCourseByID ...
+func (s *State) GetCourseByID(id string) (Course, error) {
+	coursesCollection := s.DB.Collection("courses")
+	var result Course
+
+	filter := bson.M{"_id": id}
+	err := coursesCollection.FindOne(context.Background(), filter).Decode(&result)
+	return result, err
+}
+
 func (s *State) getMyCourses(c *gin.Context, user_id string) ([]Course, error) {
 	myCourseIDs, err := s.getMyCoursesIds(c, user_id)
 	if err != nil {
@@ -265,6 +276,27 @@ func (s *State) getMyCourses(c *gin.Context, user_id string) ([]Course, error) {
 	}
 
 	return res, nil
+}
+
+func (s *State) getIdf() (*map[string]float64, error) {
+	idfCol := s.DB.Collection("idf")
+	c := context.Background()
+	data, err := idfCol.Find(c, bson.M{})
+	res := make(map[string]float64)
+	if err != nil {
+		return nil, fmt.Errorf("unable to find/decode idfs %v", err)
+	}
+
+	for data.Next(c) {
+		l := WordIdf{}
+		err = data.Decode(&l)
+		if err != nil {
+			return nil, fmt.Errorf("unable to decode idf: %v", err)
+		}
+		res[l.Word] = l.Value
+	}
+
+	return &res, nil
 }
 
 func (s *State) getAllCoursesWithoutMine(c *gin.Context, user_id string) ([]Course, error) {

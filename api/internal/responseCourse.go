@@ -1,11 +1,12 @@
 package internal
 
-//Recommended ...
+//RecommendedSimilar ...
 type RecommendedSimilar struct {
 	Course             Course       `json:"course"`
 	RecommendedBecause []Similarity `json:"recommendedBecause"`
 }
 
+//RecommendedPopular ...
 type RecommendedPopular struct {
 	Course             Course       `json:"course"`
 	RecommendedBecause []Popularity `json:"recommendedBecause"`
@@ -17,6 +18,7 @@ type Similarity struct {
 	Similarity float64
 }
 
+//Popularity ...
 type Popularity struct {
 	CourseID   string
 	Popularity float64
@@ -31,6 +33,7 @@ func (r *RecommendedSimilar) OveralSimilarity() float64 {
 	return overalSimilarity
 }
 
+//OveralPopularity ...
 func (r *RecommendedPopular) OveralPopularity() float64 {
 	var overalPopularity float64
 	for _, similarity := range r.RecommendedBecause {
@@ -46,6 +49,7 @@ type RecommendedAsArrayItem struct {
 	OverallSimilarity float64            `json:"overallSimilarity"`
 }
 
+//RecommendedAsArrayItemPopular ...
 type RecommendedAsArrayItemPopular struct {
 	CourseID          string             `json:"courseID"`
 	Recommended       RecommendedPopular `json:"recommended"`
@@ -107,7 +111,7 @@ func FromRecommenedToSortedRecommended(result map[string]*RecommendedSimilar) []
 	}
 	return tmp
 }
-
+//FromRecommenedPopularToSortedRecommendedSorted ...
 func FromRecommenedPopularToSortedRecommendedSorted(result map[string]*RecommendedPopular) []RecommendedAsArrayItemPopular {
 	var tmp []RecommendedAsArrayItemPopular
 	for recommendID, absolved := range result {
@@ -131,7 +135,7 @@ func (s SortedByOverallSimilarity) Swap(i, j int) { s.sr[i], s.sr[j] = s.sr[j], 
 func (s SortedByOverallSimilarity) Less(i, j int) bool {
 	return s.sr[i].OverallSimilarity > s.sr[j].OverallSimilarity
 }
-
+//SortedByOverallPopularity ...
 type SortedByOverallPopularity struct {
 	sr []RecommendedAsArrayItemPopular
 }

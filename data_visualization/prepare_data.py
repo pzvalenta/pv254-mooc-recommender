@@ -1,48 +1,48 @@
 import json
 import sys
-
-data_location = 'data_visualization/assets/data/data.json'
+import pymongo
 output_location = 'data_visualization/assets/data/'
 
 
 def parseArgv():
-    global data_location
     global output_location
     ln_arg = len(sys.argv)
     for i in range(1, ln_arg):
         s = sys.argv[i]
         if str.startswith(s, '-'):
-            if s == '-i' and i+1 < ln_arg and not str.startswith(sys.argv[i+1], '-'):
-                data_location = sys.argv[i+1]
             if s == '-o' and i+1 < ln_arg and not str.startswith(sys.argv[i+1], '-'):
                 output_location = sys.argv[i+1]
-    print(f'input: {data_location}; output-path: {output_location}')
+    print(f' output-path: {output_location}')
 
 
 def getData():
-    with open(data_location, 'r', encoding="utf8") as f:
-        lines = f.readlines()
-    result = []
-    for course in lines:
-        c_json = json.loads(course)
-        x = {}
-        x['id'] = c_json['_id']
-        x['provider'] = c_json['provider']
+    myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+    mydb = myclient["mydb"]
+    mycol = mydb["courses"]
+    data = []
+    for x in mycol.find():
+        data.append(x)
 
-        x['categories'] = c_json['categories']
-        x['subject'] = c_json['subject']
-        x['schools'] = c_json['schools']
-        x['teachers'] = c_json['teachers']
+    result = []
+    for course in data:
+        x = {}
+        x['id'] = course['_id']
+        x['provider'] = course['provider']
+
+        x['categories'] = course['categories']
+        x['subject'] = course['subject']
+        x['schools'] = course['schools']
+        x['teachers'] = course['teachers']
         try:
-            x['rating'] = int(c_json['rating']['$numberInt'])
+            x['rating'] = float(course['rating'])
         except KeyError:
             x['rating'] = None
         try:
-            x['review_count'] = int(c_json['rating']['$numberInt'])
+            x['review_count'] = int(course['review_count'])
         except KeyError:
             x['review_count'] = None
         try:
-            x['language'] = c_json['details']['language']
+            x['language'] = course['details']['language']
         except KeyError:
             x['language'] = None
 
@@ -69,14 +69,13 @@ def subject_cat_data(data):
     for x in data:
         subject = x['subject']
         if subject not in subjects:
-            subjects[subject] = set()
+            subjects[subject] = {}
             subjects_course_count[subject] = 0
         subjects_course_count[subject] += 1
         for cat in x['categories']:
-            if cat not in cat_course_count:
-                cat_course_count[cat] = 0
-            cat_course_count[cat] += 1
-            subjects[subject].add(cat)
+            if cat not in subjects[subject]:
+                subjects[subject][cat] = 0
+            subjects[subject][cat] += 1
     id = 0
     for key in subjects:
         cats = subjects[key]
@@ -84,7 +83,7 @@ def subject_cat_data(data):
                  'weight': subjects_course_count[key], 'groups': [], 'id': id}
         id += 1
         for cat in cats:
-            c = {'label': cat, 'id': id, 'weight': cat_course_count[cat]}
+            c = {'label': cat, 'id': id, 'weight': subjects[key][cat]}
             group['groups'].append(c)
             id += 1
         json_res['groups'].append(group)
@@ -198,12 +197,12 @@ def main():
     data = getData()
     res = subject_cat_data(data)
     saveJsFile(res, "subject_cat_groups_data")
-    res2 = subject_provider_data(data)
-    saveJsFile(res2, "subject_provider_groups_data")
-    res3 = languages_data(data)
-    saveJsFile(res3, "languages_data")
-    res3 = provider_subject_data(data)
-    saveJsFile(res3, "provider_subject_groups_data")
+    # res2 = subject_provider_data(data)
+    # saveJsFile(res2, "subject_provider_groups_data")
+    # res3 = languages_data(data)
+    # saveJsFile(res3, "languages_data")
+    # res3 = provider_subject_data(data)
+    # saveJsFile(res3, "provider_subject_groups_data")
     print('done')
 
 

@@ -1,7 +1,8 @@
 package internal
 
 import (
-	"strings"
+	"math"
+	"sort"
 )
 
 // Course ...
@@ -50,6 +51,12 @@ type SimilarCourse struct {
 	Similarity float64
 }
 
+//WordIdf ... idf value of word in Overviews from all courses
+type WordIdf struct {
+	Word  string
+	Value float64
+}
+
 func (s SortedBySimilarity) Len() int { return len(s.coursesWithSimilarity) }
 func (s SortedBySimilarity) Swap(i, j int) {
 	s.coursesWithSimilarity[i], s.coursesWithSimilarity[j] = s.coursesWithSimilarity[j], s.coursesWithSimilarity[i]
@@ -58,11 +65,19 @@ func (s SortedBySimilarity) Less(i, j int) bool {
 	return s.coursesWithSimilarity[i].Similarity < s.coursesWithSimilarity[j].Similarity
 }
 
+//CourseSimVal ...
+type CourseSimVal struct {
+	Course *Course
+	SimVal float64
+}
+
+//PopularCourse ...
 type PopularCourse struct {
 	Course     Course
 	Popularity float64
 }
 
+//SortedByPopularity ...
 type SortedByPopularity struct {
 	coursesWithPopularity []PopularCourse
 	course                *Course
@@ -77,21 +92,69 @@ func (s SortedByPopularity) Less(i, j int) bool {
 }
 
 //FindSimilar ...
-func (c *Course) FindSimilar(courses []Course, similarityThresold float64) []SimilarCourse {
+func (c *Course) FindSimilar(courses []Course, similarityThreshold float64) []SimilarCourse {
 	var result []SimilarCourse
+
+	s, _ := NewState()
+	idf, err := s.getIdf()
+	if err != nil {
+		panic(err)
+	}
+
+	var courseDists []CourseSimVal
+	tfidf1 := c.tfidf(*idf)
+
 	for i := range courses {
-		if c.isSimilar(&courses[i]) > similarityThresold {
-			result = append(result, SimilarCourse{Course: courses[i], Similarity: c.isSimilar(&courses[i])})
+		simVal := c.isSimilar(tfidf1, &courses[i], idf)
+
+		if simVal >= 3 {
+			continue
+		}
+		courseDists = append(courseDists, CourseSimVal{&courses[i], simVal})
+
+	}
+	for i := range courseDists {
+		if courseDists[i].Course.ID == c.ID || courseDists[i].SimVal == 0.0 {
+			courseDists[i].SimVal = math.MaxFloat64
+		} else {
+			courseDists[i].SimVal = math.Pow(courseDists[i].SimVal, -1)
 		}
 	}
+
+	for i := range courseDists {
+		simVal := courseDists[i].SimVal
+		if simVal > similarityThreshold {
+			result = append(result, SimilarCourse{Course: *(courseDists[i].Course), Similarity: simVal})
+		}
+	}
+	sort.Slice(result, func(i, j int) bool {
+		return result[i].Similarity > result[j].Similarity
+	})
 	return result
 }
 
+func (c *Course) tfidf(idf map[string]float64) *map[string]float64 {
+	tfidf := make(map[string]float64)
+	tf := computeTf(c.Overview)
+	for word, val := range *tf {
+		tfidf[word] = val * idf[word]
+	}
+	return &tfidf
+}
+
+//FindSimilarAndPopular ...
 func (c *Course) FindSimilarAndPopular(courses []Course, similarityThresold float64) []PopularCourse {
+	s, _ := NewState()
+	idf, err := s.getIdf()
+	if err != nil {
+		panic(err)
+	}
 	var result []PopularCourse
+	tfidf1 := c.tfidf(*idf)
 	for i := range courses {
-		if c.isSimilar(&courses[i]) > similarityThresold {
-			popularity := c.isSimilar(&courses[i]) * 10
+		simVal := c.isSimilar(tfidf1, &courses[i], idf)
+		if simVal > similarityThresold {
+			popularity := simVal * 10
 			if courses[i].InterestedCount > 0 {
 				popularity *= float64(courses[i].InterestedCount)
 			}
@@ -104,25 +167,32 @@ func (c *Course) FindSimilarAndPopular(courses []Course, similarityThresold floa
 	return result
 }
 
-func getStopWords() map[string]string {
-	return map[string]string{" a ": " ", " and ": " ", " the ": " ", " of ": " ", " is ": " ", " are ": " ",
-		" in ": " ", " to ": " ", " from ": " ", " on ": " ", ".": "", ":": ""}
-}
-
-func (c *Course) isSimilar(c1 *Course) float64 {
+func (c *Course) isSimilar(cIdf *map[string]float64, c1 *Course, idf *map[string]float64) float64 {
 	if c.ID == c1.ID {
 		return 1.0
 	}
+	tfidf2 := c1.tfidf(*idf)
+	res := 0.0
+	wordList := make(map[string]bool)
 
-	numberOfAttributes := 1.0
-
-	name1 := c.Name
-	name2 := c1.Name
-	for word, newWord := range getStopWords() {
-		name1 = strings.Replace(name1, word, newWord, -1)
-		name2 = strings.Replace(name2, word, newWord, -1)
+	if len(*cIdf) == 0 || len(*tfidf2) == 0 {
+		return 3 // ja neviem kolko mam returnut ked jeden je uplne odveci
 	}
-
-	result := float64(len(intersection(strings.Split(name1, " "), strings.Split(name2, " ")))) / float64(len(strings.Split(name1, " "))) / numberOfAttributes
-	return result
+	for word := range *cIdf {
+		wordList[word] = true
+	}
+	for word := range *tfidf2 {
+		wordList[word] = true
+	}
+	for word := range wordList {
+		val1, val2 := 0.0, 0.0
+		if num, ok := (*cIdf)[word]; ok {
+			val1 = num
+		}
+		if num, ok := (*tfidf2)[word]; ok {
+			val2 = num
+		}
+		res += math.Pow(val1-val2, 2)
+	}
+	return math.Sqrt(res)
 }
