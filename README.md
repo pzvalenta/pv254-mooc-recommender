@@ -33,3 +33,6 @@ For example, run `go run main.go`. Or if you are using Goland, just play the mai
 #### To format code
 Install https://github.com/golangci/golangci-lint#install and run `golangci-lint run --fix` 
 to resolve all the linting problems before every commit.
+
+### Font end
+Front end part of the project can be found [here](https://github.com/ZemanOndrej/mooc-recommender).

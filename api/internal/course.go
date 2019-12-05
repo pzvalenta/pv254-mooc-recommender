@@ -71,11 +71,31 @@ type CourseSimVal struct {
 	SimVal float64
 }
 
+//PopularCourse ...
+type PopularCourse struct {
+	Course     Course
+	Popularity float64
+}
+
+//SortedByPopularity ...
+type SortedByPopularity struct {
+	coursesWithPopularity []PopularCourse
+	course                *Course
+}
+
+func (s SortedByPopularity) Len() int { return len(s.coursesWithPopularity) }
+func (s SortedByPopularity) Swap(i, j int) {
+	s.coursesWithPopularity[i], s.coursesWithPopularity[j] = s.coursesWithPopularity[j], s.coursesWithPopularity[i]
+}
+func (s SortedByPopularity) Less(i, j int) bool {
+	return s.coursesWithPopularity[i].Popularity < s.coursesWithPopularity[j].Popularity
+}
+
 //FindSimilar ...
 func (c *Course) FindSimilar(courses []Course, similarityThreshold float64) []SimilarCourse {
 	var result []SimilarCourse
 
-	s, _ := NewState("5dceb44288861f034fc60b16")
+	s, _ := NewState()
 	idf, err := s.getIdf()
 	if err != nil {
 		panic(err)
@@ -120,6 +140,31 @@ func (c *Course) tfidf(idf map[string]float64) *map[string]float64 {
 		tfidf[word] = val * idf[word]
 	}
 	return &tfidf
+}
+
+//FindSimilarAndPopular ...
+func (c *Course) FindSimilarAndPopular(courses []Course, similarityThresold float64) []PopularCourse {
+	s, _ := NewState()
+	idf, err := s.getIdf()
+	if err != nil {
+		panic(err)
+	}
+	var result []PopularCourse
+	tfidf1 := c.tfidf(*idf)
+	for i := range courses {
+		simVal := c.isSimilar(tfidf1, &courses[i], idf)
+		if simVal > similarityThresold {
+			popularity := simVal * 10
+			if courses[i].InterestedCount > 0 {
+				popularity *= float64(courses[i].InterestedCount)
+			}
+			if courses[i].Rating != nil && *courses[i].Rating > 0.0 {
+				popularity *= *courses[i].Rating
+			}
+			result = append(result, PopularCourse{Course: courses[i], Popularity: popularity})
+		}
+	}
+	return result
 }
 
 func (c *Course) isSimilar(cIdf *map[string]float64, c1 *Course, idf *map[string]float64) float64 {

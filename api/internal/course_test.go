@@ -10,7 +10,7 @@ import (
 
 func TestSomething(t *testing.T) {
 
-	s, _ := NewState("5dc5715c70a18970fe47de7c")
+	s, _ := NewState()
 	coursesCollection := s.DB.Collection("courses")
 	c := context.Background()
 	course1, _ := s.GetCourseByID("machine-learning-835")
@@ -38,7 +38,7 @@ func TestSomething(t *testing.T) {
 }
 func TestMathCourse(t *testing.T) {
 
-	s, _ := NewState("5dceb44288861f034fc60b16")
+	s, _ := NewState()
 	coursesCollection := s.DB.Collection("courses")
 	c := context.Background()
 	course1, _ := s.GetCourseByID("complexity-explorer-introduction-to-dynamical-systems-and-chaos-1182")
@@ -66,7 +66,7 @@ func TestMathCourse(t *testing.T) {
 }
 func TestAnatomy(t *testing.T) {
 
-	s, _ := NewState("5dceb44288861f034fc60b16")
+	s, _ := NewState()
 	coursesCollection := s.DB.Collection("courses")
 	c := context.Background()
 	course1, _ := s.GetCourseByID("edx-human-anatomy-3648")
@@ -103,7 +103,7 @@ func TestIDF(t *testing.T) {
 }
 
 func TestCreateIdfList(t *testing.T) {
-	s, _ := NewState("5dceb44288861f034fc60b16")
+	s, _ := NewState()
 	coursesCollection := s.DB.Collection("courses")
 	c := context.Background()
 	var courses []Course
