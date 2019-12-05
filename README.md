@@ -36,3 +36,5 @@ to resolve all the linting problems before every commit.
 
 ### Font end
 Front end part of the project can be found [here](https://github.com/ZemanOndrej/mooc-recommender).
+### Classcentral.com scaper
+Scraper for our data can be found [here](https://github.com/ZemanOndrej/pv254-course-recommender-scraper)
