@@ -94,7 +94,6 @@ func (s *State) TaxonomyCourses(c *gin.Context) {
 	recommended := make(map[string][]SimilarCourse)
 	coursesCollection := s.DB.Collection("courses")
 	for i := range myCourses {
-		fmt.Println(myCourses[i].Details.Language)
 		filter := bson.D{
 			{Key: "_id", Value: bson.D{{Key: "$nin", Value: myCourseIds}}},
 			{Key: "subject", Value: myCourses[i].Subject},
