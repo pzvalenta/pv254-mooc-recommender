@@ -1,48 +1,48 @@
 import json
 import sys
-
-data_location = 'data_visualization/assets/data/data.json'
+import pymongo
 output_location = 'data_visualization/assets/data/'
 
 
 def parseArgv():
-    global data_location
     global output_location
     ln_arg = len(sys.argv)
     for i in range(1, ln_arg):
         s = sys.argv[i]
         if str.startswith(s, '-'):
-            if s == '-i' and i+1 < ln_arg and not str.startswith(sys.argv[i+1], '-'):
-                data_location = sys.argv[i+1]
             if s == '-o' and i+1 < ln_arg and not str.startswith(sys.argv[i+1], '-'):
                 output_location = sys.argv[i+1]
-    print(f'input: {data_location}; output-path: {output_location}')
+    print(f' output-path: {output_location}')
 
 
 def getData():
-    with open(data_location, 'r', encoding="utf8") as f:
-        lines = f.readlines()
-    result = []
-    for course in lines:
-        c_json = json.loads(course)
-        x = {}
-        x['id'] = c_json['_id']
-        x['provider'] = c_json['provider']
+    myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+    mydb = myclient["mydb"]
+    mycol = mydb["courses"]
+    data = []
+    for x in mycol.find():
+        data.append(x)
 
-        x['categories'] = c_json['categories']
-        x['subject'] = c_json['subject']
-        x['schools'] = c_json['schools']
-        x['teachers'] = c_json['teachers']
+    result = []
+    for course in data:
+        x = {}
+        x['id'] = course['_id']
+        x['provider'] = course['provider']
+
+        x['categories'] = course['categories']
+        x['subject'] = course['subject']
+        x['schools'] = course['schools']
+        x['teachers'] = course['teachers']
         try:
-            x['rating'] = int(c_json['rating']['$numberInt'])
+            x['rating'] = float(course['rating'])
         except KeyError:
             x['rating'] = None
         try:
-            x['review_count'] = int(c_json['rating']['$numberInt'])
+            x['review_count'] = int(course['review_count'])
         except KeyError:
             x['review_count'] = None
         try:
-            x['language'] = c_json['details']['language']
+            x['language'] = course['details']['language']
         except KeyError:
             x['language'] = None
 
