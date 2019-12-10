@@ -1,0 +1,1 @@
+GET http://localhost:8080/api/getUserCourses/5dc5715c70a18970fe47de7c

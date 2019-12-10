@@ -156,3 +156,21 @@ func (s *State) RemoveUserEnrollment(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, user)
 }
+
+//GetUserCourses ...
+func (s *State) GetUserCourses(c *gin.Context) {
+	userID := c.Param("id")
+	id, err := primitive.ObjectIDFromHex(userID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, fmt.Errorf("error creating id from hex: %v", err))
+		return
+	}
+	courses, err := s.getMyCourses(c, id.Hex())
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, fmt.Errorf("something went wrong with courses: %v", err))
+		return
+	}
+	c.JSON(http.StatusOK, courses)
+
+}

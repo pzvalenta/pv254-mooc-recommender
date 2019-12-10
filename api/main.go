@@ -38,7 +38,8 @@ func main() {
 		public.POST("/enrollUser/:userId/:courseId",state.EnrollUser)
 		public.POST("/removeUserEnrollement/:userId/:courseId",state.RemoveUserEnrollment)
 		public.POST("/createUser/:name/:authId", state.CreateUser)
-		public.GET("/getuserbyid/:id", state.GetUserByID)
+		public.GET("/getUserById/:id", state.GetUserByID)
+		public.GET("/getUserCourses/:id", state.GetUserCourses)
 	}
 
 	err = router.Run()
