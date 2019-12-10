@@ -4,9 +4,9 @@ import "go.mongodb.org/mongo-driver/bson/primitive"
 
 //User ...
 type User struct {
-	ID         *primitive.ObjectID `bson:"_id"`
-	EnrolledIn []string            `bson:"enrolledIn"`
-	Name       string              `bson:"name"`
-	Rating     []int64             `bson:"rating"`
-	AuthID     string              `bson:"auth_id"`
+	ID         *primitive.ObjectID `json:"id" bson:"_id"`
+	EnrolledIn []string            `json:"enrolledIn" bson:"enrolledIn"`
+	Name       string              `json:"name" bson:"name"`
+	Rating     []int64             `json:"rating" bson:"rating"`
+	AuthID     string              `json:"authId" bson:"auth_id"`
 }
