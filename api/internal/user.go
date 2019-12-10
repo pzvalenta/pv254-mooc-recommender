@@ -8,4 +8,5 @@ type User struct {
 	EnrolledIn []string            `bson:"enrolledIn"`
 	Name       string              `bson:"name"`
 	Rating     []int64             `bson:"rating"`
+	AuthID     string              `bson:"auth_id"`
 }
