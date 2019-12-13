@@ -29,6 +29,22 @@ func (s *State) GetUserByID(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, user)
 }
+//GetUserByAuthID ...
+func (s *State) GetUserByAuthID(c *gin.Context) {
+	id := c.Param("authId")
+
+	users := s.DB.Collection("users")
+
+	var user User
+
+	filter := bson.M{"auth_id": id}
+	err := users.FindOne(c, filter).Decode(&user)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, fmt.Errorf("unable to find user's user IDs: %v", err))
+		return
+	}
+	c.JSON(http.StatusOK, user)
+}
 
 //CreateUser ...
 func (s *State) CreateUser(c *gin.Context) {

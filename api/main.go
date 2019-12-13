@@ -39,6 +39,7 @@ func main() {
 		public.POST("/removeUserEnrollement/:userId/:courseId",state.RemoveUserEnrollment)
 		public.POST("/createUser/:name/:authId", state.CreateUser)
 		public.GET("/getUserById/:id", state.GetUserByID)
+		public.GET("/getUserByAuthId/:authId", state.GetUserByAuthID)
 		public.GET("/getUserCourses/:id", state.GetUserCourses)
 	}
 
