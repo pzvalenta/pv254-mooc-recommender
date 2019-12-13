@@ -35,11 +35,12 @@ func main() {
 		public.GET("/subjects", state.GetAllSubjects)
 		public.GET("/categories", state.GetAllCategories)
 		public.GET("/generalRecommending", state.GeneralModelCourses)
-		public.POST("/enrollUser/:userId/:courseId",state.EnrollUser)
-		public.POST("/removeUserEnrollement/:userId/:courseId",state.RemoveUserEnrollment)
+		public.POST("/enrollUser/:authId/:courseId",state.EnrollUser)
+		public.POST("/removeUserEnrollement/:authId/:courseId",state.RemoveUserEnrollment)
 		public.POST("/createUser/:name/:authId", state.CreateUser)
 		public.GET("/getUserById/:id", state.GetUserByID)
 		public.GET("/getUserByAuthId/:authId", state.GetUserByAuthID)
+		public.GET("/getUserCoursesByAuth/:authId", state.GetUserCourses)
 		public.GET("/getUserCourses/:id", state.GetUserCourses)
 	}
 

@@ -19,16 +19,17 @@ func (s *State) GetUserByID(c *gin.Context) {
 
 	id, err := primitive.ObjectIDFromHex(idStr)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, fmt.Errorf("error creating id from hex: %v", err))
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("error creating id from hex: %v", err)})
 	}
 	filter := bson.M{"_id": id}
 	err = users.FindOne(c, filter).Decode(&user)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, fmt.Errorf("unable to find user's user IDs: %v", err))
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to find user's user IDs: %v", err)})
 		return
 	}
 	c.JSON(http.StatusOK, user)
 }
+
 //GetUserByAuthID ...
 func (s *State) GetUserByAuthID(c *gin.Context) {
 	id := c.Param("authId")
@@ -40,7 +41,7 @@ func (s *State) GetUserByAuthID(c *gin.Context) {
 	filter := bson.M{"auth_id": id}
 	err := users.FindOne(c, filter).Decode(&user)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, fmt.Errorf("unable to find user's user IDs: %v", err))
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to find user's user IDs: %v", err)})
 		return
 	}
 	c.JSON(http.StatusOK, user)
@@ -59,7 +60,7 @@ func (s *State) CreateUser(c *gin.Context) {
 	}
 	fmt.Println(res)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, fmt.Errorf("something went wrong: %v", err))
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("something went wrong: %v", err)})
 		return
 	}
 
@@ -70,28 +71,22 @@ func (s *State) CreateUser(c *gin.Context) {
 //EnrollUser ...
 func (s *State) EnrollUser(c *gin.Context) {
 
-	userID := c.Param("userId")
+	authID := c.Param("authId")
 	courseID := c.Param("courseId")
 	users := s.DB.Collection("users")
-
-	id, err := primitive.ObjectIDFromHex(userID)
 	var user User
 	var course Course
-	if err != nil {
-		c.JSON(http.StatusBadRequest, fmt.Errorf("error creating id from hex: %v", err))
-		return
-	}
 
-	filter := bson.M{"auth_id": id}
-	err = users.FindOne(c, filter).Decode(&user)
+	filter := bson.M{"auth_id": authID}
+	err := users.FindOne(c, filter).Decode(&user)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, fmt.Errorf("unable to find user's course IDs: %v", err))
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to find user by ID: %v", err)})
 		return
 	}
 
 	course, err = s.GetCourseByID(courseID)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, fmt.Errorf("unable to find course: %v", err))
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to find course: %v", err)})
 		return
 	}
 	isIn := false
@@ -101,7 +96,7 @@ func (s *State) EnrollUser(c *gin.Context) {
 		}
 	}
 	if isIn {
-		c.JSON(http.StatusBadRequest, "you are already enrolled in the course")
+		c.JSON(http.StatusBadRequest, gin.H{"error": "you are already enrolled in the course"})
 		return
 
 	}
@@ -111,7 +106,7 @@ func (s *State) EnrollUser(c *gin.Context) {
 	update := bson.M{"$set": bson.M{"enrolledIn": user.EnrolledIn, "rating": user.Rating}}
 	_, err = users.UpdateOne(c, filter, update)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, fmt.Errorf("unable to update course: %v", err))
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to update course: %v", err)})
 		return
 	}
 	c.JSON(http.StatusOK, user)
@@ -120,28 +115,23 @@ func (s *State) EnrollUser(c *gin.Context) {
 //RemoveUserEnrollment ...
 func (s *State) RemoveUserEnrollment(c *gin.Context) {
 
-	userID := c.Param("userId")
+	authID := c.Param("authId")
 	courseID := c.Param("courseId")
 	users := s.DB.Collection("users")
 
-	id, err := primitive.ObjectIDFromHex(userID)
 	var user User
 	var course Course
-	if err != nil {
-		c.JSON(http.StatusBadRequest, fmt.Errorf("error creating id from hex: %v", err))
-		return
-	}
 
-	filter := bson.M{"auth_id": id}
-	err = users.FindOne(c, filter).Decode(&user)
+	filter := bson.M{"auth_id": authID}
+	err := users.FindOne(c, filter).Decode(&user)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, fmt.Errorf("unable to find user's course IDs: %v", err))
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to find user's course IDs: %v", err)})
 		return
 	}
 
 	course, err = s.GetCourseByID(courseID)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, fmt.Errorf("unable to find course: %v", err))
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to find course: %v", err)})
 		return
 	}
 	index := -1
@@ -167,10 +157,32 @@ func (s *State) RemoveUserEnrollment(c *gin.Context) {
 	update := bson.M{"$set": bson.M{"enrolledIn": user.EnrolledIn, "rating": user.Rating}}
 	_, err = users.UpdateOne(c, filter, update)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, fmt.Errorf("unable to update course: %v", err))
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to update course: %v", err)})
 		return
 	}
 	c.JSON(http.StatusOK, user)
+}
+
+//GetUserCoursesByAuth this method needs rework
+func (s *State) GetUserCoursesByAuth(c *gin.Context) {
+	authID := c.Param("authId")
+	users := s.DB.Collection("users")
+
+	var user User
+	filter := bson.M{"auth_id": authID}
+	err := users.FindOne(c, filter).Decode(&user)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to find user's course IDs: %v", err)})
+		return
+	}
+	courses, err := s.getMyCourses(c, user.ID.Hex())
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("something went wrong with courses: %v", err)})
+		return
+	}
+	c.JSON(http.StatusOK, courses)
+
 }
 
 //GetUserCourses ...
@@ -178,13 +190,13 @@ func (s *State) GetUserCourses(c *gin.Context) {
 	userID := c.Param("id")
 	id, err := primitive.ObjectIDFromHex(userID)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, fmt.Errorf("error creating id from hex: %v", err))
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("error creating id from hex: %v", err)})
 		return
 	}
 	courses, err := s.getMyCourses(c, id.Hex())
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, fmt.Errorf("something went wrong with courses: %v", err))
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("something went wrong with courses: %v", err)})
 		return
 	}
 	c.JSON(http.StatusOK, courses)
