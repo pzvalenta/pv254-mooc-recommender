@@ -40,7 +40,7 @@ func main() {
 		public.POST("/createUser/:name/:authId", state.CreateUser)
 		public.GET("/getUserById/:id", state.GetUserByID)
 		public.GET("/getUserByAuthId/:authId", state.GetUserByAuthID)
-		public.GET("/getUserCoursesByAuth/:authId", state.GetUserCourses)
+		public.GET("/getUserCoursesByAuth/:authId", state.GetUserCoursesByAuth)
 		public.GET("/getUserCourses/:id", state.GetUserCourses)
 	}
 
