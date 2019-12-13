@@ -82,7 +82,7 @@ func (s *State) EnrollUser(c *gin.Context) {
 		return
 	}
 
-	filter := bson.M{"_id": id}
+	filter := bson.M{"auth_id": id}
 	err = users.FindOne(c, filter).Decode(&user)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, fmt.Errorf("unable to find user's course IDs: %v", err))
@@ -132,7 +132,7 @@ func (s *State) RemoveUserEnrollment(c *gin.Context) {
 		return
 	}
 
-	filter := bson.M{"_id": id}
+	filter := bson.M{"auth_id": id}
 	err = users.FindOne(c, filter).Decode(&user)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, fmt.Errorf("unable to find user's course IDs: %v", err))
