@@ -202,3 +202,166 @@ func (s *State) GetUserCourses(c *gin.Context) {
 	c.JSON(http.StatusOK, courses)
 
 }
+
+type reviewForm struct {
+	Text   string `json:"text"`
+	Rating int64  `json:"rating"`
+}
+
+//PostReview ...
+func (s *State) PostReview(c *gin.Context) {
+	authID := c.Param("authId")
+	courseID := c.Param("courseId")
+
+	users := s.DB.Collection("users")
+	reviews := s.DB.Collection("reviews")
+	var user User
+	var course Course
+	var r reviewForm
+	c.BindJSON(&r)
+
+	filter := bson.M{"auth_id": authID}
+	err := users.FindOne(c, filter).Decode(&user)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to find user's course IDs: %v", err)})
+		return
+	}
+	course, err = s.GetCourseByID(courseID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to find course: %v", err)})
+		return
+	}
+
+	newReview := Review{UserID: user.ID, CourseID: course.ID, Text: r.Text, Rating: r.Rating}
+	index := -1
+
+	for i, b := range user.EnrolledIn {
+		if b == course.ID {
+			user.Rating[i] = newReview.Rating
+			index = i
+		}
+	}
+	if index == -1 {
+		c.JSON(http.StatusBadRequest, "you are not enrolled in the course")
+		return
+	}
+	res, err := reviews.InsertOne(c, bson.M{"text": newReview.Text, "user_id": newReview.UserID, "rating": newReview.Rating, "course_id": newReview.CourseID})
+
+	if oid, ok := res.InsertedID.(primitive.ObjectID); ok {
+		newReview.ID = &oid
+	}
+	update := bson.M{"$set": bson.M{"rating": user.Rating}}
+	_, err = users.UpdateOne(c, filter, update)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to update course: %v", err)})
+		return
+	}
+	c.JSON(http.StatusOK, newReview)
+
+}
+
+//GetCourseReviews ...
+func (s *State) GetCourseReviews(c *gin.Context) {
+	courseID := c.Param("courseId")
+	users := s.DB.Collection("users")
+
+	reviews := s.DB.Collection("reviews")
+
+	filter := bson.M{"course_id": courseID}
+	data, err := reviews.Find(c, filter)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to find course: %v", err)})
+		return
+	}
+
+	var revs []Review
+	for data.Next(c) {
+		var r Review
+		err = data.Decode(&r)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to decode: %v", err)})
+			return
+		}
+		revs = append(revs, r)
+	}
+	var revModel []ReviewModel
+	userRev := make(map[string]User)
+	var user User
+	for _, rev := range revs {
+		if val, ok := userRev[rev.UserID.Hex()]; ok {
+			user = val
+		} else {
+			filter := bson.M{"_id": rev.UserID}
+			err := users.FindOne(c, filter).Decode(&user)
+			if err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to find user's course IDs: %v", err)})
+				return
+			}
+		}
+		revModel = append(revModel, ReviewModel{CourseID: rev.CourseID,
+			ID: rev.ID, Text: rev.Text, Rating: rev.Rating, User: user})
+	}
+
+	c.JSON(http.StatusOK, revModel)
+
+}
+
+//DeleteReview ...
+func (s *State) DeleteReview(c *gin.Context) {
+	authID := c.Param("authId")
+	reviewID := c.Param("reviewId")
+
+	users := s.DB.Collection("users")
+	reviews := s.DB.Collection("reviews")
+	var user User
+	var review Review
+
+	id, err := primitive.ObjectIDFromHex(reviewID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("error creating id from hex: %v", err)})
+	}
+	filter := bson.M{"_id": id}
+	err = reviews.FindOne(c, filter).Decode(&review)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to find user's user IDs: %v", err)})
+		return
+	}
+
+	filter = bson.M{"auth_id": authID}
+	err = users.FindOne(c, filter).Decode(&user)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to find user's course IDs: %v", err)})
+		return
+	}
+
+	if review.UserID.Hex() != user.ID.Hex() {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("thats not your review: %v", err)})
+		return
+	}
+	index := -1
+	for i, b := range user.EnrolledIn {
+		if b == review.CourseID {
+			user.Rating[i] = 0
+			index = i
+		}
+	}
+	if index == -1 {
+		c.JSON(http.StatusBadRequest, "you are not enrolled in the course")
+		return
+	}
+	update := bson.M{"$set": bson.M{"rating": user.Rating}}
+	_, err = users.UpdateOne(c, filter, update)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to update course: %v", err)})
+		return
+	}
+	filter = bson.M{"_id": id}
+
+	_, err = reviews.DeleteOne(c, filter)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("unable to delete : %v", err)})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{})
+
+}
