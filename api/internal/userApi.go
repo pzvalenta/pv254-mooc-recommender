@@ -338,17 +338,6 @@ func (s *State) DeleteReview(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("thats not your review: %v", err)})
 		return
 	}
-	index := -1
-	for i, b := range user.EnrolledIn {
-		if b == review.CourseID {
-			user.Rating[i] = 0
-			index = i
-		}
-	}
-	if index == -1 {
-		c.JSON(http.StatusBadRequest, "you are not enrolled in the course")
-		return
-	}
 	update := bson.M{"$set": bson.M{"rating": user.Rating}}
 	_, err = users.UpdateOne(c, filter, update)
 	if err != nil {
