@@ -34,7 +34,7 @@ For example, run `go run main.go`. Or if you are using Goland, just play the mai
 Install https://github.com/golangci/golangci-lint#install and run `golangci-lint run --fix` 
 to resolve all the linting problems before every commit.
 
-### Font end
+### Front end
 Front end part of the project can be found [here](https://github.com/ZemanOndrej/mooc-recommender).
-### Classcentral.com scaper
+### Classcentral.com scraper
 Scraper for our data can be found [here](https://github.com/ZemanOndrej/pv254-course-recommender-scraper)
