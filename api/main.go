@@ -35,6 +35,17 @@ func main() {
 		public.GET("/subjects", state.GetAllSubjects)
 		public.GET("/categories", state.GetAllCategories)
 		public.GET("/generalRecommending", state.GeneralModelCourses)
+		public.POST("/enrollUser/:authId/:courseId", state.EnrollUser)
+		public.POST("/removeUserEnrollement/:authId/:courseId", state.RemoveUserEnrollment)
+		public.POST("/createUser/:name/:authId", state.CreateUser)
+		public.GET("/getUserById/:id", state.GetUserByID)
+		public.GET("/getUserByAuthId/:authId", state.GetUserByAuthID)
+		public.GET("/getUserCoursesByAuth/:authId", state.GetUserCoursesByAuth)
+		public.GET("/getUserCourses/:id", state.GetUserCourses)
+
+		public.POST("/postReview/:authId/:courseId", state.PostReview)
+		public.GET("/getReviews/:courseId", state.GetCourseReviews)
+		public.DELETE("/deleteReview/:authId/:reviewId", state.DeleteReview)
 	}
 
 	err = router.Run()
